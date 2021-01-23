@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "vector": "cpp"
+    },
+    "editor.fontSize": 18,
+    "cph.general.timeOut": 3000000,
+    "cSpell.ignoreWords": [
+        "ll"
+    ]
+}
