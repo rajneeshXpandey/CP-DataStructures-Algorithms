@@ -6,5 +6,10 @@
     "cph.general.timeOut": 3000000,
     "cSpell.ignoreWords": [
         "ll"
-    ]
+    ],
+    "cSpell.words": [
+        "baloon",
+        "burst"
+    ],
+    "python.pythonPath": "C:\\Users\\rajne\\anaconda3\\python.exe"
 }
