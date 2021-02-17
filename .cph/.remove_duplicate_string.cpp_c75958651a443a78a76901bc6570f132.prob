@@ -1,0 +1,1 @@
+{"name":"Local: remove_duplicate_string","url":"c:\\Users\\rajne\\OneDrive\\Desktop\\VSprojects\\remove_duplicate_string.cpp","tests":[{"id":1612986798214,"input":"5\naab\nbaa\naab\nbaa\naaa","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\rajne\\OneDrive\\Desktop\\VSprojects\\remove_duplicate_string.cpp","group":"local","local":true}

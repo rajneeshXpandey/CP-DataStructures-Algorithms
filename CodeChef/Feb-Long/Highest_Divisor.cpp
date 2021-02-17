@@ -7,27 +7,24 @@
 using namespace std;
 using ll = long long;
 
-bool checkSort (int a[],int n)
-{
-    //Base Case
-    if(n==1)
-      return true;
-    // Intuition 
-    bool isSort = checkSort(a+1,n-1);
-    // work
-    return (a[0] < a[1] and isSort);
-       
-}
-
 int main()
 {
     ios::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
-   
-        int a[]={1,5,3,8,7};
+    int t=1;
+    while(t--){
+        int n;
+        cin>>n;
 
-        cout<<checkSort(a,5);   
-    
+        for (size_t i = 10; i >=1 ; i--)
+        {
+            if(n%i==0)
+             {cout<<i<<endl;
+             break;
+             }
+        }
+
+    }
     return 0;
 }
