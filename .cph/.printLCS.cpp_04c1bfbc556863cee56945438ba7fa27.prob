@@ -1,0 +1,1 @@
+{"name":"Local: printLCS","url":"c:\\Users\\rajne\\OneDrive\\Desktop\\VSprojects\\printLCS.cpp","tests":[{"id":1615210510066,"input":"3\n3 2\nABC AC\n6 6\nABCDGF AEDFHR\n6 7\nAGGTAB GXTXAYB","output":"AC\nADF\nGTAB"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\rajne\\OneDrive\\Desktop\\VSprojects\\printLCS.cpp","group":"local","local":true}

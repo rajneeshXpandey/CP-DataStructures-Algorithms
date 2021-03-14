@@ -1,0 +1,1 @@
+{"name":"Local: knapsack","url":"c:\\Users\\rajne\\OneDrive\\Desktop\\VSprojects\\knapsack.cpp","tests":[{"id":1615063071894,"input":"3\n68\n11 49 70\n7\n5 5 2\n4\n2 1 1","output":"0\n2\n4"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\rajne\\OneDrive\\Desktop\\VSprojects\\knapsack.cpp","group":"local","local":true}

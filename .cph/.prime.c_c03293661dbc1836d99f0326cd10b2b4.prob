@@ -1,0 +1,1 @@
+{"name":"Local: prime","url":"c:\\Users\\rajne\\OneDrive\\Desktop\\VSprojects\\prime.c","tests":[{"id":1615642078231,"input":"2 4","output":"6"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\rajne\\OneDrive\\Desktop\\VSprojects\\prime.c","group":"local","local":true}
