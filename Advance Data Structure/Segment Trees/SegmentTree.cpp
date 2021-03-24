@@ -1,6 +1,8 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+#define int long long
+
 #define N  6
 int st[4*N];
 
@@ -41,8 +43,7 @@ void updateQuery(int i,int val,int s,int e,int idx,int arr[])
         return;
         }
     
-    int mid = (s+e)/2;
-     cout<<"#"<<endl;  
+    int mid = (s+e)/2; 
     if(i <= mid)
         updateQuery(i, val, s, mid, 2 * idx + 1,arr);
     else if(i > mid)

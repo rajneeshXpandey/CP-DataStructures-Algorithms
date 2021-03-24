@@ -7,14 +7,13 @@ using namespace std;
 // Function to print graph
 // adj: array of vectors to represent graph
 // V: number of vertices
-void printGraph(vector<int> adj[], int V)
+void printGraph(vector<int> adj[], int v)
 {
     // Your code here
-    for(int i=0;i<V;i++){
+    for(int i=0;i<v;i++){
        cout<<i; 
-        for(auto it: adj[i])
-          cout<<"-> "<<it;
-          
+      for(auto it: adj[i])
+          cout<<"->"<<it;         
           cout<<endl;
           
     }
@@ -31,7 +30,6 @@ void printGraph(vector<int> adj[], int V)
 // 2 3
 // 3 4
 
-
 int main()
 {  
    int t;
@@ -39,13 +37,14 @@ int main()
    while(t--)
     {  int v, e;
        cin>>v>>e;
-       int a, b;
+       
        vector<int> adj[v];
        for(int i=0;i<e;i++)
        {
- 		    cin>>a>>b;
- 		    adj[a].push_back(b);
- 		    adj[b].push_back(a);
+           int a, b;
+           cin >> a >> b;
+           adj[a].push_back(b);
+           adj[b].push_back(a);
        }
 		printGraph(adj, v);
        
