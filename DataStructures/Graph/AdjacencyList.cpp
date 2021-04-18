@@ -1,12 +1,14 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+vector<int> *adj;
 
-// The Graph structure is as folows
+    // The Graph structure is as folows
 
-// Function to print graph
-// adj: array of vectors to represent graph
-// V: number of vertices
+    // Function to print graph
+    // adj: array of vectors to represent graph
+    // V: number of vertices
+    
 void printGraph(vector<int> adj[], int v)
 {
     // Your code here
@@ -38,7 +40,7 @@ int main()
     {  int v, e;
        cin>>v>>e;
        
-       vector<int> adj[v];
+       adj = new vector<int>[v+1];
        for(int i=0;i<e;i++)
        {
            int a, b;
