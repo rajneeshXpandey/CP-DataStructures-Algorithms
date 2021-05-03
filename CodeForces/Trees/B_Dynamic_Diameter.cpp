@@ -28,16 +28,16 @@ mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 vector<int> *adj;
 int *visited;
 int *endPoint;
-int node1,node2,maxDis;
+int node1, node2, maxDis;
 
 void Diameter(int root, int dis)
 {
     visited[root] = 1;
     if (dis > maxDis)
-        {
-            maxDis = dis;
-            node1 = root;
-        }
+    {
+        maxDis = dis;
+        node1 = root;
+    }
     for (auto nb : adj[root])
     {
         if (!visited[nb])
@@ -51,8 +51,8 @@ void bfs(int root, int dis)
     visited[root] = 1;
     if (dis == maxDis)
     {
-        if(node1!=root)
-          node2 = root;
+        if (node1 != root)
+            node2 = root;
         endPoint[root] = 1;
     }
     for (auto nb : adj[root])
@@ -68,33 +68,33 @@ signed main()
 {
     FIO;
 
-        int n;
-        cin >> n;
-        if(n==1)
-          {
-            cout<<1<<endl;
-          }
-        else
-        {
+    int n;
+    cin >> n;
+    if (n == 1)
+    {
+        cout << 1 << endl;
+    }
+    else
+    {
         adj = new vector<int>[n + 1];
         int start = 1;
         for (int i = 0; i < n; i++)
-            {
-                int u, v;
-                cin >> u >> v;
-                start = u;
-                adj[u].pb(v);
-                adj[v].pb(u);
-            }
+        {
+            int u, v;
+            cin >> u >> v;
+            start = u;
+            adj[u].pb(v);
+            adj[v].pb(u);
+        }
 
         maxDis = -1;
         visited = new int[n + 1];
         Diameter(start, 0);
-        //never forgot to clear visited arr before anothe dfs
+        //never forgot to clear visited arr before another dfs
         maxDis = -1;
         for (int i = 0; i < n + 1; i++)
             visited[i] = 0;
-        //deb2(node1,maxDis);    
+        //deb2(node1,maxDis);
         Diameter(node1, 0);
         for (int i = 0; i < n + 1; i++)
             visited[i] = 0;
@@ -106,14 +106,13 @@ signed main()
             visited[i] = 0;
         bfs(node2, 0);
 
-        for (int i = 1; i < n+1; i++)
-            {
-                if(endPoint[i])
-                cout<<maxDis+1<<endl;
-                else 
-                cout<<maxDis<<endl; 
-            }
-        
+        for (int i = 1; i < n + 1; i++)
+        {
+            if (endPoint[i])
+                cout << maxDis + 1 << endl;
+            else
+                cout << maxDis << endl;
         }
+    }
     return 0;
 }

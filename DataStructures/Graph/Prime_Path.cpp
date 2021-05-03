@@ -49,6 +49,7 @@ void buildPrime()
           prime.pb(i);
     }   
 }
+
 bool isValid(int a,int b)
 {
     int c=0;
