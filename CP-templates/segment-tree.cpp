@@ -7,7 +7,7 @@ struct node{
         sum=0;
     }
 };
-class segte {
+class segtree {
 public:
     int n{};
     vector<node> tree;
