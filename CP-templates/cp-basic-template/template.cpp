@@ -1,3 +1,7 @@
+// #pragma GCC optimize ("O3")
+// #pragma GCC target ("sse4")
+#pragma GCC target("avx2")
+#pragma GCC optimize("Ofast")
 #include "bits/stdc++.h"
 using namespace std;
 // #include <ext/pb_ds/assoc_container.hpp>
@@ -44,9 +48,10 @@ int dy[] = {0, 1, 0, -1};
 #define per(i, a, b) for (int i = (a)-1; i >= (b); i--)
 #define forn(i, n) rep(i, 0, n)
 #define rof(i, n) per(i, n, 0)
-#define dbg(x) cout << #x << "=" << x << endl
-#define dbg2(x, y) cout << #x << "=" << x << "," << #y << "=" << y << endl
-#define dbg3(x, y, z) cout << #x << "=" << x << "," << #y << "=" << y << "," << #z << "=" << z << endl
+#define forone(i, n) for (int i = 1; i <= (n); ++i)
+#define deb(x) cout << #x << "=" << x << endl
+#define deb2(x, y) cout << #x << "=" << x << "," << #y << "=" << y << endl
+#define deb3(x, y, z) cout << #x << "=" << x << "," << #y << "=" << y << "," << #z << "=" << z << endl
 #define ff first
 #define ss second
 #define mp make_pair
@@ -63,7 +68,7 @@ int dy[] = {0, 1, 0, -1};
 #define piipqs priority_queue<pii, vector<pii>, greater<pii>> // minheap for pair<int,int>
 #define piipqb priority_queue<pii>                            // maxheap for pair<int,int>
 #define mod 1000000007
-#define inf 100000000000000000 //1e17
+#define inf 2000000000000000000 //2e18
 #define mem0(a) memset(a, 0, sizeof(a))
 #define mem1(a) memset(a, -1, sizeof(a))
 #define meminf(a) memset(a, 0x7f, sizeof(a))
@@ -79,47 +84,10 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 // mt19937_64 rng(61378913);
 /* usage - just do rng() */
 
-template <typename T, typename T1>
-T amax(T &a, T1 b)
-{
-    if (b > a)
-        a = b;
-    return a;
-}
-template <typename T, typename T1>
-T amin(T &a, T1 b)
-{
-    if (b < a)
-        a = b;
-    return a;
-}
-
-ll add(ll a, ll b)
-{
-    a += b;
-    if (a >= mod)
-        a -= mod;
-    return a;
-}
-
-ll sub(ll a, ll b)
-{
-    a -= b;
-    if (a < 0)
-        a += mod;
-    return a;
-}
-
-ll mul(ll a, ll b)
-{
-    return (a * b) % mod;
-}
-
 // *************************** Code Begins **************************** //
 
 void solve()
 {
-    
 }
 
 signed main()
