@@ -52,9 +52,17 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
 // *************************** Code Begins **************************** //
 
+int setBit(int n)
+{
+    int k = (int)(log2(n));
+    return 1 << k;
+}
+
 void solve()
 {
-    
+    int n;
+    cin>>n;
+    cout<<setBit(n)-1<<endl;
 }
 
 signed main()

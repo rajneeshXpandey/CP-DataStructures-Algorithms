@@ -49,19 +49,37 @@ using namespace std;
 mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 // mt19937_64 rng(61378913);
 /* usage - just do rng() */
-
+#define ld long double
 // *************************** Code Begins **************************** //
 
+ld c;
+bool good(ld x)
+ {
+     return (x*x)+sqrt(x)>=c;
+ }
 void solve()
 {
-    
+    cout << setprecision(20);
+    cin>>c;
+    ld l = 0.0;
+    ld r = c;
+    // deb2(l,r);
+    forn(i,100)
+     {
+         ld mid = (l+r)/2;
+         if(good(mid))
+          r = mid;
+         else
+          l = mid; 
+     }
+     cout << r << endl;
 }
 
 signed main()
 {
     FastIO;
     int tt = 1;
-    cin >> tt;
+    // cin >> tt;
     for (int i = 1; i <= tt; i++)
         solve();
 }

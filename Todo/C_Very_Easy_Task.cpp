@@ -8,6 +8,42 @@ using namespace std;
 // #include <ext/pb_ds/tree_policy.hpp>
 // using namespace __gnu_pbds;
 
+template <typename A, typename B>
+string to_string(pair<A, B> p)
+{
+    return "(" + to_string(p.first) + ", " + to_string(p.second) + ")";
+}
+template <size_t N>
+string to_string(bitset<N> v)
+{
+    string res = "";
+    for (size_t i = 0; i < N; i++)
+    {
+        res += static_cast<char>('0' + v[i]);
+    }
+    return res;
+}
+template <typename A>
+string to_string(A v)
+{
+    bool first = true;
+    string res = "{";
+    for (const auto &x : v)
+    {
+        if (!first)
+        {
+            res += ", ";
+        }
+        first = false;
+        res += to_string(x);
+    }
+    res += "}";
+    return res;
+}
+
+int dx[] = {-1, 0, 1, 0};
+int dy[] = {0, 1, 0, -1};
+//   cout << fixed << setprecision(10);
 #define rep(i, a, b) for (int i = a; i < (b); ++i)
 #define per(i, a, b) for (int i = (a)-1; i >= (b); i--)
 #define forn(i, n) rep(i, 0, n)
@@ -31,37 +67,55 @@ using namespace std;
 #define pqs priority_queue<int, vector<int>, greater<int>>    // minheap
 #define piipqs priority_queue<pii, vector<pii>, greater<pii>> // minheap for pair<int,int>
 #define piipqb priority_queue<pii>                            // maxheap for pair<int,int>
-#define mod 1000000007   //1e9+7
-#define mod1 998244353
+#define mod 1000000007
 #define inf 2000000000000000000 //2e18
-#define PI  3.141592653589793238
 #define mem0(a) memset(a, 0, sizeof(a))
 #define mem1(a) memset(a, -1, sizeof(a))
 #define meminf(a) memset(a, 0x7f, sizeof(a))
 #define precise(x, y) fixed << setprecision(y) << x
-#define FastIO                    \
+#define FIO                       \
     ios_base::sync_with_stdio(0); \
     cin.tie(0);                   \
     cout.tie(0)
 #define yes cout << "YES" << endl
 #define no cout << "NO" << endl
-// #define oset  tree<int, null_type,less<int>, rb_tree_tag,tree_order_statistics_node_update>
+// #define oset            tree<int, null_type,less<int>, rb_tree_tag,tree_order_statistics_node_update>
 mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 // mt19937_64 rng(61378913);
 /* usage - just do rng() */
 
 // *************************** Code Begins **************************** //
 
+int n, x, y;
+bool good(int time)
+{
+    if(time < min(x,y)) return 0;
+    int base = min(x, y);
+    time -= base;
+    int copy = (time / x) + (time / y)  + 1;
+    return copy >= n;
+}
+
 void solve()
 {
-    
+    cin >> n >> x >> y;
+    int l = 0, r = min(x, y) * n;
+    while (l + 1 < r)
+    {
+        int mid = (l + r) / 2;
+        if (good(mid))
+            r = mid;
+        else
+            l = mid;
+    }
+    cout << r;
 }
 
 signed main()
 {
-    FastIO;
+    FIO;
     int tt = 1;
-    cin >> tt;
+    // cin >> tt;
     for (int i = 1; i <= tt; i++)
         solve();
 }

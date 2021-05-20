@@ -51,10 +51,47 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 /* usage - just do rng() */
 
 // *************************** Code Begins **************************** //
-
+bool palindrome(string s)
+ {
+     int i = 0,j= s.size()-1;
+     while(i<=j){
+      if(s[i]!=s[j])
+       return false;
+       i++;j--;
+       }
+     return true;  
+ }
 void solve()
 {
-    
+    int n;
+    cin >> n;
+    string s;
+    cin >> s;
+    int z = 0, o = 0;
+    for (auto x : s)
+    {
+        if (x == '0')
+            z++;
+    }
+    if(palindrome(s))
+    {
+            if (z==1 or z % 2 == 0)
+        {
+            cout << "BOB" << endl;
+        }
+        else if (z % 2)
+        {
+
+            cout << "ALICE" << endl;
+        }
+        return;
+    }
+    else if(z==2 and n%2 and s[n/2]=='0')
+     {
+         cout<<"DRAW"<<endl;
+         return;
+     }
+     cout<<"ALICE"<<endl; 
 }
 
 signed main()

@@ -54,7 +54,26 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
 void solve()
 {
-    
+    int n;
+    cin>>n;
+    map<int,vector<int>> mp;
+    forn(i,n)
+     {
+         int x;
+         cin>>x;
+         mp[x].pb(i+1);
+     }
+    int ans=0;
+    for(auto x : mp)
+        {  
+             int left = 0;
+             for (auto idx : x.ss)
+             {
+                 ans += (left * (n-idx+1));
+                 left += idx;
+             }
+        } 
+     cout<<ans<<endl;
 }
 
 signed main()

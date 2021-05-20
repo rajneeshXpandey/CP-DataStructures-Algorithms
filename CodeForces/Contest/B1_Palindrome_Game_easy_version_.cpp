@@ -54,8 +54,35 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
 void solve()
 {
+    int n;
+    cin>>n;
+    string s;
+    cin>>s;
+    int z=0,o=0 ;
+    for(auto x : s)
+     {   if(x=='0')
+          z++;
+        }
+    if(z==1)
+     {
+         cout<<"BOB"<<endl;
+         return;
+     }
+    if (z%2==0)
+    {
+         cout<<"BOB"<<endl;
     
+    }
+    else if(z%2)
+    {
+        
+            cout << "ALICE" << endl;
+       
+    }
+
+          
 }
+
 
 signed main()
 {
