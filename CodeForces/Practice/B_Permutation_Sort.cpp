@@ -54,7 +54,32 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
 void solve()
 {  
-    
+   int n;
+   cin>>n;
+   int arr[n];
+   forn(i,n) cin>>arr[i];
+   int ans=0;
+   int i = 0;
+   vector<int> v;
+   while(i<n)
+    {
+      if(arr[i]==i+1)
+        v.pb(i);
+      i++;
+    } 
+
+    if(v.size()==n)
+      ans = 0;    
+    else if(arr[0] == 1 or arr[n-1]==n)
+     ans = 1;
+    else if(arr[0] == n and arr[n-1]==1) 
+     ans = 3;
+    else 
+     ans  = 2; 
+
+     cout<<ans<<endl; 
+
+      
 }
 
 signed main()
@@ -64,7 +89,7 @@ signed main()
     cin >> tt;
     for (int i = 1; i <= tt; i++)
         {            
-         // cout<<"Case #"<< i <<": "; 
+         // cout<<'Case #'<< i <<': '; 
          solve();
         }        
 }

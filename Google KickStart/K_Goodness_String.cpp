@@ -52,9 +52,40 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
 // *************************** Code Begins **************************** //
 
-void solve()
-{  
-    
+int score(string s,int n)
+ {
+     int i=0,j=n-1;
+     int cnt= 0;
+     while(i<j)
+      {
+          if(s[i]!=s[j])
+           cnt++;
+
+           i++,j--;
+      }
+      return cnt;
+ }
+
+void solve(int t)
+{
+    cout<<"Case #"<< t <<": ";
+    int n,k;
+    string s;
+    cin>>n>>k;
+    cin>>s;
+    int ans = 0;
+    int sc = score(s,n);
+    if(sc==k)
+     cout<<0;
+    else if(sc>k)
+     {
+         cout<<sc-k;
+     }  
+    else {
+        cout<<k-sc;
+    } 
+
+    cout<<endl;
 }
 
 signed main()
@@ -63,8 +94,5 @@ signed main()
     int tt = 1;
     cin >> tt;
     for (int i = 1; i <= tt; i++)
-        {            
-         // cout<<"Case #"<< i <<": "; 
-         solve();
-        }        
+        solve(i);
 }

@@ -53,18 +53,25 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 // *************************** Code Begins **************************** //
 
 void solve()
-{  
-    
+{
+   string str;
+   cin>>str;
+   reverse(all(str));
+   forn(i,str.size())
+    {
+        if(str[i]=='6')
+            str[i] = '9';
+       else if (str[i] == '9')
+           str[i] = '6';
+    }
+    cout<<str; 
 }
 
 signed main()
 {
     FastIO;
     int tt = 1;
-    cin >> tt;
+    // cin >> tt;
     for (int i = 1; i <= tt; i++)
-        {            
-         // cout<<"Case #"<< i <<": "; 
-         solve();
-        }        
+        solve();
 }

@@ -52,9 +52,54 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
 // *************************** Code Begins **************************** //
 
+int power(int a,int n)
+ {
+     int res = 1;
+     while(n>0)
+      {
+          if(n%2) 
+            res = (res*a)%mod , n--;
+          else
+            a = (a*a)%mod , n /= 2; 
+      }
+
+      return res;
+ }
+
 void solve()
 {  
-    
+    int n,k;
+    cin>>n; cin>>k;
+    string s; cin>>s;
+    //  cout<<s<<endl;
+    if (n == 1)
+    {
+        cout << (s[0] - 'a')<< endl;
+        return;
+    }
+    int ans = 0;
+    forn(i,ceil((double)n / 2))
+     {
+        
+        int num = (s[i] - 'a'), ways = (power(k, (ceil((double)n / 2) - 1 - i)));
+        ans += num*ways;
+        // deb3(ans, num,ways );
+        ans %= mod;
+     }
+     bool ok = 0;
+     for(int i = ((n + 1) / 2) -1 ; i>=0;i--)
+     {
+         if (s[i] < s[n - i - 1])
+         {
+             ok = true;
+             break;
+         }
+         else if (s[i] > s[n - i - 1])
+             break;
+     }
+    if(ok)
+       ans++;
+    cout<<ans%mod<<endl;
 }
 
 signed main()
@@ -64,7 +109,7 @@ signed main()
     cin >> tt;
     for (int i = 1; i <= tt; i++)
         {            
-         // cout<<"Case #"<< i <<": "; 
+         cout<<"Case #"<< i <<": "; 
          solve();
         }        
 }

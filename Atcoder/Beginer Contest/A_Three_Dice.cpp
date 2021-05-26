@@ -51,9 +51,29 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 /* usage - just do rng() */
 
 // *************************** Code Begins **************************** //
-
+int summ(int a)
+ {
+     int sum = 0;
+     if (a == 1)
+         sum += 6;
+     else if (a == 2)
+         sum += 5;
+     else if (a == 3)
+         sum += 4;
+     else if (a == 4)
+         sum += 3;
+     else if (a == 5)
+         sum += 2;
+     else if (a == 6)
+         sum += 1;
+     return sum;    
+ }
 void solve()
-{  
+{
+    int a,b,c;
+    cin>>a>>b>>c;
+    
+    cout<<summ(a)+summ(b)+summ(c);
     
 }
 
@@ -61,10 +81,7 @@ signed main()
 {
     FastIO;
     int tt = 1;
-    cin >> tt;
+    // cin >> tt;
     for (int i = 1; i <= tt; i++)
-        {            
-         // cout<<"Case #"<< i <<": "; 
-         solve();
-        }        
+        solve();
 }

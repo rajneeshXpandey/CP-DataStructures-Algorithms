@@ -31,10 +31,10 @@ using namespace std;
 #define pqs priority_queue<int, vector<int>, greater<int>>    // minheap
 #define piipqs priority_queue<pii, vector<pii>, greater<pii>> // minheap for pair<int,int>
 #define piipqb priority_queue<pii>                            // maxheap for pair<int,int>
-#define mod 1000000007   //1e9+7
+#define mod 1000000007                                        //1e9+7
 #define mod1 998244353
 #define inf 2000000000000000000 //2e18
-#define PI  3.141592653589793238
+#define PI 3.141592653589793238
 #define mem0(a) memset(a, 0, sizeof(a))
 #define mem1(a) memset(a, -1, sizeof(a))
 #define meminf(a) memset(a, 0x7f, sizeof(a))
@@ -53,8 +53,19 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 // *************************** Code Begins **************************** //
 
 void solve()
-{  
-    
+{
+    int n;
+    string s;
+    cin>>n;
+    cin>>s;
+    cout<<1<<" ";
+    for(int l=0,r=1;r<n;r++)
+     {
+         if(s[r]<=s[r-1])
+             l=r;
+         cout<<(r-l+1)<< " "; 
+     }
+     cout<<endl;
 }
 
 signed main()
@@ -63,8 +74,8 @@ signed main()
     int tt = 1;
     cin >> tt;
     for (int i = 1; i <= tt; i++)
-        {            
-         // cout<<"Case #"<< i <<": "; 
-         solve();
-        }        
+    {
+        cout<<"Case #"<< i <<": ";
+        solve();
+    }
 }

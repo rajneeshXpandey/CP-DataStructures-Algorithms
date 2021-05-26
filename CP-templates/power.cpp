@@ -1,11 +1,14 @@
-int power(int x, int y, int p) {
+// Modulo expo
+// result for (a^n)%p
+
+int power(int a, int n, int p) {
     int res = 1;
-    x = x % p;
-    while (y > 0) {
-        if (y & 1)
-            res = (res * x) % p;
-        y = y >> 1;
-        x = (x * x) % p;
+    while (n > 0)
+    {
+        if (n % 2)
+            res = (res * a)%p, n--;
+        else
+            a = (a*a)%p, n /= 2;
     }
     return res;
 }

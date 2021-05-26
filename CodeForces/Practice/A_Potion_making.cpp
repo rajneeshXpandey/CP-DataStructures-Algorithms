@@ -54,7 +54,20 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
 void solve()
 {  
-    
+    int x;
+    cin>>x;
+    int y = 100-x;
+    if(x < y)
+      swap(x,y); 
+    int comm = __gcd(x,y);
+    //  deb2(x,y);
+    x = x/comm;
+    y = y/comm;
+    // deb2(x,y);
+
+
+    cout<<(x+y)<<endl;
+
 }
 
 signed main()
@@ -63,8 +76,5 @@ signed main()
     int tt = 1;
     cin >> tt;
     for (int i = 1; i <= tt; i++)
-        {            
-         // cout<<"Case #"<< i <<": "; 
-         solve();
-        }        
+        solve();      
 }

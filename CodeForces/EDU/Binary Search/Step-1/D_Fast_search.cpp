@@ -153,7 +153,7 @@ void solve()
           cin>>st>>end;
           int left = closeL(st,n,arr);
           int right = closeR(end,n,arr);
-        //   deb2(left,right);
+          // deb2(left,right);
           if((right-left)>=0)
               cout << (right - left)+1<<" ";
           else

@@ -54,7 +54,30 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
 void solve()
 {  
+
+    /// INSTEAD OF DOING THIS JUST SOLVE THE PROBLEM IN PAPER AND SOLVE EASILY
+    // BY FORMING THE PROPER RELATIONSHIP
     
+    int g;
+    cin>>g;
+    int st = ceil(ceil(sqrt(8*g+1)-1)/2);
+    int stsum = (st*(st+1))/2;
+    int ans = 0;
+    int diff = stsum-g;
+    // deb2(stsum,diff);
+    int val2 = 0;
+    while(val2<g)
+     {
+         long double val1 = (sqrt(8*diff+1)-1)/2;
+         val2 = (sqrt(8*diff+1)-1)/2;
+        //  deb2(val1,val2);
+         if(val1==val2)
+            ans++;
+         st++;
+         diff += st;
+        //   deb3(diff,ans,st);
+     }
+     cout<<ans<<endl;
 }
 
 signed main()
@@ -64,7 +87,7 @@ signed main()
     cin >> tt;
     for (int i = 1; i <= tt; i++)
         {            
-         // cout<<"Case #"<< i <<": "; 
+         cout<<"Case #"<< i <<": "; 
          solve();
         }        
 }

@@ -53,18 +53,40 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 // *************************** Code Begins **************************** //
 
 void solve()
-{  
-    
+{
+    int n;
+    cin>>n;
+    unordered_map<int,int> a;
+         forn(i,n){
+            int x;
+            cin>>x;
+            a[x]++;
+         }
+         int b[n];
+         forn(i, n)
+                 cin >>b[i];
+         int c[n];
+         forn(i, n)
+                 cin >>c[i];
+         int ans = 0;
+
+         for (auto idx : c)
+         {
+             int val = b[idx-1];
+             if (a.find(val) != a.end())
+                {
+                    ans += a.find(val)->ss;
+                }
+        
+    }
+    cout<<ans;   
 }
 
 signed main()
 {
     FastIO;
     int tt = 1;
-    cin >> tt;
+    // cin >> tt;
     for (int i = 1; i <= tt; i++)
-        {            
-         // cout<<"Case #"<< i <<": "; 
-         solve();
-        }        
+        solve();
 }

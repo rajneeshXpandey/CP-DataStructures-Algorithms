@@ -54,7 +54,20 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
 void solve()
 {  
-    
+    int n;
+    cin>>n;
+    int arr[n];
+    forn(i,n) cin>>arr[i];
+    sort(arr,arr+n);
+    int cnt=0;
+    forn(i,n)
+     {
+         if(arr[i]==arr[0])
+           cnt++;
+         else 
+          break;  
+     }
+       cout<<n-cnt<<endl;
 }
 
 signed main()
@@ -64,7 +77,7 @@ signed main()
     cin >> tt;
     for (int i = 1; i <= tt; i++)
         {            
-         // cout<<"Case #"<< i <<": "; 
+         // cout<<'Case #'<< i <<': '; 
          solve();
         }        
 }

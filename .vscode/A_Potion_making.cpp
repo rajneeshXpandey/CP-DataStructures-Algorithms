@@ -64,7 +64,7 @@ signed main()
     cin >> tt;
     for (int i = 1; i <= tt; i++)
         {            
-         // cout<<"Case #"<< i <<": "; 
+         // cout<<'Case #'<< i <<': '; 
          solve();
         }        
 }
