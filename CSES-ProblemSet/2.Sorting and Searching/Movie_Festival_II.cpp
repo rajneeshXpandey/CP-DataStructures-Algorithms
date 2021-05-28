@@ -52,73 +52,35 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
 // *************************** Code Begins **************************** //
 
-pair<pii,pii> mnf(pii a,pii b,pii c,pii d)
- {
-      vector<pii> st;
-      st.pb(a);
-      st.pb(b);
-      st.pb(c);
-      st.pb(d);
-      sort(all(st));
-    return mp(*st.begin(),*(st.end()-1));  
- }
-
-
 void solve()
 {
-    vector<int> v[4];
-    forn(i,4)
+    int n,k;
+    cin>>n>>k;
+    vector<pii> v(n);
+    forn(i, n)
+    {
+        cin>>v[i].ss>>v[i].ff;
+    }
+    vector<int> used;
+    sort(all(v));
+    // ff -> finishing time and ss-> starting time
+    int ans = 0;
+   multiset<int> end_time;
+   forn(i,k) 
+     end_time.insert(0);
+ 
+    forn(i,n)
      {
-         int n;
-         cin>>n;
-         v[i].resize(n);
-         forn(j,n)
-             cin>>v[i][j];
+         auto it = end_time.upper_bound(v[i].ss);
+
+         if(it==end_time.begin()) continue;
+
+         end_time.erase(--it);
+         end_time.insert(v[i].ff);
+         ans++;
+
      }
-     forn(i,4)
-        sort(all(v[i]));
-     int a = 0, b = 0, c = 0, d = 0;
-     while(1)
-      {
-          
-          pii w = mp(v[0][a], a), x = mp(v[1][b], b), y = mp(v[2][c], c), z = mp(v[3][d], d);
-          pair<pii,pii> vals = mnf(w, x, y, z);
-
-          pii mn = vals.ff;
-          pii mx = vals.ss;
-        //   deb2(mn.ff,mx.ff);
-
-          if(mn.ff==mx.ff)
-             break;  
-                     
-           if (mn.ff == w.ff)
-              a++;
-           if (mn.ff == x.ff)
-               b++;
-           if (mn.ff == y.ff)
-              c++;
-           if (mn.ff == z.ff)
-              d++;
-
-        bool ok = 0;
-          if (a == v[0].size())
-             { a--; ok=1;}
-  
-          if (b == v[1].size())
-             { b--; ok=1;}
-       
-          if (c == v[2].size())
-             {c--; ok=1;}
-          if (d == v[3].size())
-             {d--; ok=1;}
-
-        if(ok) break;
-
-          //   deb2(a, b);
-          //   deb2(c, d);
-      }
-
-    cout<<v[0][a]<<" "<<v[1][b]<<" "<<v[2][c]<<" "<<v[3][d]<<endl;
+     cout<<ans<<endl;
 }
 
 signed main()
@@ -127,5 +89,8 @@ signed main()
     int tt = 1;
     // cin >> tt;
     for (int i = 1; i <= tt; i++)
-        solve();
+        {            
+         // cout<<"Case #"<< i <<": "; 
+         solve();
+        }        
 }

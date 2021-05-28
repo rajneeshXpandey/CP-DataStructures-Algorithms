@@ -50,7 +50,12 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 // mt19937_64 rng(61378913);
 /* usage - just do rng() */
 
-// *************************** Code Begins **************************** //
+//assign and update min and max values.
+template<typename T, typename T1> T amax(T &a, T1 b) {if (b > a)a = b; return a;}
+template<typename T, typename T1> T amin(T &a, T1 b) {if (b < a)a = b; return a;}
+
+
+// *********************** Code Begins ************************ //
 
 void solve()
 {  

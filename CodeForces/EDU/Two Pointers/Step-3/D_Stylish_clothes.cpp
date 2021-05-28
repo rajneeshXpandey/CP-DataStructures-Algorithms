@@ -50,18 +50,71 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 // mt19937_64 rng(61378913);
 /* usage - just do rng() */
 
+template <typename T, typename T1>
+T amax(T &a, T1 b)
+ {
+     if(a<b)
+       a = b;
+
+     return a;  
+ }
+template <typename T, typename T1>
+ T amin(T &a, T1 b)
+ {
+     if(a>b)
+       a = b;
+
+     return a;  
+ } 
 // *************************** Code Begins **************************** //
+
 
 void solve()
 {
-    
+    vector<int> v[4];
+    int n[4];
+    forn(i,4)
+     {
+         cin>>n[i];
+         v[i].resize(n[i]);
+         forn(j,n[i])
+             cin>>v[i][j];
+         sort(all(v[i]));
+     }
+
+     vector<int> ptr(4,0);
+     pair<int , vector<int>> best = {inf,{inf,inf,inf,inf}};
+
+     while(1)
+      {
+          pii mn = {inf, 0};
+          pii mx = {-inf, 0};
+          vector<int> curr_best;
+          forn(i,4)
+            {
+                amin(mn,mp(v[i][ptr[i]],i));
+                amax(mx,mp(v[i][ptr[i]],i));
+
+                curr_best.pb(v[i][ptr[i]]);
+            }
+
+            amin(best,mp(mx.ff-mn.ff,curr_best));
+            ptr[mn.ss]++;
+            if(n[mn.ss]==ptr[mn.ss])
+            {
+                forn(i,4)
+                cout<<best.ss[i]<<" ";
+                cout<<endl;
+                break;  
+            }
+      }
 }
 
 signed main()
 {
     FastIO;
     int tt = 1;
-    cin >> tt;
+    // cin >> tt;
     for (int i = 1; i <= tt; i++)
         solve();
 }
