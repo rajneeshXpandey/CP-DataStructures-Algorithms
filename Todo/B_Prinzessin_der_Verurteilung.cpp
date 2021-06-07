@@ -60,7 +60,63 @@ inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 
 void solve()
 {  
-    
+    int n;
+    cin>>n;
+    string s;
+    cin>>s;
+    set<pair<int, string>> st;
+    for (int i = 0; i < n; i++)
+    {
+        char temp[n - i + 1];
+        int tempindex = 0;
+        for (int j = i; j < n; j++)
+        {
+            temp[tempindex++] = s[j];
+            temp[tempindex] = '\0';
+            // printf("%s\n", temp);
+            st.insert({tempindex, temp});
+        }
+    }
+
+    for(auto str : st )
+       {
+           int l = str.ss.size();
+           for(int i=l-1;i>=0;i--)
+            {
+                int t = 'z' - str.ss[i];
+             int j=0;   
+             forn(j,t)
+                {
+                    str.ss[i]++;
+                    if (st.find({str.ss.size(), str.ss}) == st.end())
+                    {
+                        cout<<str.ss<<endl;
+                        return;
+                    }
+            
+             }
+             str.ss[i] -= j;
+
+             }
+             string test = "";
+             forn(z,l+1)
+              test += "a";
+              
+             if(st.find({test.size(), test}) == st.end())
+             {
+                 cout << test << endl;
+                 return;
+             }
+
+             // cout<<str.ss<<endl;
+       }
+       if('z'-s[n-1]>0)
+       { s[n-1]++;
+         cout<<s<<endl;
+         return;
+       }
+       forn(i,n+1)
+        cout<<"a"<<endl;
 }
 
 signed main()

@@ -54,20 +54,29 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 template<typename T, typename T1> T amax(T &a, T1 b) {if (b > a)a = b; return a;}
 template<typename T, typename T1> T amin(T &a, T1 b) {if (b < a)a = b; return a;}
 
-inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 
 // *********************** Code Begins ************************ //
 
 void solve()
 {  
-    
+    int n;
+    cin>>n;
+    int dp[1000002];
+    dp[0] = 1;
+    dp[1]= 1;
+    int i = 2;
+    for(;i<=6;i++)
+      dp[i] = (2*dp[i-1])%mod;
+    for(;i<=n;i++)
+        dp[i] = (dp[i - 1]%mod + dp[i - 2]%mod + dp[i - 3]%mod + dp[i - 4]%mod + dp[i - 5]%mod + dp[i - 6]%mod) % mod;
+    cout << dp[n];
 }
 
 signed main()
 {
     FastIO;
     int tt = 1;
-    cin >> tt;
+    // cin >> tt;
     for (int i = 1; i <= tt; i++)
         {            
          // cout<<"Case #"<< i <<": "; 

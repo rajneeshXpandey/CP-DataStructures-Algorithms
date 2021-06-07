@@ -54,20 +54,91 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 template<typename T, typename T1> T amax(T &a, T1 b) {if (b > a)a = b; return a;}
 template<typename T, typename T1> T amin(T &a, T1 b) {if (b < a)a = b; return a;}
 
-inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 
 // *********************** Code Begins ************************ //
 
+class dsu
+{
+public:
+    vector<int> parent;
+    vector<int> size;
+    vector<int> rank;
+
+    explicit dsu(int a)
+    {
+        parent.resize(a);
+        size.resize(a);
+        rank.resize(a);
+        for (int i = 0; i < a; i++)
+        {
+            parent[i] = i;
+            size[i] = 1;
+            rank[i] = 0;
+        }
+    }
+
+    int get(int i)
+    {
+        if (i == parent[i])
+            return i;
+        return parent[i] = get(parent[i]);
+    }
+
+    bool unite(int a, int b)
+    {
+        a = get(a);
+        b = get(b);
+        if (a != b)
+        {
+            if (rank[a] > rank[b])
+                swap(a, b);
+            parent[a] = b;
+            size[b] += size[a];
+            size[a] = 0;
+            if (rank[a] == rank[b])
+                rank[b]++;
+            return true;
+        }
+        return false;
+    }
+};
+
 void solve()
 {  
-    
+    int n,q;
+    cin>>n>>q;
+    dsu DSU(n);
+    forn(i,q)
+    {
+        string quer; cin>>quer;
+       
+        if(quer=="union")
+         {
+             int a, b;
+             cin >> a >> b;
+             DSU.unite(a, b);
+         }
+        else if(quer=="get")
+        {
+            int a, b;
+            cin >> a >> b;
+            int para = DSU.get(a);
+            int parb = DSU.get(b);
+            // cout<<para<<" "<<parb<<endl;
+            if(para==parb)
+             yes;
+            else 
+              no; 
+
+        } 
+    }
 }
 
 signed main()
 {
     FastIO;
     int tt = 1;
-    cin >> tt;
+    // cin >> tt;
     for (int i = 1; i <= tt; i++)
         {            
          // cout<<"Case #"<< i <<": "; 

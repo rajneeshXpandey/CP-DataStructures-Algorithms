@@ -60,7 +60,68 @@ inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 
 void solve()
 {  
-    
+    int n;
+    cin>>n;
+    vector<int> arr;
+    forn(i,n)
+     {
+         int x;
+         cin>>x;
+         arr.pb(x);
+     }
+     set<int> st;
+
+     forn(i,n)
+       st.insert(arr[i]);
+
+     int k = n;
+     for (int i = 0; i < n; i++)
+     {
+         for (int j = i + 1; j < n; j++)
+         {
+             if (st.find(abs(arr[i] - arr[j])) == st.end())
+             {
+                 arr.pb(abs(arr[i] - arr[j]));
+                 st.insert(abs(arr[i] - arr[j]));
+                 k++;
+             }
+         }
+     }
+
+     int p = 500;
+    //  int d=0;
+     while(p--)
+     {
+        // deb(k);
+      int z = 0;
+
+      for(int i=0;i<n;i++)
+        {
+         for(int j=z+1+i;j<n;j++)
+           {
+            if(st.find(abs(arr[i]-arr[j])) == st.end())
+                {   arr.pb(abs(arr[i]-arr[j]));
+                    st.insert(abs(arr[i] - arr[j]));
+                    k++;
+                }
+           }
+           z = i;
+        }
+        n = arr.size();
+        if(st.size()>=300)
+           break;
+      }
+      k = st.size();
+      if(k>300)
+       {
+           no;
+           return;
+       }
+        yes;
+        cout<<st.size()<<endl;
+        for(auto x : st)
+        cout<<x<<" ";
+        cout<<endl; 
 }
 
 signed main()

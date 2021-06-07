@@ -60,14 +60,40 @@ inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 
 void solve()
 {  
+    int n;
+    cin>>n;
+    vector<int> dp(n+1,INT_MAX);
     
+    dp[0] = 0;
+    for(int i=1;i<=n;i++)
+    {
+        int k = i;
+        vector<int> digits;
+        while (k)
+        {
+            if (k % 10)
+                digits.pb(k % 10);
+            k /= 10;
+        }
+        rep(j, 0, digits.size())
+        {
+            if (digits[j] <= i)
+               {
+                   dp[i] = min(dp[i],(dp[i - digits[j]] + 1));
+               }
+            }
+     }
+    // forn(i,n+1)
+    //  cout<<dp[i]<<" ";   
+
+     cout<<dp[n]<<endl;  
 }
 
 signed main()
 {
     FastIO;
     int tt = 1;
-    cin >> tt;
+    // cin >> tt;
     for (int i = 1; i <= tt; i++)
         {            
          // cout<<"Case #"<< i <<": "; 
