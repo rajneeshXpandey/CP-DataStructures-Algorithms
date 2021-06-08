@@ -31,10 +31,10 @@ using namespace std;
 #define pqs priority_queue<int, vector<int>, greater<int>>    // minheap
 #define piipqs priority_queue<pii, vector<pii>, greater<pii>> // minheap for pair<int,int>
 #define piipqb priority_queue<pii>                            // maxheap for pair<int,int>
-#define mod 1000000007   //1e9+7
+#define mod 1000000007                                        //1e9+7
 #define mod1 998244353
 #define inf 2000000000000000000 //2e18
-#define PI  3.141592653589793238
+#define PI 3.141592653589793238
 #define mem0(a) memset(a, 0, sizeof(a))
 #define mem1(a) memset(a, -1, sizeof(a))
 #define meminf(a) memset(a, 0x7f, sizeof(a))
@@ -51,81 +51,92 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 /* usage - just do rng() */
 
 //assign and update min and max values.
-template<typename T, typename T1> T amax(T &a, T1 b) {if (b > a)a = b; return a;}
-template<typename T, typename T1> T amin(T &a, T1 b) {if (b < a)a = b; return a;}
+template <typename T, typename T1>
+T amax(T &a, T1 b)
+{
+    if (b > a)
+        a = b;
+    return a;
+}
+template <typename T, typename T1>
+T amin(T &a, T1 b)
+{
+    if (b < a)
+        a = b;
+    return a;
+}
 
-inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
+inline ll gcd(ll a, ll b) { return (b == 0) ? a : gcd(b, a % b); }
 
 // *********************** Code Begins ************************ //
 
 void solve()
-{  
+{
     int n;
-    cin>>n;
-    string s;
-    cin>>s;
-    set<pair<int, string>> st;
-    for (int i = 0; i < n; i++)
+    cin >> n;
+    char grid[n][n];
+    forn(i, n)
+            forn(j, n)
+                cin >>
+        grid[i][j];
+
+    // forn(i, n)
+    //     {forn(j, n)
+    //         cout<<grid[i][j];
+    //      cout<<endl;
+    //     }
+
+    
+    if(grid[0][0]=='*' or grid[n-1][n-1]=='*')
+     {
+         cout<<0;
+         return;
+     }
+     int dp[n][n];
+     mem0(dp);
+     dp[0][0] = 1;
+     rep(i, 1, n)
+     {
+         if (grid[0][i] == '*')
+             break;
+         dp[0][i] = 1;
+    }
+    rep(i, 1, n)
     {
-        char temp[n - i + 1];
-        int tempindex = 0;
-        for (int j = i; j < n; j++)
-        {
-            temp[tempindex++] = s[j];
-            temp[tempindex] = '\0';
-            st.insert({tempindex, temp});
-        }
+        if (grid[i][0] == '*')
+            break;
+        dp[i][0] = 1;
     }
 
-    for(auto str : st )
-       {
-           int l = str.ss.size();
-           for(int i=l-1;i>=0;i--)
-            {
-                int t = 'z' - str.ss[i];
-             int j=0; 
-             forn(j,t)
-                {
-                    str.ss[i]++;
-                    if (st.find({str.ss.size(), str.ss}) == st.end())
-                    {
-                        cout<<str.ss<<endl;
-                        return;
-                    }
-            
-             }
-             str.ss[i] -= j;
+    rep(i, 1, n )
+        rep(j, 1, n )
+    {
 
-             }
-             string test = "";
-             forn(z,l+1)
-              test += "a";
-              
-             if(st.find({test.size(), test}) == st.end())
-             {
-                 cout << test << endl;
-                 return;
-             }
-
-             // cout<<str.ss<<endl;
-       }
-       if('z'-s[n-1]>0)
-       { s[n-1]++;
-         cout<<s<<endl;
-         return;
-       }
-       forn(i,n+1)
-        cout<<"a"<<endl;
+        if (grid[i - 1][j] == '*' and grid[i][j - 1] == '*')
+            dp[i][j] = 0;
+        else if (grid[i - 1][j] == '*')
+            dp[i][j] = dp[i][j - 1];
+        else if (grid[i][j - 1] == '*')
+            dp[i][j] = dp[i - 1][j];
+        else
+            dp[i][j] = (dp[i][j - 1] + dp[i - 1][j])%mod;
+    }
+    // forn(i, n)
+    // {
+    //     forn(j, n)
+    //             cout << dp[i][j] << " ";
+    //     cout << endl;
+    // }
+    cout << dp[n-1][n-1]%mod;
 }
 
 signed main()
 {
-    FastIO;
     int tt = 1;
-    cin >> tt;
+    // cin >> tt;
     for (int i = 1; i <= tt; i++)
-        {            
-         // cout<<"Case #"<< i <<": "; 
-         solve();
-        }        
+    {
+        // cout<<"Case #"<< i <<": ";
+        solve();
+    }
 }
