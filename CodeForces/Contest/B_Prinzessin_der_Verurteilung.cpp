@@ -64,7 +64,7 @@ void solve()
     cin>>n;
     string s;
     cin>>s;
-    set<pair<int, string>> st;
+    set<string> st;
     for (int i = 0; i < n; i++)
     {
         char temp[n - i + 1];
@@ -73,49 +73,51 @@ void solve()
         {
             temp[tempindex++] = s[j];
             temp[tempindex] = '\0';
-            st.insert({tempindex, temp});
+            if(tempindex<=3)
+                st.insert(temp);
         }
     }
+    
+    string one="/",two="//",three="///";
 
-    for(auto str : st )
+    for(int i='a';i<='z';i++)
+       { one[0] = i;
+        if(st.find(one)==st.end())
+          {
+              cout << one << endl;
+              return;
+          }
+       }
+       for (int i = 'a'; i <= 'z'; i++)
        {
-           int l = str.ss.size();
-           for(int i=l-1;i>=0;i--)
-            {
-                int t = 'z' - str.ss[i];
-             int j=0; 
-             forn(j,t)
+           two[0] = i;
+           for (int j = 'a'; j <= 'z'; j++)
+          {      
+                two[1] = j;
+                if (st.find(two) == st.end())
                 {
-                    str.ss[i]++;
-                    if (st.find({str.ss.size(), str.ss}) == st.end())
-                    {
-                        cout<<str.ss<<endl;
-                        return;
-                    }
-            
-             }
-             str.ss[i] -= j;
-
-             }
-             string test = "";
-             forn(z,l+1)
-              test += "a";
-              
-             if(st.find({test.size(), test}) == st.end())
-             {
-                 cout << test << endl;
-                 return;
-             }
-
-             // cout<<str.ss<<endl;
+                    cout << two << endl;
+                    return;
+                }
+           }
        }
-       if('z'-s[n-1]>0)
-       { s[n-1]++;
-         cout<<s<<endl;
-         return;
-       }
-       forn(i,n+1)
-        cout<<"a"<<endl;
+       for (int i = 'a'; i <= 'z'; i++)
+       {
+           three[0] = i;
+           for (int j = 'a'; j <= 'z'; j++)
+           {
+               three[1] = j;
+               for (int k = 'a'; k <= 'z'; k++)
+                {   
+                        three[2] = k;
+                        if (st.find(three) == st.end())
+                        {
+                            cout << three<<endl;
+                            return;
+                        }  
+               }
+           }
+       } 
 }
 
 signed main()
