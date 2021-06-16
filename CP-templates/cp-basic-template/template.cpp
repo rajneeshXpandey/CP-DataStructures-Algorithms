@@ -25,7 +25,8 @@ using namespace std;
 #define ll long long
 #define pb push_back
 #define pii pair<int, int>
-#define setbits(x) __builtin_popcountll(x)
+#define removeDuplicate(x)   sort(all(x)); x.erase(unique(all(x)),x.end())   //remove Duplicate
+#define setbits(x) __builtin_popcountll(x)      // count set bits in binary rep
 #define zerbefone(x) __builtin_ctzll(x)
 #define pqb priority_queue<int>                               // maxheap
 #define pqs priority_queue<int, vector<int>, greater<int>>    // minheap
