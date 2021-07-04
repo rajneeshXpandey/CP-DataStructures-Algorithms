@@ -36,9 +36,9 @@ void solve()
           if(coin[i]<=j)  
             dp[j] = (dp[j]+dp[j-coin[i]])%mod;  
         }
-    // forn(i,x+1)
-    //  cout<<dp[i]<<" ";
-    cout << dp[x] % mod << endl;
+    forn(i,x+1)
+     cout<<dp[i]<<" ";
+    // cout << dp[x] % mod << endl;
 }
 
 
