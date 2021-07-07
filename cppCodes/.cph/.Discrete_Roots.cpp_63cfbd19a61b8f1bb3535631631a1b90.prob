@@ -1,1 +1,0 @@
-{"name":"Discrete Roots","group":"SPOJ - Classical","url":"https://www.spoj.com/problems/DISCRT/","interactive":false,"memoryLimit":1536,"timeLimit":200,"tests":[],"testType":"single","input":{"type":"stdin"},"output":{"type":"stdout"},"languages":{"java":{"mainClass":"Main","taskClass":"DiscreteRoots"}},"srcPath":"c:\\Users\\rajne\\VSprojects\\cppCodes\\Discrete_Roots.cpp"}

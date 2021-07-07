@@ -59,42 +59,57 @@ inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 
 // *********************** Code Begins ************************ //
 
+vector<int> dist;
+vector<int> visi;
 
-
-std::vector<int> assignRanks(std::vector<int> arr)
+void dfs(vector<int> adj[], int node)
 {
-
-   set<pair<int,int>> st;
-   multiset<int> mst;
-   int n = arr.size();
-   for(int i=0;i<n;i++)
-    { st.insert({arr[i],i});
-      mst.insert(arr[i]);
+    visi[node] = 1;
+    // cout<<node<<" ";
+    for (auto nb : adj[node])
+    {
+        if (!visi[nb])
+        {
+            dist[nb] += dist[node]+1;
+            dfs(adj, nb);
+        }
     }
-   vector<int> ans(n);
-   int count=0;
-   for(auto s : st){
-       if(mst.find(s.first)!=mst.end())
-           count++;
-       ans[s.second] = count;
-       mst.erase(s.first);
-   } 
-
-   return ans; 
-
 }
 
-
-
-
-
+void solve()
+{
+    int n;
+    int u,v;
+    cin >> n;
+    vector<int> adj[n + 1];
+    forn(i,n-1)
+       { 
+           cin>>u>>v;
+           adj[u].pb(v);
+           adj[v].pb(u);
+       }
+    dist.resize(n + 1, 0);
+    visi.resize(n + 1, 0);
+    dfs(adj, 1);
+    // cout<<'\n';
+    int farNode = max_element(all(dist)) - dist.begin();
+    dist.clear();
+    visi.clear();
+    dist.resize(n + 1, 0);
+    visi.resize(n + 1, 0);
+    // deb(farNode);
+    dfs(adj, farNode);
+    // forn(i, n + 1)
+    //     deb(dist[i]);
+    cout << *max_element(all(dist));
+}
 
 signed main()
-    {
-        FastIO;
-        int tt = 1;
-        cin >> tt;
-        for (int i = 1; i <= tt; i++)
+{
+    FastIO;
+    int tt = 1;
+    // cin >> tt;
+    for (int i = 1; i <= tt; i++)
         {            
          // cout<<"Case #"<< i <<": "; 
          solve();

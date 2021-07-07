@@ -70,7 +70,7 @@ signed main()
 
         for(auto edge : adj[currNode])
           {
- if (!flag[edge.first] and (currDis + edge.second < minDis[edge.first]))
+    if (!flag[edge.first] and (currDis + edge.second < minDis[edge.first]))
               {
                   minDis[edge.first] = currDis + edge.second;
                   minheap.push({minDis[edge.first], edge.first});
