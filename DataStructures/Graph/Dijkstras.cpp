@@ -61,10 +61,10 @@ signed main()
         int currDis = minheap.top().first;
 
         minheap.pop();
-        //this node is used already for optimization
+        //this node is used for optimization
         flag[currNode] = true;
 
-// this will handle the case if already min dis is updated for currDis
+        // this will handle the case if already min dis is updated for currDis
         if (currDis > minDis[currNode])
             continue;
 
