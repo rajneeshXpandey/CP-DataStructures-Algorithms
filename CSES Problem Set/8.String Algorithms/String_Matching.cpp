@@ -45,10 +45,10 @@ long long KMP(string s,string p){
   int ans = 0;
   for(auto len : pi){
       if(len==p.size()){
-         ans++;
+         return true;
       }
   }
-  return ans;
+  return false;
 }
 
 int main()
