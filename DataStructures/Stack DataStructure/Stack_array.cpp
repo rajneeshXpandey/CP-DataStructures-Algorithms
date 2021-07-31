@@ -1,6 +1,7 @@
-// Stack implementation using array
-// we can make it dynamic using vector
-
+/**
+ Stack implementation using array
+ we can make it dynamic using vector
+*/
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -74,7 +75,6 @@ class Stack{
 
 
 };
-
 
 int main(){
 

@@ -16,7 +16,7 @@ using namespace std;
 
 // Method 2
 //here while calling the prev to prev ways got repeated so instead of doing for particular 
-//  target we can calculate the possible target using particular coin
+// target we can calculate the possible target using particular coin
 
 void solve()
 {
