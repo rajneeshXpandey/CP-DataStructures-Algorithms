@@ -40,15 +40,18 @@ void solve()
             cout << arr[row][column_end]<<" ";
         }
         column_end--;
-        for (int col = column_end; col>=column_start; col--)
-        {
-            cout << arr[row_end][col] << " ";
-        }
+        
+            if (row_start <= row_end)
+                for (int col = column_end; col >= column_start; col--)
+                {
+                    cout << arr[row_end][col] << " ";
+                }
         row_end--;
-        for (int row= row_end; row>=row_start; row--)
-        {
-            cout << arr[row][column_start] << " ";
-        }
+        if (column_start <= column_end)
+            for (int row = row_end; row >= row_start; row--)
+            {
+                cout << arr[row][column_start] << " ";
+            }
         column_start++;
         }
 }

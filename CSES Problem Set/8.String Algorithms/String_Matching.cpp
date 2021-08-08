@@ -30,7 +30,8 @@ long long RabinKarp(string s,string ptr){
 }
 
 long long KMP(string s,string p){ 
-  string str = p + "#" + s;
+//  string str = p + "#" + s;
+  string str = s;
   vector<int> pi(str.size());
   pi[0] = 0;
   for(int i=1;i<str.size();i++){
@@ -43,11 +44,15 @@ long long KMP(string s,string p){
       pi[i] = l;  
   }
   int ans = 0;
-  for(auto len : pi){
-      if(len==p.size()){
-         return true;
-      }
+  for(int i=0;i<pi.size();i++){
+    //  if(len==p.size()){
+    //     return true;
+    //  }
+    if(pi[i])
+      str[i]='*'; 
+    cout<<pi[i]<<' ';   
   }
+  cout<<str<<' ';
   return false;
 }
 
