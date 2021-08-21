@@ -1,3 +1,4 @@
+
 const int N=100001;
 const int M=22;
 int a[N];

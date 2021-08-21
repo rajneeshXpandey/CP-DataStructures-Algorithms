@@ -1,3 +1,4 @@
+
 //1-base //better to use 2 hashes
 int power(int x, int y, int p) {
     int res = 1;

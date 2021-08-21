@@ -1,3 +1,4 @@
+
 //https://cp-algorithms.com/algebra/linear_congruence_equation.html
 //smallest x that satisfy ax=b mod n
 int gcd(int a,int b,int &x,int &y) {

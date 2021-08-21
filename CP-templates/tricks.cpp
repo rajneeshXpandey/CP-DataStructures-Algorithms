@@ -1,3 +1,5 @@
+
+
 /*
  if in a set you have initially (1e6) ranges (eg: [p,q]) and when you update for [l,r] to a value x then you combine all those range which comes in [l,r]
  completely and left and right part can be spilt in two so ranges can increase atmost by 2 in set and we combined them (or destory those to which we iterated)
