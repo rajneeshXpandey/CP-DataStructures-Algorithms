@@ -61,19 +61,48 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 // *********************** Code Begins ************************ //
 
 void solve()
-{  
-    int n;
-    cin>>n;
-    vector<int> v(n);
-    forn(i,n) cin>>v[i];
-
+{
+    int n, q, k, l, r;
+    cin>>n>>q>>k;
+    vector<int> a(n);
+    forn(i,n) cin>>a[i];
+    vector<vector<int>> dp(n,vector<int>(3));
+    /*
+    dp[0] : start
+    dp[1] : mid 
+    dp[2] : end 
+    */
+    forn(i,n){
+        if(i==0){
+            dp[i][0] = (a[i + 1] - 2);
+            dp[i][1] = (a[i + 1] - 2);
+            dp[i][2] = (k - 1);
+        }
+        else if(i==n-1){
+            dp[i][0] = (k - 1);
+            dp[i][1] = (k - a[i - 1] - 1);
+            dp[i][2] = (k - a[i - 1] - 1);
+        }
+        else{
+            dp[i][0] = (a[i+1] - 2);
+            dp[i][1] = (a[i+1] - a[i - 1] - 2);
+            dp[i][2] = (k - a[i - 1] - 1);
+        }
+    }
+    rep(i,1,n)
+       dp[i][1] += dp[i-1][1];
+    forn(i, q)
+    {
+        cin>>l>>r;
+        l--,r--;
+        cout << dp[l][0] + (((r == 0) ? 0 :dp[r - 1][1]) - dp[l][1]) + dp[r][2] << endl;
+    }
 }
 
 signed main()
 {
     FastIO;
     int tt = 1;
-    cin >> tt;
     for (int i = 1; i <= tt; i++)
         {            
          // cout<<"Case #"<< i <<": "; 

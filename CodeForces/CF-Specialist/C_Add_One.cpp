@@ -59,19 +59,44 @@ inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // *********************** Code Begins ************************ //
-
+int len = 2e5;
+vector<int> dp(len);
+void buildDP(){
+    forn(i,9){
+        dp[i] = 2;
+    }
+    dp[9] = 3;
+    rep(i,10,len){
+        dp[i] = (dp[i-9]+dp[i-10])%mod;
+    }
+}
+/*
+Let dpi be defined as the length of the string after applying operation i-times to the number 10. Then,
+ 
+ dpi=2, ∀ i in [0,8]
+ dpi=3, if i=9
+ (The final number after applying 9 operations to the number 10 is 109.)
+ 
+ dpi=dpi−9+dpi−10, Otherwise.
+ (length would be the sum of i−9 operations and i−10 operations.)
+*/
 void solve()
 {  
-    int n;
-    cin>>n;
-    vector<int> v(n);
-    forn(i,n) cin>>v[i];
-
+    int n,m;
+    cin>>n>>m;
+    int ans = 0;
+    while(n>0){
+        int pow = m - 10 + n % 10;
+        ans = (ans + ((pow>=0)?dp[pow]:1))%mod;
+        n = n/10;
+    }
+    cout<<ans<<endl;
 }
 
 signed main()
 {
     FastIO;
+    buildDP();
     int tt = 1;
     cin >> tt;
     for (int i = 1; i <= tt; i++)

@@ -66,6 +66,37 @@ void solve()
     cin>>n;
     vector<int> v(n);
     forn(i,n) cin>>v[i];
+    vector<vector<int>> mat(n,vector<int>(n,0));
+    //Algo :  go left then go down from the curr column
+    forn(i,n){
+          int put=0;
+          int r=i,c=i; 
+          while(r<n and put<v[i]){
+              while (r < n and c >= 0 and put < v[i] and c <= i)
+              {
+                  if(mat[r][c]==0){
+                      put++;
+                      mat[r][c] = v[i];
+                      c--;
+                  }
+                  else{ 
+                    r++;
+                    c++;
+                  }
+              }
+              r++;
+              c = 0;
+          }
+          
+    }
+    forn(i,n){
+        forn(j,n){
+            if(mat[i][j]==0) cout<<"  ";
+            else 
+              cout<<mat[i][j]<<' ';
+        }
+        cout<<endl;
+    }
 
 }
 
@@ -73,7 +104,6 @@ signed main()
 {
     FastIO;
     int tt = 1;
-    cin >> tt;
     for (int i = 1; i <= tt; i++)
         {            
          // cout<<"Case #"<< i <<": "; 

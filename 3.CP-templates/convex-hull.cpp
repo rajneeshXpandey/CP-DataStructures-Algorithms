@@ -1,7 +1,5 @@
 struct point{
     int x,y;
-
-
 };
 bool operator < (const point &q,const point &p)
 {

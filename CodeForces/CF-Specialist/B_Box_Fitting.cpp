@@ -20,6 +20,7 @@ using namespace std;
 #define ss second
 #define mp make_pair
 #define all(x) (x).begin(), (x).end()
+#define rall(x) (x).rbegin(), (x).rend()
 #define endl "\n"
 #define int long long
 #define ll long long
@@ -62,11 +63,27 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 void solve()
 {  
-    int n;
-    cin>>n;
-    vector<int> v(n);
-    forn(i,n) cin>>v[i];
-
+    int n,w,x;
+    cin>>n>>w;
+    multiset<int> blocks;
+    forn(i,n) {
+        cin>>x;
+        blocks.insert(x);
+    }
+    int h = 1, width_left = w;
+    while(!blocks.empty()){
+       auto it = blocks.upper_bound(width_left);
+       if(it!=blocks.begin()){
+           it--;
+           width_left -= *it;
+           blocks.erase(it);
+       }
+       else{
+           width_left = w;
+           h++;
+       }
+    }
+    cout << h << endl;
 }
 
 signed main()
