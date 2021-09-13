@@ -62,25 +62,63 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 void solve()
 {  
-    int n;
-    cin>>n;
-    vector<int> v(n);
-    forn(i,n) cin>>v[i];
-
+    int n,m,a,b;
+    cin>>n>>m>>a>>b;
+    vector<vector<int>> mat(n,vector<int>(m,1000));
+    int mid = (m+n-3)+1;
+    int r=0,c=0,cnt = 1,sum1=0,sum2=0,sum3=0;
+    while(r<n-1){
+        r++;
+        mat[r][c] = cnt;
+        sum1 += mat[r][c];
+    }
+    r = n-1;
+    while(c<m-1){
+        c++;
+        mat[r][c] = cnt;
+        sum2 += mat[r][c];
+    }
+    r = 0, c = m-1, cnt = 1;
+    while (r < n - 1)
+    {
+        r++;
+        mat[r][c] = cnt;
+        sum3 += mat[r][c];
+    }
+    //deb3(sum1,sum2,sum3);
+    a = a - (sum1+sum2);
+    b = b - (sum3+sum2);
+    if(a<1 or b<1){
+        cout << "Impossible"<<endl;
+        return;
+    }
+    int tl = a;
+    int tr = b;
+    mat[0][0] = tl;
+    mat[0][m-1] = tr;
+    cout << "Possible" << endl;
+    forn(i, n)
+    {
+        forn(j, m)
+        {
+            cout<<mat[i][j]<<' ';
+        }
+        cout<<endl;
+    }
 }
 
 signed main()
 {
 
-    //freopen("input.txt", "r", stdin);
-    //freopen("output.txt", "w", stdout);
+    freopen("traffic_control_input.txt", "r", stdin);
+    freopen("B_op.txt", "w", stdout);
 
     FastIO;
     int tt = 1;
     cin >> tt;
     for (int i = 1; i <= tt; i++)
         {            
-         // cout<<"Case #"<< i <<": "; 
+          cout<<"Case #"<< i <<": "; 
          solve();
         }        
 }

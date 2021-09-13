@@ -64,23 +64,43 @@ void solve()
 {  
     int n;
     cin>>n;
-    vector<int> v(n);
-    forn(i,n) cin>>v[i];
-
+    string str;
+    cin>>str;
+    bool o=1,x=1;
+    string start = "";
+    int switchs=0;
+    forn(i,n){
+        if(str[i]=='F') continue;
+        if(o and str[i]=='O' and start==""){
+            start = "O";
+            o = 0;
+        }
+        else if (x and str[i] == 'X' and start==""){
+            start = "X";
+            x = 0;
+        }
+        else{
+            if (str[i] == 'O' and start=="X"){
+                switchs++;
+                start="O";
+            }
+            else if (str[i] == 'X' and start=="O"){
+                switchs++;
+                start="X";
+            }
+        }
+    }
+    cout<<switchs<<endl;
 }
 
 signed main()
 {
-
-    //freopen("input.txt", "r", stdin);
-    //freopen("output.txt", "w", stdout);
-
     FastIO;
     int tt = 1;
     cin >> tt;
     for (int i = 1; i <= tt; i++)
         {            
-         // cout<<"Case #"<< i <<": "; 
+          cout<<"Case #"<< i <<": "; 
          solve();
         }        
 }

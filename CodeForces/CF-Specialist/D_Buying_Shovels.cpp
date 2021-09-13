@@ -60,21 +60,28 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 // *********************** Code Begins ************************ //
 
+
 void solve()
 {  
-    int n;
-    cin>>n;
-    vector<int> v(n);
-    forn(i,n) cin>>v[i];
-
+    int n,k;
+    cin>>n>>k;
+    int ans = inf;
+    int l=1,r=n;
+    for(int i=1;i*i<=n;i++){
+        if(n%i==0){
+            // i => factor of n
+            int fac1 = i,fac2=n/fac1;
+            if(fac1<=k)
+                ans = min(ans,n/fac1);
+            if (fac2 <= k)
+                ans = min(ans, n / fac2);
+        }
+    }
+    cout<<ans<<endl;
 }
 
 signed main()
 {
-
-    //freopen("input.txt", "r", stdin);
-    //freopen("output.txt", "w", stdout);
-
     FastIO;
     int tt = 1;
     cin >> tt;

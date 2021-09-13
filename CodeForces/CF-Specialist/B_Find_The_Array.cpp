@@ -60,21 +60,37 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 // *********************** Code Begins ************************ //
 
+/* Cool problem */
 void solve()
 {  
     int n;
     cin>>n;
     vector<int> v(n);
     forn(i,n) cin>>v[i];
-
+    int sum_odd=0,sum_even=0;
+    forn(i,n){
+        if(i%2) sum_odd += v[i];
+        else
+            sum_even += v[i];
+    }
+    if (sum_odd > (sum_even+sum_odd)/2)
+    {
+        forn(i,n){
+            if(i%2) cout<<v[i]<<' '; 
+            else cout<<1<<' ';
+        }
+    }
+    else{
+        forn(i,n){
+            if(i%2==0) cout<<v[i]<<' '; 
+            else cout<<1<<' ';
+        }
+    }
+    cout << endl;
 }
 
 signed main()
 {
-
-    //freopen("input.txt", "r", stdin);
-    //freopen("output.txt", "w", stdout);
-
     FastIO;
     int tt = 1;
     cin >> tt;

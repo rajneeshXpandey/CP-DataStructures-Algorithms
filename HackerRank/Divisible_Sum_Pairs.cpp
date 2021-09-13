@@ -62,11 +62,17 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 void solve()
 {  
-    int n;
-    cin>>n;
+    int n,k;
+    cin>>n>>k;
     vector<int> v(n);
     forn(i,n) cin>>v[i];
-
+    int ans = 0;
+    forn(i,n){
+        rep(j,i+1,n){
+            if((v[i]+v[j])%k==0) ans++;
+        }
+    }
+    cout<<ans<<endl;
 }
 
 signed main()
