@@ -1,14 +1,12 @@
-#pragma G++ optimize ("O3")
-#pragma G++ target ("sse4")
-#pragma G++ target("avx2")
-#pragma G++ optimize("Ofast")
-
+// #pragma GCC optimize ("O3")
+// #pragma GCC target ("sse4")
+#pragma GCC target("avx2")
+#pragma GCC optimize("Ofast")
 #include "bits/stdc++.h"
 using namespace std;
-
-//  #include <ext/pb_ds/assoc_container.hpp>
-//  #include <ext/pb_ds/tree_policy.hpp>
-//  using namespace __gnu_pbds;
+// #include <ext/pb_ds/assoc_container.hpp>
+// #include <ext/pb_ds/tree_policy.hpp>
+// using namespace __gnu_pbds;
 
 #define rep(i, a, b) for (int i = a; i < (b); ++i)
 #define per(i, a, b) for (int i = (a)-1; i >= (b); i--)
@@ -48,26 +46,54 @@ using namespace std;
     cout.tie(0)
 #define yes cout << "YES" << endl
 #define no cout << "NO" << endl
-
-// find_by_order, order_of_key
-// #define pbds  tree<int, null_type,less<int>, rb_tree_tag,tree_order_statistics_node_update>
-
+// #define oset  tree<int, null_type,less<int>, rb_tree_tag,tree_order_statistics_node_update>
 mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
-
 // mt19937_64 rng(61378913);
 /* usage - just do rng() */
 
-//assign and update min and max values.
+//assign and update min and max v[j]ues.
 template<typename T, typename T1> T amax(T &a, T1 b) {if (b > a)a = b; return a;}
 template<typename T, typename T1> T amin(T &a, T1 b) {if (b < a)a = b; return a;}
 
-inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
-inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
+inline void printArr(vector<pii> v)
+{
+    for (auto val : v)
+        cout << val.ff <<' '<<val.ss<<endl;
+    cout << endl;
+}
 
 // *********************** Code Begins ************************ //
 
 void solve()
 {  
+    int n,x;
+    cin>>n;
+    vector<pii> v(n);
+    forn(i,n) {
+        cin>>x;
+        v[i] = {x,i};
+    }
+    sort(all(v));
+    //printArr(v);
+    vector<vector<int>> ans;
+    forn(i,n-1){
+        int d = v[i].ss-i;
+        if(d==0) continue;
+        rep(j,i,n){
+            
+             int it = v[j].ss-i;
+             int nit = (it - (d) + (n-i)) % (n-i);
+             v[j].ss = (nit + i);
+        }
+        //forn(k,n){
+        //    deb2(v[k].ff,v[k].ss);
+        //}
+        ans.pb({i, n - 1, d});
+    }
+    cout<<ans.size()<<endl;
+    for(auto vec : ans){
+        cout<<vec[0]+1<<' '<<vec[1]+1<<' '<<vec[2]<<endl;
+    }
 }
 
 signed main()

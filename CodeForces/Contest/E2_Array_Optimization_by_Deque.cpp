@@ -6,9 +6,9 @@
 #include "bits/stdc++.h"
 using namespace std;
 
-//  #include <ext/pb_ds/assoc_container.hpp>
-//  #include <ext/pb_ds/tree_policy.hpp>
-//  using namespace __gnu_pbds;
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
 
 #define rep(i, a, b) for (int i = a; i < (b); ++i)
 #define per(i, a, b) for (int i = (a)-1; i >= (b); i--)
@@ -50,7 +50,7 @@ using namespace std;
 #define no cout << "NO" << endl
 
 // find_by_order, order_of_key
-// #define pbds  tree<int, null_type,less<int>, rb_tree_tag,tree_order_statistics_node_update>
+#define pbds  tree<int, null_type,less_equal<int>, rb_tree_tag,tree_order_statistics_node_update>
 
 mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
@@ -66,8 +66,65 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 // *********************** Code Begins ************************ //
 
+bool Exist(pbds &s, int x)
+{ //this function checks weather the value (x) exists in the set or not.
+
+    if ((s.upper_bound(x)) == s.end())
+    {
+        return 0;
+    }
+    return ((*s.upper_bound(x)) == x);
+}
+
+int Value(pbds &s, int idx)
+{ //this function returns the value at the index (idx)..(0 indexing).
+
+    return (*s.find_by_order(idx));
+}
+
+int FirstIdx(pbds &s, int x)
+{ //this function returns the first index of the value (x)..(0 indexing).
+
+    if (!Exist(s, x))
+    {
+        return -1;
+    }
+    return (s.order_of_key(x));
+}
+
+int LastIdx(pbds &s, int x)
+{ //this function returns the last index of the value (x)..(0 indexing).
+
+    if (!Exist(s, x))
+    {
+        return -1;
+    }
+    if (Value(s, (int)s.size() - 1) == x)
+    {
+        return (int)(s.size()) - 1;
+    }
+    return FirstIdx(s, *s.lower_bound(x)) - 1;
+}
+
 void solve()
 {  
+     pbds oset;
+     int n;
+     cin>>n;
+     vector<int> v(n);
+     forn(i,n){
+         cin>>v[i];
+     }
+     int ans = 0;
+     oset.insert(v[0]);
+     rep(i,1,n){
+         int less_x = oset.order_of_key(v[i]),
+             less_equal_x = LastIdx(oset, v[i])+1,
+             greater_x = oset.size() - less_x - (((less_equal_x == 0) ? less_x : less_equal_x) - less_x);
+         ans += min(less_x,greater_x);
+         oset.insert(v[i]);
+     }
+    cout<<ans<<endl;
 }
 
 signed main()

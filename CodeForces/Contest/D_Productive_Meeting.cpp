@@ -1,14 +1,12 @@
-#pragma G++ optimize ("O3")
-#pragma G++ target ("sse4")
-#pragma G++ target("avx2")
-#pragma G++ optimize("Ofast")
-
+// #pragma GCC optimize ("O3")
+// #pragma GCC target ("sse4")
+#pragma GCC target("avx2")
+#pragma GCC optimize("Ofast")
 #include "bits/stdc++.h"
 using namespace std;
-
-//  #include <ext/pb_ds/assoc_container.hpp>
-//  #include <ext/pb_ds/tree_policy.hpp>
-//  using namespace __gnu_pbds;
+// #include <ext/pb_ds/assoc_container.hpp>
+// #include <ext/pb_ds/tree_policy.hpp>
+// using namespace __gnu_pbds;
 
 #define rep(i, a, b) for (int i = a; i < (b); ++i)
 #define per(i, a, b) for (int i = (a)-1; i >= (b); i--)
@@ -48,12 +46,8 @@ using namespace std;
     cout.tie(0)
 #define yes cout << "YES" << endl
 #define no cout << "NO" << endl
-
-// find_by_order, order_of_key
-// #define pbds  tree<int, null_type,less<int>, rb_tree_tag,tree_order_statistics_node_update>
-
+// #define oset  tree<int, null_type,less<int>, rb_tree_tag,tree_order_statistics_node_update>
 mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
-
 // mt19937_64 rng(61378913);
 /* usage - just do rng() */
 
@@ -68,6 +62,35 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 void solve()
 {  
+    int n;
+    cin>>n;
+    vector<int> a(n);
+    forn(i,n) cin>>a[i];
+    priority_queue<pii> pq;
+    forn(i,n){
+        if(a[i]!=0)
+            pq.push({a[i],i+1});
+    }
+    vector<pii> sol;
+    while(pq.size()>1){
+        auto p1 = pq.top();
+        pq.pop();
+        auto p2 = pq.top();
+        pq.pop();
+        sol.pb({p1.ss,p2.ss});
+        p1.ff--;
+        p2.ff--;
+        if(p1.ff>0){
+            pq.push({p1.ff,p1.ss});
+        }
+        if(p2.ff>0){
+            pq.push({p2.ff, p2.ss});
+        }  
+    }
+    cout<<sol.size()<<endl;
+    for(auto p : sol){
+        cout<<p.ff<<' '<<p.ss<<endl;
+    }
 }
 
 signed main()
