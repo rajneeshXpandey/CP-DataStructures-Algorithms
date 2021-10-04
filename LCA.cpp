@@ -24,7 +24,7 @@
                 2)level up the deeper node.
                 3) from the max  ith jump start going nearer to the immediate children of lca
 */
-
+// take 'n' and adj as input
 int n;
 int LN = log2(n);
 vector<vector<int>> dp(n,vector<int>(LN)); 
