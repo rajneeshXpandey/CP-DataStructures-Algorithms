@@ -1,7 +1,7 @@
+#pragma G++ optimize("unroll-loops")
 #pragma G++ optimize ("O3")
-#pragma G++ target ("sse4")
-#pragma G++ target("avx2")
 #pragma G++ optimize("Ofast")
+#pragma G++ target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
 
 #include "bits/stdc++.h"
 using namespace std;
@@ -27,7 +27,14 @@ using namespace std;
 #define ll long long
 #define pb push_back
 #define pii pair<int, int>
-#define removeDuplicate(x)   sort(all(x)); x.erase(unique(all(x)),x.end())   //remove Duplicate
+#define make_unique(vec) sort(all(vec)); vec.resize(unique(all(vec)) - vec.begin()); //remove Duplicate
+#define generate_random(vec) generate(all(vec), rand); // fill vec with ramdom nums
+#define rotate_by_k(vec,k) rotate(vec.begin(), vec.begin() + k, vec.end()); // cyclically shift a vector by k.
+#define vector_to_set(a) set<int> S(all(a)); // Create a set from a vector
+#define is_present(vec, key) binary_search(all(vec), key); // Check if an element occurs in a sorted sequence
+#define binary_rep(n) bitset<20> (n); // binary representation of a number
+#define min4(a,b,c,d) min({a, b, c, d}); // min of four elements
+#define min4(a,b,c) min({a, b, c});
 #define setbits(x) __builtin_popcountll(x)      // count set bits in binary rep
 #define zerbefone(x) __builtin_ctzll(x)
 #define pqb priority_queue<int>                               // maxheap
@@ -49,10 +56,10 @@ using namespace std;
 #define yes cout << "YES" << endl
 #define no cout << "NO" << endl
 
-// find_by_order, order_of_key
-// #define pbds  tree<int, null_type,less<int>, rb_tree_tag,tree_order_statistics_node_update>
+    // find_by_order, order_of_key
+    // #define pbds  tree<int, null_type,less<int>, rb_tree_tag,tree_order_statistics_node_update>
 
-mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
+    mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
 // mt19937_64 rng(61378913);
 /* usage - just do rng() */
