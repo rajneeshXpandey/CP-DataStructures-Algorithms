@@ -77,11 +77,31 @@ void solve()
 {
     int n;
     cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
+    string st;
+    cin >> st;
+    int star = 0;
+    for (auto s : st)
+    {
+        if (s == '*')
+            star++;
+    }
+    int l = 0;
+    int r = star;
+    int ans = 0;
+    forn(i, n)
+    {
+        if (st[i] == '*')
+        {
+            l++;
+            r--;
+        }
+        if (st[i] == '.')
+        {
+            ans += min(l, r);
+        }
+    }
+    cout << ans << endl;
 }
-
 signed main()
 {
 

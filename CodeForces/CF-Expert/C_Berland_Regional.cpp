@@ -77,9 +77,30 @@ void solve()
 {
     int n;
     cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
+    vector<int> s(n), u(n);
+    forn(i, n){
+        cin>>s[i];
+        --s[i];
+    }
+    forn(i, n){
+        cin >> u[i];
+    }
+    vector<vector<int>> bst(n);
+    forn(i, n) 
+        bst[s[i]].push_back(u[i]);
+    forn(i, n) 
+        sort(bst[i].begin(), bst[i].end(), greater<int>());
+    vector<vector<int>> pr(n, vector<int>(1, 0));
+    forn(i, n) 
+        for (int x : bst[i]) 
+            pr[i].push_back(pr[i].back() + x);
+    vector<int> ans(n);
+    forn(i, n) 
+        for(int k = 1; k <= (bst[i].size()); ++k)
+                ans[k - 1] += pr[i][bst[i].size() / k * k];
+    forn(i, n)
+        cout<<ans[i]<<' ';
+    cout<<endl;
 }
 
 signed main()

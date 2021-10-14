@@ -79,7 +79,43 @@ void solve()
     cin >> n;
     vector<int> v(n);
     forn(i, n) cin >> v[i];
-    
+    vector<string> ans;
+    vector<int> list;
+    /**
+     if 1 => ---x -> ---x.1 
+     else a => --x.y  1) if(y = a-1) -> --x.(y+1)
+                      2) else  -> find a-1...and pop()
+                                  or a 
+    */
+    list.pb(1);
+    ans.pb("1");
+    rep(i,1,n){
+        if(v[i]==1){
+            list.pb(v[i]);
+        }
+        else{
+            int dot = list.size() - 1;
+            while(dot>0 and v[i] != list[dot] + 1){
+                dot--;
+                list.pop_back();
+            }
+            if(dot<=0){
+                list.clear();
+                list.pb(v[i]);
+            }
+            else{
+                list[dot] = v[i];
+            }
+        }
+        string temp = "";
+        for (auto num : list)
+            temp += to_string(num) + '.';
+        temp.pop_back();    
+        ans.pb(temp);
+    }
+    for(auto str : ans){  
+        cout<<str<<endl;    
+    }
 }
 
 signed main()
@@ -97,3 +133,4 @@ signed main()
          solve();
         }        
 }
+

@@ -75,11 +75,24 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 void solve()
 {
-    int n;
-    cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
+    yes;
+    int n, m, x;
+    cin >> n >> m >> x;
+    int arr[n];
+    set<pii> s;
+    for (int i = 1; i <= m; i++)
+        s.insert(mp(0, i));
+
+    forn(i, n)
+    {
+        cin >> arr[i];
+        auto mn = *s.begin();
+        s.erase(mn);
+        cout << mn.ss << " ";
+        s.insert(mp(arr[i] + mn.ff, mn.ss));
+    }
+
+    cout << endl;
 }
 
 signed main()

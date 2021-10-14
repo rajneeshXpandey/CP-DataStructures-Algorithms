@@ -75,10 +75,20 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 void solve()
 {
-    int n;
-    cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
+    int n,k;
+    cin >> n>>k;
+    vector<int> v(k);
+    forn(i, k){
+        cin >> v[i];
+    }      
+    sort(all(v)); 
+    int ans = 0;
+    int cat = 0;
+    per(i,k,0){
+         if (v[i] > cat)
+            ans++,cat += n - v[i];
+    }
+    cout<<ans<<endl;
     
 }
 

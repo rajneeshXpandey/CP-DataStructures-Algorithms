@@ -79,7 +79,31 @@ void solve()
     cin >> n;
     vector<int> v(n);
     forn(i, n) cin >> v[i];
-    
+    vector<int> lxor(n,v[0]), rxor(n,v[n-1]);
+    rep(i,1,n)
+        lxor[i] = lxor[i-1]^v[i];
+    per(i,n-1,0)
+        rxor[i] = rxor[i+1]^v[i];
+    int main_xor = rxor[0];
+    forn(i,n){
+        int lixor=lxor[i], rixor = rxor[i]^v[i];
+        if(lixor==rixor){
+            yes;
+            return;
+        }
+    }
+    forn(i, n)
+    {
+        rep(j,i+1,n) {
+            int lixor = lxor[i], rixor = rxor[j] ^ v[j], mixor = (main_xor^lixor^rixor);
+            if (lixor == rixor and lixor == mixor)
+            {
+                yes;
+                return;
+            }
+        }
+    }
+    no;
 }
 
 signed main()

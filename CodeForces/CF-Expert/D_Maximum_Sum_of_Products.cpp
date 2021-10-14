@@ -77,9 +77,38 @@ void solve()
 {
     int n;
     cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
+    vector<int> a(n), b(n);
+    forn(i, n)
+            cin >>
+        a[i];
+    forn(i, n)
+            cin >>
+        b[i];
+
+    vector<int> presum(n + 1, 0);
+    forn(i, n)
+        presum[i + 1] = presum[i] + a[i] * b[i];
+    int ans = presum[n];
+    for (int c = 0; c < n; c++)
+    {
+        int curr = a[c] * b[c];
+        // gives max ans for the odd lenght
+        for (int l = c - 1, r = c + 1; l >= 0 and r < n; l--, r++)
+        {
+            curr += a[l] * b[r];
+            curr += a[r] * b[l];
+            ans = max(ans, curr + presum[l] + (presum[n] - presum[r + 1]));
+        }
+        curr = 0;
+        for (int l = c, r = c + 1; l >= 0 and r < n; l--, r++)
+        {
+            curr += a[l] * b[r];
+            curr += a[r] * b[l];
+            ans = max(ans, curr + presum[l] + (presum[n] - presum[r + 1]));
+        }
+    }
+
+    cout << ans << endl;
 }
 
 signed main()
@@ -90,7 +119,7 @@ signed main()
 
     FastIO;
     int tt = 1;
-    cin >> tt;
+    //cin >> tt;
     for (int i = 1; i <= tt; i++)
         {            
          // cout<<"Case #"<< i <<": "; 

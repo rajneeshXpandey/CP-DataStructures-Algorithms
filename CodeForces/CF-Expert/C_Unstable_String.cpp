@@ -75,11 +75,41 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 void solve()
 {
-    int n;
-    cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
+    string str;
+    cin>>str;
+    int ans=0;
+    vector<vector<int>> dp(str.size(),vector<int>(2,0)); // for str[i] = {0 , 1}
+    if (str[0] == '?')
+    {
+        dp[0][0] = 1; 
+        dp[0][1] = 1; 
+    }
+    else if (str[0] == '1')
+    {
+        dp[0][1] = 1;
+    }
+    else if (str[0] == '0')
+    {
+        dp[0][0] = 1;
+    }
+    ans += max(dp[0][0], dp[0][1]);
+    rep(i,1,str.size()){
+        if(str[i]=='?'){
+            dp[i][0] = 1+dp[i-1][1];
+            dp[i][1] = 1+dp[i-1][0];
+        }
+        else if(str[i] == '1'){
+            dp[i][1] = 1 + dp[i - 1][0];
+        }
+        else if (str[i] == '0'){
+            dp[i][0] = 1 + dp[i - 1][1];
+        }
+        ans += max(dp[i][0], dp[i][1]);
+    }
+//   forn(i,str.size()){
+//       deb2(dp[i][0], dp[i][1]);
+//   }  
+   cout<<ans<<endl; 
 }
 
 signed main()
@@ -93,7 +123,7 @@ signed main()
     cin >> tt;
     for (int i = 1; i <= tt; i++)
         {            
-         // cout<<"Case #"<< i <<": "; 
+        // cout<<"Case #"<< i <<": "; 
          solve();
         }        
 }

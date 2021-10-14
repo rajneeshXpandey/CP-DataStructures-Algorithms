@@ -75,11 +75,15 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 void solve()
 {
-    int n;
-    cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
+    int l, r;
+    cin >> l >> r;
+    int ans = 0, pows = 1;
+    forn(i, 10)
+    {
+        ans += r / pows - l / pows;
+        pows *= 10;
+    }
+    cout << ans << endl;
 }
 
 signed main()

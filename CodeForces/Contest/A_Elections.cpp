@@ -75,11 +75,13 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 void solve()
 {
-    int n;
-    cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
+    int a,b,c;
+    cin >> a>>b>>c;
+    int va = max(b , c) - a+1, vb = max(a , c) - b+1, vc = max(a , b) - c+1;
+    va = (va<0)?0:va; 
+    vb = (vb<0)?0:vb; 
+    vc = (vc<0)?0:vc; 
+    cout<<va<<' '<<vb<<' '<<vc<<endl;
 }
 
 signed main()

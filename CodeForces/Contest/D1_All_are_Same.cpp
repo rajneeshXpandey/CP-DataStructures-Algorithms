@@ -77,9 +77,26 @@ void solve()
 {
     int n;
     cin >> n;
-    vector<int> v(n);
+    vector<int> v(n),diff(n);
     forn(i, n) cin >> v[i];
-    
+    sort(all(v));
+    int k = -inf;
+    forn(z,n){
+        int mn = v[z];
+        forn(i, n)
+        {
+            diff[i] = (v[i] - mn);
+        }
+        int temp_k = diff[0];
+        rep(i, 1, n)
+        {
+            temp_k = gcd(temp_k, diff[i]);
+        }
+        k = max(temp_k,k);
+    }
+    if(k<1) cout<<"-1"<<endl;
+    else 
+    cout<<k<<endl;
 }
 
 signed main()

@@ -75,11 +75,46 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 void solve()
 {
-    int n;
-    cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
+    int n, k;
+    cin >> n >> k;
+    vector<set<int>> adj(n);
+    vector<int> deg(n, 0);
+    for (int i = 0; i < n - 1; i++)
+    {
+        int u, v;
+        cin >> u >> v;
+        --u,--v;
+        adj[u].insert(v),adj[v].insert(u);
+        deg[u]++,deg[v]++;
+    }
+    queue<int> q;
+    for (int i = 0; i < n; i++)
+    {
+        if (deg[i] <= 1)
+            q.push(i);
+    }
+    int count = 0;
+    set<int> st;
+    while (!q.empty() && k > 0)
+    {
+        int sz = q.size();
+        while (sz--)
+        {
+            int v = q.front();
+            q.pop();
+            st.insert(v);
+            for(int adjNode : adj[v])
+            {
+                deg[adjNode]--;
+                if (deg[adjNode] <= 1)
+                    q.push(adjNode);
+                adj[adjNode].erase(v);
+            }
+            adj[v].clear();
+        }
+        k--;
+    }
+    cout << n - st.size() << endl;
 }
 
 signed main()

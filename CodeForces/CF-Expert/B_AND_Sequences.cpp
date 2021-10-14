@@ -72,14 +72,35 @@ inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // *********************** Code Begins ************************ //
+#define M 32
+int N=1e6;
+vector<int> fact(N,0);
+void factorial(){
+    fact[0] = 1;
+    rep(i,1,N)
+        fact[i] = (fact[i-1]*i)%mod;
+}
 
 void solve()
 {
     int n;
     cin >> n;
     vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
+    unordered_map<int,int> mp;
+    forn(i, n) {cin >> v[i];
+        mp[v[i]]++;
+    }
+    int _and = v[0];
+    rep(i, 1, n) _and = (_and&v[i]);
+
+    if (!mp.count(_and) or mp[_and]<2){
+        cout<<0<<endl;
+        return;
+    }
+    int cnt = mp[_and];
+    int ans = (cnt*(cnt-1))%mod;
+    ans = (ans*fact[n-2])%mod;
+    cout<<ans<<endl;
 }
 
 signed main()
@@ -87,8 +108,8 @@ signed main()
 
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
-
     FastIO;
+    factorial();
     int tt = 1;
     cin >> tt;
     for (int i = 1; i <= tt; i++)

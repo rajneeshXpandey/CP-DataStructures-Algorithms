@@ -75,11 +75,24 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 void solve()
 {
-    int n;
-    cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
+    string str;
+    cin>>str;
+    int n=str.size();
+    int mans = inf;
+    per(z,n,0){
+        int i = z;
+        while (i >= 0 and (str[i] - '0')%5){
+            i--;
+        }
+        int j = i - 1;
+        while (j >= 0 and (((str[j] - '0') * 10 + (str[i] - '0')) % 25))
+        {
+            j--;
+        }
+        mans = min(n - j - 2, mans);   
+    }
     
+    cout<<mans<<endl;
 }
 
 signed main()
