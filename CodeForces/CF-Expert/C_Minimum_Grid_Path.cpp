@@ -77,9 +77,34 @@ void solve()
 {
     int n;
     cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
+    vector<int> v;
+    for (int i = 0; i < n; i++)
+    {
+        int x;
+        cin >> x;
+        v.pb(x);
+    }
+
+    int mne = v[0];
+    int mno = v[1];
+    int ans = n * mne + n * mno;
+    int esum = v[0];
+    int osum = v[1];
+    for (int i = 2; i < n; i++)
+    {
+        if ((i % 2))
+        {
+            osum += v[i];
+            mno = min(mno, v[i]);
+        }
+        else
+        {
+            esum += v[i];
+            mne = min(mne, v[i]);
+        }
+        ans = min(ans, esum + osum + mno * (n - ((i + 1) / 2)) + mne * (n - ((i / 2) + 1)));
+    }
+    cout << ans << endl;
 }
 
 signed main()

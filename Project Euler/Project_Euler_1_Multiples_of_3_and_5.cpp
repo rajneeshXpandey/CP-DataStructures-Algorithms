@@ -1,7 +1,7 @@
-#pragma GCC optimize("unroll-loops")
-#pragma GCC optimize("O3")
-#pragma GCC optimize("Ofast")
-#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
+#pragma G++ optimize("unroll-loops")
+#pragma G++ optimize ("O3")
+#pragma G++ optimize("Ofast")
+#pragma G++ target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
 
 #include "bits/stdc++.h"
 using namespace std;
@@ -77,9 +77,16 @@ void solve()
 {
     int n;
     cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
+    n--;
+    int three = n/3,
+    five = n/5,
+    three_five = n/15;
+
+    three = 3*((three*(three+1))/2);
+    five = 5*((five*(five+1))/2);
+    three_five = 15*((three_five*(three_five+1))/2);
+
+    cout<<three+five-three_five<<endl;
 }
 
 signed main()

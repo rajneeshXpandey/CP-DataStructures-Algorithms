@@ -77,8 +77,55 @@ void solve()
 {
     int n;
     cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
+    vector<int> v(n+1,-1);
+    rep(i,1,n+1) cin >> v[i];
+    vector<int> freq(n+1,0);
+    rep(i, 1, n + 1)
+    {
+        freq[v[i]]++;
+    }
+    vector <vector<int>> allstage;
+    allstage.pb(v);
+    rep(i, 1, n + 1)
+    {
+        v[i] = freq[v[i]];
+    }
+    while(1){
+        allstage.pb(v);
+        vector<int> temp(n+1,0);
+        rep(i, 1, n + 1)
+        {
+            temp[v[i]]++;
+        }
+        rep(i, 1, n + 1)
+        {
+            v[i] = temp[v[i]];
+        }
+        bool check = 1;
+        rep(i, 1, n + 1)
+        {
+            if(temp[i]==0)
+                continue;
+            if(temp[i]!=i){
+                check = 0;
+            }
+        }
+        if(check){
+            break;
+        }
+    }
+    int sz = allstage.size();
+    // queries
+    //deb(sz);
+    int q;
+    cin>>q;
+    forn(i,q){
+        int val, k;
+        cin>>val>>k;
+        if(k>=sz) k = sz-1;
+        int ele = allstage[k][val];
+        cout << ele << endl;
+    }
     
 }
 

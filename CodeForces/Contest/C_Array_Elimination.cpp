@@ -79,7 +79,36 @@ void solve()
     cin >> n;
     vector<int> v(n);
     forn(i, n) cin >> v[i];
-    
+    vector<vector<int>> bits(n,vector<int>(31,0));
+    forn(i,31){
+        forn(j,n){
+           if(v[j]&(1<<i)){
+               bits[j][i] = 1;
+           }
+        }
+    }
+    vector<int> one(31,0);
+    forn(i, 31)
+    {
+        forn(j, n)
+        {
+            if (bits[j][i])
+            {
+                one[i]++;
+            }
+        }
+    }
+    rep(k,1,n+1){
+        bool ok = 1;
+        forn(j,31){
+            if(one[j]%k){
+                ok = 0;
+            }
+        }
+        if(ok)
+          cout<<k<<' ';
+    }
+    cout<<endl;
 }
 
 signed main()

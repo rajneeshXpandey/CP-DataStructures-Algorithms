@@ -77,8 +77,35 @@ void solve()
 {
     int n;
     cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
+    vector<pii> v(n);
+    int tot_buy = 0;
+    forn(i, n) {
+        cin >> v[i].ss >>v[i].ff;    //v[i] => {bi , ai}
+        tot_buy += v[i].ss;
+    }
+    sort(all(v));
+    int l=0,r=n-1;
+    int buy=0,cost=0;
+    //deb(tot_buy);
+    while(buy<tot_buy and l<=r){
+        if(buy>=v[l].ff){
+            buy += v[l].ss;
+            cost += v[l].ss;
+            l++;
+        }
+        else{
+            int target = v[l].ff-buy;
+            buy += min(v[r].ss,target);
+            cost += (2 * min(v[r].ss, target));
+            v[r].ss -= min(v[r].ss, target);
+            if(v[r].ss<=0){
+                r--;
+            }
+        }
+        //deb2(l,r);
+        //deb2(buy,cost);
+    }
+    cout<<cost<<endl;
     
 }
 
@@ -90,7 +117,6 @@ signed main()
 
     FastIO;
     int tt = 1;
-    cin >> tt;
     for (int i = 1; i <= tt; i++)
         {            
          // cout<<"Case #"<< i <<": "; 

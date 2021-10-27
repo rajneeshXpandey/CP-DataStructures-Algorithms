@@ -73,13 +73,25 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 // *********************** Code Begins ************************ //
 
+
 void solve()
 {
     int n;
     cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
+    map<int, int> prime_map;
+    for (int i = 2; i * i <= n; i++)
+    {
+        if (n % i == 0)
+        {
+            while (n % i == 0)
+                prime_map[i]++, n /= i;
+        }
+    }
+    if (n > 1)
+        prime_map[n]++;
+    auto it = prime_map.end();
+    it--;    
+    cout<<(it->ff)<<endl;
 }
 
 signed main()
@@ -87,7 +99,6 @@ signed main()
 
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
-
     FastIO;
     int tt = 1;
     cin >> tt;

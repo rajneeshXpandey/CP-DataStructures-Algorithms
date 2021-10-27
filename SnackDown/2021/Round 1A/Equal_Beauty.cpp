@@ -79,12 +79,45 @@ void solve()
     cin >> n;
     vector<int> v(n);
     forn(i, n) cin >> v[i];
-    
+    if(n==2){
+        cout<<0<<endl;
+        return;
+    }
+    sort(all(v));
+    if (n == 3){
+        cout << min(v[1] - v[0], v[2] - v[1]) << endl;
+        return;
+    }
+    //case 1: make all equal
+    int mid1 = v[(n - 1) / 2], mid2 = v[1 + (n - 1) / 2];
+    int devi1=0, devi2 =0;
+    rep(i,0,n-1){
+        devi1 += abs(v[i]-mid1);
+    } 
+    rep(i,1,n){
+        devi2 += abs(v[i] - mid2);
+    } 
+    int opr = min(devi1,devi2);
+    //case2: 
+    int l=1,r=n-2;
+    while(l<r){
+        int diff1 = v[n-1] - v[l],diff2 = v[r] - v[0];
+        opr = min(opr, abs(diff1 - diff2));
+        if(diff1 < diff2) l++;
+        else r--;
+    }
+    l=1,r=n-2;
+    while(l<r){
+        int diff1 = v[n-1] - v[l],diff2 = v[r] - v[0];
+        opr = min(opr, abs(diff1 - diff2));
+        if(diff1 < diff2) r--;
+        else l++;
+    }
+    cout<<opr<<endl;
 }
 
 signed main()
 {
-
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
 

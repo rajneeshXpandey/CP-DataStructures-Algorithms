@@ -1,5 +1,5 @@
 #pragma GCC optimize("unroll-loops")
-#pragma GCC optimize("O3")
+#pragma GCC optimize ("O3")
 #pragma GCC optimize("Ofast")
 #pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
 
@@ -77,9 +77,26 @@ void solve()
 {
     int n;
     cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
+    vector<int> c(n), a(n), b(n),diff(n,0),cyc(n);
+    forn(i, n) cin >> c[i];
+    forn(i, n) cin >> a[i];
+    forn(i, n) cin >> b[i];
+    int ans = -inf;
+    forn(i,n) 
+        diff[i] = abs(b[i]-a[i]);
+    cyc[0] = 2*diff[1];    
+    rep(l,1,n){
+       if(diff[l]==0){
+           ans = max(cyc[l-1], ans);
+           cyc[l - 1] = 2 * diff[l];
+       }
+       cyc[l] = cyc[l - 1] + c[l]-1 + 2 - diff[l];
+       cyc[l] = max(cyc[l], diff[l] + c[l] - 1 + 2);
+       ans = max(cyc[l], ans);
+       //   deb2(ans,cyc[l]);
+    }
+    ans = max(cyc[n-1], ans);
+    cout << ans << endl;
 }
 
 signed main()

@@ -77,9 +77,25 @@ void solve()
 {
     int n;
     cin >> n;
+    string str;
+    cin >> str;
     vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
+    forn(i, n) v[i]=str[i]-'0';
+    vector<int> presum(n+1,0);
+    unordered_map<int,int> mp;
+    presum[1] = v[0];
+    rep(i,2,n+1){
+        presum[i] = presum[i-1]+v[i-1]; 
+    }
+    rep(i,0,n+1){
+        mp[presum[i]-i]++;
+    }
+    int ans=0;
+    for(auto it:mp){
+        //deb2(it.ff,it.ss);
+        ans += ((it.ss * (it.ss-1))/2);
+    }
+    cout<<ans<<endl;
 }
 
 signed main()

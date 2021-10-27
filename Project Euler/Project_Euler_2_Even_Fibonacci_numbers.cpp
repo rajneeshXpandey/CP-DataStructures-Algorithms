@@ -1,5 +1,5 @@
 #pragma GCC optimize("unroll-loops")
-#pragma GCC optimize("O3")
+#pragma GCC optimize ("O3")
 #pragma GCC optimize("Ofast")
 #pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
 
@@ -77,8 +77,16 @@ void solve()
 {
     int n;
     cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
+    int ans = 2,fib = 0,fib1 = 1,fib2 = 2;
+    while(fib<=n){
+        fib = fib1+fib2;
+        if(fib%2==0 and fib<=n) 
+            ans += fib;
+        fib1 = fib2;
+        fib2 = fib;
+    }
+
+    cout<<ans<<endl;
     
 }
 

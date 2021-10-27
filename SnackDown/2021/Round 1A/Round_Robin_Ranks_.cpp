@@ -72,14 +72,34 @@ inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // *********************** Code Begins ************************ //
-
+bool helper(int mid, int l,int h){
+    int required_sum = ((mid - l) * (mid - l + 1))/2;
+    int avl_sum = ((h - mid) * (h - mid + 1))/2;
+    if(required_sum <= avl_sum){
+        return 1;
+    }
+    return 0;
+}
 void solve()
 {
-    int n;
-    cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
+    int n,k;
+    cin >> n >> k;
+    /*
+     scores : ( n-1, n-2,.........n-k,......1, 0 )
+    */
+    int l = n-k ,h = n-1;
+    int ans = l;
+    while(l<=h){
+        int mid = (l+h)/2;
+        if (helper(mid,n-k,n-1)){
+            ans = mid;
+            l = mid+1;
+        }
+        else {
+            h = mid-1;
+        }
+    }
+    cout<<ans*2<<endl;
 }
 
 signed main()

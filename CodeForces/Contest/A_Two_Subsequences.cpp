@@ -75,10 +75,24 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 void solve()
 {
-    int n;
-    cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
+   string str;
+   cin>>str;
+   int n=  str.size();
+   forn(i,26){
+       char ch = char(i+(int)'a');
+       forn(j,n){
+           if(ch==str[j]){
+               cout<<ch<<' ';
+               bool f = 1;
+               forn(k,n){
+                   if(f and str[k]==ch){ f = 0;continue;}
+                   else cout<<str[k];
+               }
+               cout<<endl;
+               return;
+           }
+       }
+   }
     
 }
 

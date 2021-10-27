@@ -73,13 +73,20 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 // *********************** Code Begins ************************ //
 
+int points(vector<int> &x)
+{
+    sort(x.begin(), x.end());
+    return x[x.size() / 2] - x[(x.size() - 1) / 2] + 1;
+}
+
 void solve()
 {
     int n;
     cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
+    vector<int> x(n), y(n);
+    for (int i = 0; i < n; ++i)
+        cin >> x[i] >> y[i];
+    cout << points(x) * points(y) << '\n';
 }
 
 signed main()

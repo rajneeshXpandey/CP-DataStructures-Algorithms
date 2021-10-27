@@ -69,17 +69,17 @@ template<typename T, typename T1> T amax(T &a, T1 b) {if (b > a)a = b; return a;
 template<typename T, typename T1> T amin(T &a, T1 b) {if (b < a)a = b; return a;}
 
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
+inline ll lcm(ll a, ll b){return a*(b/gcd(a,b));}
 inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // *********************** Code Begins ************************ //
 
 void solve()
 {
-    int n;
-    cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
+    int x,k;
+    cin >> x>>k;
+    int min_lcm = lcm(x,2*x), max_lcm = lcm(k*x-1,k*x);
+    cout<<min_lcm<<' '<<max_lcm<<endl;
 }
 
 signed main()

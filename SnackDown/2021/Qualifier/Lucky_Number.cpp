@@ -1,7 +1,7 @@
-#pragma GCC optimize("unroll-loops")
-#pragma GCC optimize("O3")
-#pragma GCC optimize("Ofast")
-#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
+#pragma G++ optimize("unroll-loops")
+#pragma G++ optimize ("O3")
+#pragma G++ optimize("Ofast")
+#pragma G++ target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
 
 #include "bits/stdc++.h"
 using namespace std;
@@ -75,10 +75,16 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 void solve()
 {
-    int n;
-    cin >> n;
+    int n=3;
     vector<int> v(n);
     forn(i, n) cin >> v[i];
+    forn(i,n){
+        if(v[i]==7){
+            yes;
+            return;
+        }
+    }
+    no;
     
 }
 

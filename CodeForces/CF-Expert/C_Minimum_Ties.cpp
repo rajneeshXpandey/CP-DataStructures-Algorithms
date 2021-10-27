@@ -75,13 +75,57 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 void solve()
 {
-    int n;
+    int n,win=0,tie=0;
     cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
+    vector<vector<int>> scores(n,vector<int>(2,0)); // W T
+    if((n-1)%2){
+        win = ((n - 2) / 2), tie = 1;
+    }
+    else {
+        win = ((n - 1) / 2), tie = 0;
+    }
+    vector<pii> matches;
+    rep(i,0,n){
+        rep(j,i+1,n){
+            matches.pb(mp(i,j));
+        }
+    }
+    //deb(target);
+    for(auto m : matches){
+        if (scores[m.ff][0] < win)
+        {
+            cout<<"1"<<' ';
+            scores[m.ff][0]++;
+        }
+        else if (scores[m.ff][1] < tie)
+        {
+            cout << "0" << ' ';
+            scores[m.ff][1]++;
+            scores[m.ss][1]++;
+        }
+        else if (scores[m.ss][0] < win)
+        {
+            cout << "-1" << ' ';
+            scores[m.ss][0]++;
+        }
+        else if (scores[m.ss][1] < tie)
+        {
+            cout << "0" << ' ';
+            scores[m.ff][1]++;
+            scores[m.ss][1]++;
+        }
+    }
+    cout<<endl;
 }
-
+/*
+score 1->3, 2->4, 3->4, 4->4
+1-2 1
+1-3 -1
+1-4 -1
+2-3 1
+2-4 0
+3-4 0
+*/
 signed main()
 {
 

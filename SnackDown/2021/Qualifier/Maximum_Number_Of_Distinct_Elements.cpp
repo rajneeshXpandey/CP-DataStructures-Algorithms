@@ -1,7 +1,7 @@
-#pragma GCC optimize("unroll-loops")
-#pragma GCC optimize("O3")
-#pragma GCC optimize("Ofast")
-#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
+#pragma G++ optimize("unroll-loops")
+#pragma G++ optimize("O3")
+#pragma G++ optimize("Ofast")
+#pragma G++ target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
 
 #include "bits/stdc++.h"
 using namespace std;
@@ -23,13 +23,13 @@ using namespace std;
 #define mp make_pair
 #define all(x) (x).begin(), (x).end()
 #define endl "\n"
-#define int long long
+//#define int long long
 #define ll long long
 #define pb push_back
 #define pii pair<int, int>
 #define make_unique(vec) \
     sort(all(vec));      \
-    vec.resize(unique(all(vec)) - vec.begin());                              // remove Duplicate
+    vec.resize(unique(all(vec)) - vec.begin());                              //remove Duplicate
 #define generate_random(vec) generate(all(vec), rand);                       // fill vec with ramdom nums
 #define rotate_by_k(vec, k) rotate(vec.begin(), vec.begin() + k, vec.end()); // cyclically shift a vector by k.
 #define vector_to_set(a) set<int> S(all(a));                                 // Create a set from a vector
@@ -43,9 +43,9 @@ using namespace std;
 #define pqs priority_queue<int, vector<int>, greater<int>>    // minheap
 #define piipqs priority_queue<pii, vector<pii>, greater<pii>> // minheap for pair<int,int>
 #define piipqb priority_queue<pii>                            // maxheap for pair<int,int>
-#define mod 1000000007                                        // 1e9+7
+#define mod 1000000007                                        //1e9+7
 #define mod1 998244353
-#define inf 2000000000000000000 // 2e18
+#define inf 2000000000000000000 //2e18
 #define PI 3.141592653589793238
 #define mem0(a) memset(a, 0, sizeof(a))
 #define mem1(a) memset(a, -1, sizeof(a))
@@ -66,7 +66,7 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 // mt19937_64 rng(61378913);
 /* usage - just do rng() */
 
-// assign and update min and max values.
+//assign and update min and max values.
 template <typename T, typename T1>
 T amax(T &a, T1 b)
 {
@@ -92,120 +92,49 @@ inline void printArr(vector<int> v)
 
 // *********************** Code Begins ************************ //
 
-//all solution of ax+by=c in [minx,maxx], [miny,maxy]
-int gcd(int a, int b, int &x, int &y) {
-    if (b == 0) {
-        x = 1;
-        y = 0;
-        return a;
+void solve()
+{
+    int n;
+    cin >> n;
+    vector<int> b(n);
+    forn(i, n) cin >> b[i];
+    int max_b = *max_element(all(b));
+    vector<int> a(n, -1);
+    map<int, vector<int>> mp;
+    forn(i, n)
+    {
+        mp[b[i]].pb(i);
     }
-    int x1, y1;
-    int d = gcd(b, a % b, x1, y1);
-    x = y1;
-    y = x1 - y1 * (a / b);
-    return d;
-}
-
-bool solve_any(int a, int b, int c, int &x, int &y, int &g) {
-    if (a == 0 && b == 0) {
-        g = x = y = 0;
-        return true;
-    }
-    g = gcd(abs(a), abs(b), x, y);
-    if (c % g != 0) {
-        return false;
-    }
-    x *= (c / g);
-    y *= (c / g);
-    if (a < 0) x = -x;
-    if (b < 0) y = -y;
-    return true;
-}
-
-void shift(int &x, int &y, int a, int b, int cnt) {
-    x += cnt * b;
-    y -= cnt * a;
-}
-
-int solve_all(int a, int b, int c, int minx, int maxx, int miny, int maxy) {
-    int x, y, g;
-    if (!solve_any(a, b, c, x, y, g))
-        return 0;
-    a /= g;
-    b /= g;
-    int sign_a = a > 0 ? +1 : -1;
-    int sign_b = b > 0 ? +1 : -1;
-    shift(x, y, a, b, (minx - x) / b);
-    if (x < minx) {
-        shift(x, y, a, b, sign_b);
-    }
-    if (x > maxx)
-        return 0;
-    int lx1 = x;
-    shift(x, y, a, b, (maxx - x) / b);
-    if (x > maxx) {
-        shift(x, y, a, b, -sign_b);
-    }
-    int rx1 = x;
-    shift(x, y, a, b, (y - miny) / a);
-    if (y < miny) {
-        shift(x, y, a, b, -sign_a);
-    }
-    if (y > maxy)
-        return 0;
-    int lx2 = x;
-
-    shift(x, y, a, b, (y - maxy) / a);
-    if (y > maxy) {
-        shift(x, y, a, b, sign_a);
-    }
-    int rx2 = x;
-    if (lx2 > rx2)
-        swap(lx2, rx2);
-    int lx = max(lx1, lx2);
-    int rx = min(rx1, rx2);
-    if (lx > rx) return 0;
-    return (rx - lx) / abs(b) + 1;
-}
-
-void solve() {
-    int a, b, c;
-    cin >> a >> b >> c;
-    int minx, miny, maxx, maxy;
-    cin >> minx >> maxx >> miny >> maxy;
-    if (maxx < minx || maxy < miny) {
-        cout << 0 << endl;
-        exit(0);
-    }
-    if (a == 0 && b == 0) {
-        if (c == 0) {
-            cout << (maxy - miny + 1) * (maxx - minx + 1) << endl;
-        } else {
-            cout << 0 << endl;
-        }
-    } else if (a == 0 || b == 0) {
-        if (a == 0) {
-            if (c % b == 0 && (c / b) >= miny && (c / b) <= maxy) {
-                cout << maxx - minx + 1 << endl;
-            } else {
-                cout << 0 << endl;
-            }
-        } else {
-            if (c % a == 0 && (c / a) >= minx && (c / a) <= maxx) {
-                cout << maxy - miny + 1 << endl;
-            } else {
-                cout << 0 << endl;
+    vector<int> visi(max_b, 0);
+    int k = 0;
+    for(auto it :mp){
+        forn(z, mp[it.ff].size())
+        {
+            int idx = mp[it.ff][z];
+            if (!visi[k] and k<b[idx])
+            {
+                a[idx] = k;
+                visi[k] = 1;
+                k++;
             }
         }
-    } else
-        cout << solve_all(a, b, c, minx, maxx, miny, maxy) << endl;
+    }
+    forn(k, n)
+    {
+        if (a[k] == -1)
+            a[k] = b[k];
+    }
+    forn(k, n) cout << a[k] << ' ';
+    //cout << " -> ";
+    //forn(k, n) cout << a[k] % b[k] << ' ';
+    cout << endl;
 }
 
 signed main()
 {
 
-    // freopen("input.txt", "r", stdin);
-    // freopen("output.txt", "w", stdout);
+    //freopen("input.txt", "r", stdin);
+    //freopen("output.txt", "w", stdout);
 
     FastIO;
     int tt = 1;

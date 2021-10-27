@@ -1,8 +1,3 @@
-#pragma GCC optimize("unroll-loops")
-#pragma GCC optimize("O3")
-#pragma GCC optimize("Ofast")
-#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
-
 #include "bits/stdc++.h"
 using namespace std;
 
@@ -75,11 +70,20 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 void solve()
 {
-    int n;
-    cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
+    int x,y;
+    cin>>x>>y;
+    if(y<=x){
+        cout << x - y <<endl;
+        return;
+    }
+    int n =  y-x+1;
+    vector<int> dp(n,0);
+    dp[0] = 0;
+    dp[1] = 2;
+    for(int i=2;i<n;i++){
+        dp[i] = min(dp[i-2]+1,dp[i-1]+2);
+    }
+    cout<<dp[n-1]<<endl;
 }
 
 signed main()
