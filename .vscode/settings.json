@@ -2,6 +2,7 @@
   "files.associations": {
     "*.js": "javascript",
     "random": "cpp",
-    "iostream": "cpp"
+    "iostream": "cpp",
+    "tuple": "cpp"
   }
 }

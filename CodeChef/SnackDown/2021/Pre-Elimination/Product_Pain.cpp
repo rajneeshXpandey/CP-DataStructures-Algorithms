@@ -73,13 +73,85 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 // *********************** Code Begins ************************ //
 
+int best(vector<int> &a, int s, int e,int value)
+{
+    
+    //int val = lower_bound(v.begin()+i, v.begin()+j+1, mid) - v.begin();
+    //if(val==i){
+    //    return i+1;
+    //}
+    //else{
+    //    if((v[val]-mid)<(mid-v[val-1])){
+    //        return val;
+    //    }
+    //    else{
+    //        return val-1;
+    //    }
+    //}
+    //int mn=0;
+    //for(int k=i; k<=j; k++){
+    //    mn = max(mn,(v[k]-v[i])*(v[j]-v[k]));
+    //    }        
+    //return mn;
+    int lo = s+1;
+    int hi = e-1;
+
+    while (lo <= hi)
+    {
+        int mid = (hi + lo) / 2;
+
+        if (value < a[mid])
+        {
+            hi = mid - 1;
+        }
+        else if (value > a[mid])
+        {
+            lo = mid + 1;
+        }
+        else
+        {
+            return a[mid];
+        }
+    }
+    // lo == hi + 1
+    return (a[lo] - value) < (value - a[hi]) ? a[lo] : a[hi];
+}
 void solve()
 {
     int n;
     cin >> n;
     vector<int> v(n);
     forn(i, n) cin >> v[i];
-    
+
+    int ans = 0;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = i+2; j < n; j++)
+        { // Now v[i..j] is the subarray of atleast size 3
+            int weight = 0;
+            int value1 = (v[i] + v[j]) / 2;
+            int idx = best(v,i,j,value1);
+            weight = max(weight, (idx - v[i]) * (v[j] - idx));
+            idx = best(v, i, j, value1+1);
+            weight = max(weight, (idx - v[i]) * (v[j] - idx));
+            idx = best(v, i, j, value1-1);
+            weight = max(weight, (idx - v[i]) * (v[j] - idx));
+            int value2 = (v[j] - v[i]) / 2;
+            idx = best(v, i, j, value2);
+            weight = max(weight, (idx - v[i]) * (v[j] - idx));
+            idx = best(v,i,j,value2+1);
+            weight = max(weight,(idx - v[i]) * (v[j] - idx));
+            idx = best(v,i,j,value2-1);
+            weight = max(weight,(idx - v[i]) * (v[j] - idx));
+            weight = max(weight, (v[i + 1] - v[i]) * (v[j] - v[i + 1]));
+            weight = max(weight, (v[j-1] - v[i]) * (v[j] - v[j - 1]));
+            weight = max(weight, (v[(i + j) / 2] - v[i]) * (v[j] - v[(i + j) / 2]));
+
+            ans+=weight;
+        }
+    }
+
+    cout<<ans<<endl;
 }
 
 signed main()

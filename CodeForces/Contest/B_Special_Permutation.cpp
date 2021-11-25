@@ -75,11 +75,58 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 void solve()
 {
-    int n;
-    cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
+    int n,a,b;
+    cin >> n>>a>>b;
+    if(a>b){
+        if(b==n/2 and a==b+1){
+            for(int i=a;i<=n;i++)
+                cout<<i<<' ';
+            for(int i=1;i<=b;i++)
+                cout<<i<<' ';
+        }
+        else{
+            cout<<"-1"<<endl;
+        }
+        return;
+    }
+    if(((n-a) < (n/2)) || ((b-1) < (n/2)))
+    {
+        cout << "-1" << endl;
+        return;
+    }
+    vector<int> num(n+1),left(n/2),right(n/2); 
+    forn(i,n+1)
+    {
+        num[i] = i;
+    }
+    int ra = a+1,lb=b-1;
+    int l = 0, r = 0;
+    left[l] = num[a];
+    l++,a--;
+    right[r] = num[b];
+    r++,b++;
+    while(l < n/2 and b<=n)
+    {
+        left[l] = num[b];
+        l++,b++;
+    }
+    while(r < n/2 and a>=1)
+    {
+        right[r] = num[a];
+        r++,a--;
+    }
+    for(int i=ra;i<=lb;i++)
+    {
+       if(l<n/2)
+           left[l] = num[i],l++;
+       else if(r<n/2)
+           right[r] = num[i],r++;
+    }
+    for(auto val : left)
+        cout << val << ' ';
+    for(auto val : right)
+        cout << val << ' ';
+    cout << endl;        
 }
 
 signed main()

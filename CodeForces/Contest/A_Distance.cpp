@@ -75,11 +75,18 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 void solve()
 {
-    int n;
-    cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
+    int x,y;
+    cin >>x >>y;
+    if((x+y)%2){
+        cout<<"-1"<<' '<<"-1"<<endl;
+        return;
+    }
+    if(x>=y){
+        cout<<(x-y)/2<<' '<<y<<endl;
+    }
+    else{
+        cout << x <<' '<< (y - x) / 2 << endl;
+    }
 }
 
 signed main()

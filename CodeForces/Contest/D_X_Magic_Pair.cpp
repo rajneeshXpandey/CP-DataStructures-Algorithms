@@ -68,18 +68,70 @@ using namespace std;
 template<typename T, typename T1> T amax(T &a, T1 b) {if (b > a)a = b; return a;}
 template<typename T, typename T1> T amin(T &a, T1 b) {if (b < a)a = b; return a;}
 
-inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
+inline ll gcdd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // *********************** Code Begins ************************ //
 
+//ax+by=c
+int gcd(int a, int b, int &x, int &y)
+{
+    if (b == 0)
+    {
+        x = 1;
+        y = 0;
+        return a;
+    }
+    int x1, y1;
+    int d = gcd(b, a % b, x1, y1);
+    x = y1;
+    y = x1 - y1 * (a / b);
+    return d;
+}
+bool isSolve(int a, int b, int c, int &x, int &y, int &g)
+{
+    if (a == 0 && b == 0)
+    {
+        g = x = y = 0;
+        return true;
+    }
+    g = gcd(abs(a), abs(b), x, y);
+    if (c % g != 0)
+    {
+        return false;
+    }
+    x *= (c / g);
+    y *= (c / g);
+    if (a < 0)
+        x = -x;
+    if (b < 0)
+        y = -y;
+    return true;
+}
+
 void solve()
 {
-    int n;
-    cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
+    int a,b,x;
+    cin >> a >> b >> x;
+    if(x>a and x>b){
+        cout << "NO" << endl;
+        return;
+    }
+    int _gcd = gcdd(a,b);
+    int p,q,g;
+    int aa = x,bb = x+_gcd, c=a, c1 = b;
+    if(isSolve(aa,bb,c,p,q,g))
+    {
+        cout << "YES" << endl;
+        return;
+    }
+    int p1, q1, g1;
+    if(isSolve(aa,bb,c1,p1,q1,g1))
+    {
+        cout << "YES" << endl;
+        return;
+    }
+    cout << "NO" << endl; 
 }
 
 signed main()

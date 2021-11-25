@@ -22,6 +22,7 @@ using namespace std;
 #define ss second
 #define mp make_pair
 #define all(x) (x).begin(), (x).end()
+#define rall(x) (x).rbegin(), (x).rend()
 #define endl "\n"
 #define int long long
 #define ll long long
@@ -72,14 +73,85 @@ inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // *********************** Code Begins ************************ //
+int longest_increasing_subsequence(vector<int> &a) {
+    int n = a.size();
+    vector<int> dp(n, 1);
+    int ans = 1;
+    for (int i = 1; i < n; i++) {
+        for (int j = 0; j < i; j++) {
+            if (a[i] >= a[j]) {
+                dp[i] = max(dp[i], dp[j] + 1);
+                ans = max(ans, dp[i]);
+            }
+        }
+    }
+    return ans;
+}
 
 void solve()
 {
-    int n;
-    cin >> n;
+    int n,k;
+    cin >> n>>k;
     vector<int> v(n);
     forn(i, n) cin >> v[i];
-    
+    sort(all(v));
+    if(k==1)
+    {
+        vector<int> temp1;
+        per(i, n, 0)
+        {
+            temp1.pb(v[i]);
+        }
+        if (longest_increasing_subsequence(temp1) == k)
+        {
+            for (auto val : temp1)
+                cout << val << ' ';
+            cout << endl;
+        }
+        else
+        {
+            cout << "-1" << endl;
+        }
+        return;
+    }
+    if(k==n-1){
+        vector<int> temp2;
+        rep(i,0,n-2)
+        {
+            temp2.pb(v[i]);
+        }
+        temp2.pb(v[n-1]);
+        temp2.pb(v[n-2]);
+        if (longest_increasing_subsequence(temp2) == k)
+        {
+            for (auto val : temp2)
+                cout << val << ' ';
+            cout << endl;
+        }
+        else
+        {
+            cout << "-1" << endl;
+        }
+        return;
+    }
+    vector<int> ans,rem,end;
+    copy(v.begin(), v.begin()+k, back_inserter(ans));
+    copy(v.begin()+k, v.end(), back_inserter(rem));
+    sort(rall(rem));
+    for(auto val : ans) 
+        end.pb(val);
+    for(auto val : rem) 
+        end.pb(val);
+    if(longest_increasing_subsequence(end) == k)
+    {
+        for(auto val : end) 
+            cout << val << ' ';
+        cout << endl;
+    }
+    else
+    {
+        cout<<"-1"<<endl;
+    }
 }
 
 signed main()

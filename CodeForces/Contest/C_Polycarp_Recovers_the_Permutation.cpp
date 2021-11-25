@@ -79,6 +79,28 @@ void solve()
     cin >> n;
     vector<int> v(n);
     forn(i, n) cin >> v[i];
+    int l = 0, r= n-1;
+    deque<int> dq;
+    while(l < r){
+        if(v[l]>v[r]){
+            dq.push_front(v[l]);
+            l++;
+        }
+        else{
+            dq.push_back(v[r]);
+            r--;
+        }
+    }
+    if(l == r){
+        dq.push_front(v[l]);
+    }
+    int mxpos = max_element(all(v)) - v.begin();
+    if(mxpos!=0 and mxpos!=n-1){
+        cout<<-1<<endl;
+        return;
+    }
+    for(auto val : dq) cout<<val<<' ';
+    cout<<endl;
     
 }
 

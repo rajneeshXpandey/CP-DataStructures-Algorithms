@@ -9,17 +9,5 @@ vector<int> lps(string &s) {
             j++;
         f[i] = j;
     }
-    //count of all prefix function
-//    vector<int>cnt(n+1,0);
-//    for(int i=0;i<n;i++){
-//        cnt[f[i]]++;
-//    }
-//    for(int i=n-1;i>0;i--){
-//        cnt[f[i-1]]+=cnt[i];
-//    }
-//    //if whole string also counted
-//    for(int i=0;i<=n;i++){
-//        cnt[i]+=1;
-//    }
     return f;
 }

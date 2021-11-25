@@ -75,11 +75,15 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 void solve()
 {
-    int n;
-    cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
+    int a,b;
+    cin >>a>>b;
+    int mn = min(a,b), mx = max(a,b);
+    if(mx >= 3*mn){
+        cout<<mn<<endl;
+    }
+    else {
+        cout<<(mx+mn)/4<<endl;
+    }
 }
 
 signed main()

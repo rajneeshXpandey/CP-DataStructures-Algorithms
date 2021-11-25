@@ -73,20 +73,71 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 // *********************** Code Begins ************************ //
 
+void bfs(vector<vector<int>> &adj, vector<int> &visi, vector<int> &dist, vector<int> &root)
+{
+    queue<int> q;
+    for(int i=0; i<(int)root.size(); i++)
+    {
+        q.push(root[i]);
+        visi[root[i]] = 1;
+        dist[root[i]] = 0;
+    }
+    while(!q.empty())
+    {
+        int u = q.front();
+        q.pop();
+        for(int v : adj[u])
+        {
+            if(!visi[v])
+            {
+                visi[v] = 1;
+                dist[v] = dist[u] + 1;
+                q.push(v);
+            }
+        }
+    }
+}
+
 void solve()
 {
-    int n;
-    cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
+    int n,k,f;
+    cin >>n>>k;
+    vector<int> fr(k);
+    for(int i=0; i<k; i++){
+        cin>>f;
+        f--;
+        fr[i] = f;
+    }
+    vector<vector<int>> adj(n);
+    for(int i=0; i<n-1; i++){
+        int u,v;
+        cin >> u >> v;
+        u--; v--;
+        adj[u].pb(v);
+        adj[v].pb(u);
+    }
+    vector<int> visi(n, 0), dist(n, 0), dist_fr(n, 0), s = {0};
+    bfs(adj,visi,dist_fr,fr);
+    visi.clear();
+    visi.resize(n, 0);
+    bfs(adj,visi,dist,s);
+    for(int i=1; i<n; i++){
+        //deb2(dist[i], dist_fr[i]);
+        if(adj[i].size()==1 and dist_fr[i] > dist[i])
+           { 
+            //   cout<<i+1<<' ';
+               cout<<"YES"<<endl;
+                return;
+           }
+    }
+    cout<<"NO"<<endl;
 }
 
 signed main()
 {
 
-    //freopen("input.txt", "r", stdin);
-    //freopen("output.txt", "w", stdout);
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
 
     FastIO;
     int tt = 1;

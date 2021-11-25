@@ -73,12 +73,36 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 // *********************** Code Begins ************************ //
 
+int sum(int k,int mid){
+    if(mid <= k){
+        return mid*(mid+1)/2;
+    }
+    int sum1 = (k * (k + 1) / 2) + ((k*(k-1))/2) - ((2*k-mid)*(2*k-mid-1)/2);
+    return sum1;
+}
 void solve()
 {
-    int n;
-    cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
+    int k,x;
+    cin >> k>>x; 
+    int max_message = 2*k-1;
+    int l = 1, r = max_message;
+    int message = l;
+    while(l<=r){
+        int mid = (l+r)/2;
+        if(sum(k,mid)<=x){
+            message = mid;
+            l = mid+1;
+        }
+        else{
+            r = mid-1;
+        }
+    }
+    if(sum(k,message)<x){
+        cout << min(max_message,message + 1)<< endl;
+    }
+    else{
+        cout << min(max_message, message) << endl;
+    }
     
 }
 

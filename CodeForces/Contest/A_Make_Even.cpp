@@ -75,10 +75,30 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 void solve()
 {
-    int n;
-    cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
+    string s;
+    cin>>s;
+    if ((s[s.size()-1] - '0') % 2 == 0)
+      {
+          cout<<0<<endl;
+          return;
+      }
+    bool eve = 0;
+    for(auto c : s)
+    {
+        if((c-'0')%2==0)
+        { eve = 1;
+          break;
+        }
+    }
+    if(eve and (s[0] - '0') % 2 == 0){
+        cout<<1<<endl;
+        return;
+    }
+    if(eve){
+        cout << 2 << endl;
+        return;
+    }
+    cout<<"-1"<<endl;
     
 }
 
