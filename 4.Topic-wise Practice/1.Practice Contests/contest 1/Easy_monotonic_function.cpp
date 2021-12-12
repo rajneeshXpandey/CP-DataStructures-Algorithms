@@ -78,9 +78,9 @@ void solve()
 {
     int n;
     cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
+    /* f(x) = x^3 + 2*x^2 + 3*x + 5 */
+    int ans = (n*n*n) + (2*n*n) + (3*n) + 5;
+    cout<<ans<<endl; 
 }
 
 signed main()
@@ -91,7 +91,6 @@ signed main()
 
     FastIO;
     int tt = 1;
-    cin >> tt;
     for (int i = 1; i <= tt; i++)
         {            
          // cout<<"Case #"<< i <<": "; 

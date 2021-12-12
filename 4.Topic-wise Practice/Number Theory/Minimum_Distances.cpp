@@ -80,7 +80,19 @@ void solve()
     cin >> n;
     vector<int> v(n);
     forn(i, n) cin >> v[i];
-    
+    unordered_map<int,vector<int>> mp;
+    forn(i,n){
+        mp[v[i]].pb(i);
+    }
+    int ans = inf;
+    for(auto val :mp){
+        auto arr = val.ss;
+        int sz = arr.size() - 1;
+        forn(i,sz)
+            ans = min(ans,arr[i+1]-arr[i]);
+    }
+    if(ans==inf) ans = -1;
+    cout<<ans<<endl;
 }
 
 signed main()
@@ -91,7 +103,6 @@ signed main()
 
     FastIO;
     int tt = 1;
-    cin >> tt;
     for (int i = 1; i <= tt; i++)
         {            
          // cout<<"Case #"<< i <<": "; 

@@ -78,9 +78,31 @@ void solve()
 {
     int n;
     cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
+    map<int, int> mp;
+    for (int i = 0; i < n; i++)
+    {
+        int l, r;
+        cin >> l >> r;
+        mp[l]++;
+        mp[r]--;
+    }
+    /*
+                           +1 -1
+            +1              |  |
+         +1  |          -1  |  |   
+      +1  |  |    -1     |  |  |
+       |  |  |     |     |  |  | 
+  --|--|--|--|--|--|--|--|--|--|--|--
+    0  1  2  3  4  5  6  7  8  9  10
+    */
+    int ans = 1;
+    int count = 0;
+    for (auto p : mp)
+    {
+        count = p.second + count;
+        ans = max(ans, count);
+    }
+    cout << ans - 1;
 }
 
 signed main()
@@ -91,7 +113,6 @@ signed main()
 
     FastIO;
     int tt = 1;
-    cin >> tt;
     for (int i = 1; i <= tt; i++)
         {            
          // cout<<"Case #"<< i <<": "; 

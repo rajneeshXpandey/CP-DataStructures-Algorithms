@@ -22,7 +22,6 @@ using namespace std;
 #define ss second
 #define mp make_pair
 #define all(x) (x).begin(), (x).end()
-#define rall(x) (x).rbegin(), (x).rend()
 #define endl "\n"
 #define int long long
 #define ll long long
@@ -74,13 +73,32 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 // *********************** Code Begins ************************ //
 
+int modexpo(int a, int n, int p)
+{
+    int res = 1;
+    while (n > 0)
+    {
+        if (n % 2)
+            res = (res * a) % p;
+        a = (a * a) % p;
+        n /= 2;
+    }
+    return res;
+}
 void solve()
 {
-    int n;
-    cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
+    int n,m;
+    cin >> n>>m;
+    vector<vector<int>> v(m,vector<int>(3));
+    int x = 0;
+    forn(i,m)
+    {
+        cin >> v[i][0]>>v[i][1]>>v[i][2];
+        x |= v[i][2];
+    }
+    int xorr = modexpo(2, n - 1, mod);
+    xorr = (xorr*x)%mod;
+    cout << xorr << endl;
 }
 
 signed main()

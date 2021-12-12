@@ -78,9 +78,24 @@ void solve()
 {
     int n;
     cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
+    string str;
+    cin>>str;
+    vector<int> idx;
+    forn(i,n){
+        if(str[i]=='0') idx.pb(i);
+    }
+    string result_str = str;
+    sort(all(result_str));
+    int ans= 0,z=0;
+    forn(i,n){
+        if (result_str[i] == '0')
+         {
+             ans += abs(i-idx[z]);
+             z++;
+         }
+    }
+    cout<<ans<<endl;
+    /* only try to arrange the zero's else will be arranged automatically */
 }
 
 signed main()

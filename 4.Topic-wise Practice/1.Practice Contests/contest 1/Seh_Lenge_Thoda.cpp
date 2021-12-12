@@ -78,9 +78,14 @@ void solve()
 {
     int n;
     cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
+    vector<int> a(n),b(n);
+    forn(i, n) cin >> a[i];
+    forn(i, n) cin >> b[i];
+    int sum = 0;
+    forn(i,n){
+        sum += (a[i]*b[i]);
+    }
+    cout<<sum<<endl;
 }
 
 signed main()
@@ -91,7 +96,6 @@ signed main()
 
     FastIO;
     int tt = 1;
-    cin >> tt;
     for (int i = 1; i <= tt; i++)
         {            
          // cout<<"Case #"<< i <<": "; 

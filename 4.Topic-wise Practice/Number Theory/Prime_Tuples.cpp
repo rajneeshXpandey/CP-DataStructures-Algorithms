@@ -1,8 +1,3 @@
-#pragma GCC optimize("unroll-loops")
-#pragma GCC optimize("O3")
-#pragma GCC optimize("Ofast")
-#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
-
 #include "bits/stdc++.h"
 using namespace std;
 
@@ -24,8 +19,6 @@ using namespace std;
 #define all(x) (x).begin(), (x).end()
 #define rall(x) (x).rbegin(), (x).rend()
 #define endl "\n"
-#define int long long
-#define ll long long
 #define pb push_back
 #define pii pair<int, int>
 #define make_unique(vec) sort(all(vec)); vec.resize(unique(all(vec)) - vec.begin()); //remove Duplicate
@@ -42,10 +35,6 @@ using namespace std;
 #define pqs priority_queue<int, vector<int>, greater<int>>    // minheap
 #define piipqs priority_queue<pii, vector<pii>, greater<pii>> // minheap for pair<int,int>
 #define piipqb priority_queue<pii>                            // maxheap for pair<int,int>
-#define mod 1000000007   //1e9+7
-#define mod1 998244353
-#define inf 2000000000000000000 //2e18
-#define PI  3.141592653589793238
 #define mem0(a) memset(a, 0, sizeof(a))
 #define mem1(a) memset(a, -1, sizeof(a))
 #define meminf(a) memset(a, 0x7f, sizeof(a))
@@ -69,18 +58,43 @@ using namespace std;
 template<typename T, typename T1> T amax(T &a, T1 b) {if (b > a)a = b; return a;}
 template<typename T, typename T1> T amin(T &a, T1 b) {if (b < a)a = b; return a;}
 
-inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // *********************** Code Begins ************************ //
+const int N = 1000001;
+vector<bool> prime(N, 1);
+vector<int> dp(N,0);
+void sieve()
+{
+    prime[0] = prime[1] = 0;
+    for (int i = 2; i * i < N; i++)
+    {
+        if (prime[i])
+        {
+            for (int j = i * i; j < N; j += i)
+            {
+                prime[j] = 0;
+            }
+        }
+    }
+    int cnt = 0;
+    for(int c=5;c<N;c++){
+        if(prime[c] and prime[c-2]) cnt++;
+        dp[c] = cnt;
+    }
+}
 
 void solve()
 {
     int n;
     cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
+    /*
+    a + b = c
+    odd + odd = even
+    even + odd = odd
+    so a=2 always
+    */
+    cout<<dp[n]<<endl;
 }
 
 signed main()
@@ -88,8 +102,8 @@ signed main()
 
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
-
     FastIO;
+    sieve();
     int tt = 1;
     cin >> tt;
     for (int i = 1; i <= tt; i++)

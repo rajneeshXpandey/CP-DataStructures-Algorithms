@@ -74,14 +74,67 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 // *********************** Code Begins ************************ //
 
+/* https://codeforces.com/contest/1473/problem/D */
+
 void solve()
 {
-    int n;
-    cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
+    int n,m,l,r;
+    cin >> n >>m;
+    string str;
+    cin>>str;
+    vector<int> arr(n+2,0),plus(n+2,0);
+
+    vector<int> pre_min(n + 2, inf), pre_max(n + 2, -inf), suff_min(n + 2, inf), suff_max(n + 2, -inf);
+    int x = 0,p=0;
+    pre_min[0] = 0;
+    pre_max[0] = 0;
+    rep(i,1,n+1){
+        if(str[i-1]=='+') x++,p++;
+        else x--;
+        arr[i] = x;
+        plus[i] = p;
+        pre_min[i] = min(pre_min[i-1],arr[i]);
+        pre_max[i] = max(pre_max[i-1], arr[i]);
+    }
+    for(int i=n;i>0;i--){
+        suff_min[i] = min(suff_min[i+1], arr[i]);
+        suff_max[i] = max(suff_max[i+1], arr[i]);
+    }
+    suff_min[n + 1] = suff_min[n];
+    suff_max[n + 1] = suff_max[n];
+    forn(i, m){
+        cin>>l>>r;
+        int change = 2*(plus[r] - plus[l - 1]) - (r - l + 1);
+        //deb(change);
+        int mn = min({pre_min[l-1],suff_min[r+1]-change});
+        int mx = max({pre_max[l-1],suff_max[r+1]-change});
+        cout<<mx-mn+1<<endl;
+    } 
     
 }
+/*
+ 1 based index :
+               l        r 
+               |********|
+           <---|        |-----> this region
+                                will affect by net sign change
+            -  +  -  -  +  -  -  + 
+         0 -1  0 -1 -2 -1 -2 -3 -2 -2
+
+/ to get left side of the 'l'
+pre_min  0 -1 -1 -1 -2 -2 -2 -3 -3
+pre_max  0 -1  0  0  0  0  0  0  0
+
+/ to get right side of the 'r'
+suff_min   -3 -3 -3 -3 -3 -3 -3 -2 -2
+suff_max    0  0 -1 -1 -1 -2 -2 -2 -2
+
+min = min(pre_min[l-1],suff_min[r+1]-change)
+max = max(pre_max[l-1],suff_max[r+1]-change)
+
+ans = max-min+1
+
+*/
 
 signed main()
 {

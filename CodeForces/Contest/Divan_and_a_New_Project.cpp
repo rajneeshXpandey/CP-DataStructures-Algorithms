@@ -76,11 +76,38 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 void solve()
 {
-    int n;
+    int n,a;
     cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
+    vector<pii> v(n);
+    forn(i,n) 
+      {  cin >> a; 
+        v[i] = mp(a,i+1);}
+    sort(rall(v));
+    //
+    //forn(i,n)
+    //{
+    //    cout<<v[i].ff<<' '<<v[i].ss<<endl;
+    //}
+    int time = 0;
+    vector<int> idx(n+2,-inf);
+    idx[0] = n+1;
+    int l=n,r=n+2;
+    for(int i=0;i<n;i++){
+        if (i%2)
+            idx[v[i].ss] = l, l--,
+            time += abs(idx[0] - idx[v[i].ss]) * v[i].ff;
+        else
+            idx[v[i].ss] = r, r++, 
+            time += abs(idx[0] - idx[v[i].ss]) * v[i].ff ;
+        //deb2(idx[v[i].ss],idx[v[i+1].ss]);
+        //deb2(v[i].ff,v[i+1].ff);
+        //deb2(l,r);  
+    }
+
+    cout<<2*time<<endl;
+    for(int i=0;i<=n;i++) cout<<idx[i]<<' ';
+
+    cout<<endl;
 }
 
 signed main()

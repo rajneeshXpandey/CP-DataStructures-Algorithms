@@ -78,11 +78,26 @@ void solve()
 {
     int n;
     cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
+    vector<int> div(n);
+    forn(i, n) cin >> div[i];
+    sort(all(div));
+    if (div[n - 1]==div[n - 2]){
+        cout << div[n - 1] << ' ' << div[n - 2] << endl;
+        return;
+    }
+    int x = div[n-1], y=1;
+    for(int i=n-2;i>=1;i--){
+        int val = div[i];
+        if (div[i] and x % div[i] == 0)
+            div[i] = 0;
+        if(div[i-1]==val) i--;
+    }
+    sort(all(div));
+    cout << div[n - 1] << ' ' << div[n-2]<< endl;
 }
-
+/*
+1 0 0 3 0 0 11 0 0 33 0 66
+*/
 signed main()
 {
 
@@ -91,7 +106,6 @@ signed main()
 
     FastIO;
     int tt = 1;
-    cin >> tt;
     for (int i = 1; i <= tt; i++)
         {            
          // cout<<"Case #"<< i <<": "; 

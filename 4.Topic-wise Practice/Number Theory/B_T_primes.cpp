@@ -74,12 +74,49 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 // *********************** Code Begins ************************ //
 
+const int N = 1000001;
+vector<bool> prime(N, 1);
+void sieve()
+{
+    prime[0] = prime[1] = 0;
+    for (int i = 2; i * i < N; i++)
+    {
+        if (prime[i])
+        {
+            for (int j = i * i; j < N; j += i)
+            {
+                prime[j] = 0;
+            }
+        }
+    }
+}
+int sqroot(int x){
+  if(x==0 or x==1) return x;
+
+  int l = 1, r = x/2;
+  if(x>1000000000) r = x/1000;
+  while(l<=r){
+      int mid = (l + r) / 2, sqr = (mid * mid);
+      if(sqr == x) 
+          return mid;
+      else if(sqr < x) l = mid+1;
+      else r = mid-1;  
+  }
+  return 0;
+}
 void solve()
 {
     int n;
     cin >> n;
     vector<int> v(n);
     forn(i, n) cin >> v[i];
+    for(auto x : v){
+        int _sqroot = sqroot(x);
+        //deb2(x,_sqroot);
+        //deb3(x,_sqroot, prime[_sqroot]);
+        if(prime[_sqroot]) yes;
+        else no;
+    }
     
 }
 
@@ -90,8 +127,8 @@ signed main()
     //freopen("output.txt", "w", stdout);
 
     FastIO;
+    sieve();
     int tt = 1;
-    cin >> tt;
     for (int i = 1; i <= tt; i++)
         {            
          // cout<<"Case #"<< i <<": "; 

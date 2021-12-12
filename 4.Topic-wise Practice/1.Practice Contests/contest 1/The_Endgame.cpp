@@ -76,13 +76,85 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 void solve()
 {
+    /*
+    If we build a difference array diff, (an array containing difference of consecutive elements),
+    If we need to increase all elements of the given array in range [L, R],
+    then in difference array, we need to make only 2 changes:
+
+1. Increase diff[L] by x
+2. Decrease diff[R+1] by x
+
+Now, each of the p operations can be performed in O(1) .
+For all p operations, time complexity is: O(p)
+
+To find arr[k], just find the prefix sum of the difference array upto kth  index.
+
+Now, the problem is, we can't create a difference array of size 10^9
+(Because, you can create integer arrays of size 10^6-10^7(bool))
+
+method 1
+ -> Use map and give an id to all the unique elements
+   (Since, there are <= 10^3 distinct elements)
+
+
+    */
+
+  /*
+  method 2: for any generic ranges =>
+  */  
     int n;
     cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
-}
+    int i, j;
+    map<int, int> a;
+    for (i = 0; i < n; i++)
+    {
+        int l, r, x;
+        cin >> l >> r >> x;
+        a[l] += x;
+        a[r + 1] -= x;
+    }
+    int s = 0;
+    vector<int> b, c;
+    b.push_back(0);
+    c.push_back(0);
+    for (auto i : a)
+    {
+        s = s + i.second;
+        b.push_back(i.first);
+        c.push_back(s);
+    }
 
+    int k;
+    cin >> k;
+    while (k--)
+    {
+        int x;
+        cin >> x;
+        if (x > b.back())
+            cout << 0 << '\n';
+        else
+        {
+            int l = lower_bound(b.begin(), b.end(), x) - b.begin();
+            l--;
+            if (binary_search(b.begin(), b.end(), x))
+                l++;
+            cout << c[l] << '\n';
+        }
+    }
+}
+/*
+1 -> 1
+2 -> 2
+3 -> -1+4 : 3
+4 -> -2
+5 -> -4
+
+
+b => 0 1 2 3 4 5
+
+c => 0 1 3 6 4 0
+
+*/
 signed main()
 {
 
@@ -91,7 +163,6 @@ signed main()
 
     FastIO;
     int tt = 1;
-    cin >> tt;
     for (int i = 1; i <= tt; i++)
         {            
          // cout<<"Case #"<< i <<": "; 

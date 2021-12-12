@@ -22,7 +22,6 @@ using namespace std;
 #define ss second
 #define mp make_pair
 #define all(x) (x).begin(), (x).end()
-#define rall(x) (x).rbegin(), (x).rend()
 #define endl "\n"
 #define int long long
 #define ll long long
@@ -76,11 +75,28 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 void solve()
 {
-    int n;
-    cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
+    int n,l,r,k;
+    cin >> n >>l>>r>>k;
+    vector<int> a(n);
+    forn(i, n) cin >> a[i];
+    sort(all(a));
+    int st = 0;
+    forn(i, n)
+    {
+        if(a[i]>=l)
+        {
+            st = i;
+            break;
+        }
+    }
+    int cost = 0,ans=0;
+    while(st<n and a[st]>=l and a[st]<=r){
+        if(cost+a[st]>k) break;
+        cost+=a[st];
+        ans++;
+        st++;
+    }
+    cout << ans << endl;
 }
 
 signed main()

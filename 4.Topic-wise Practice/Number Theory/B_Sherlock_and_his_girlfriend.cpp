@@ -78,11 +78,28 @@ void solve()
 {
     int n;
     cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
+    vector<int> colors(n+2,0);
+    for(int i=2;i<=n+1;i++){
+        if (colors[i] == 0){
+            colors[i] = 1;
+            for(int j=i;j<=n+1;j+=i){
+                if (j>i and colors[j]==0)
+                    colors[j] = 2;
+            }
+        }
+    }
+    if(n<=2)
+        cout<<1<<endl;
+    else cout<<2<<endl;
+    rep(i,2,n+2){
+        cout<<colors[i]<<' ';
+    }
+    cout << endl;
 }
-
+/*
+          1 1 2 1 2 1 2 2 2 
+prices => 2 3 4 5 6 7 8 9 10.....
+*/
 signed main()
 {
 
@@ -91,7 +108,6 @@ signed main()
 
     FastIO;
     int tt = 1;
-    cin >> tt;
     for (int i = 1; i <= tt; i++)
         {            
          // cout<<"Case #"<< i <<": "; 

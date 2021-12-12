@@ -76,11 +76,14 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 void solve()
 {
-    int n;
-    cin >> n;
-    vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
+    int n,x;
+    cin >> n >>x;
+    vector<pair<int,string>> v(n);
+    forn(i, n) {
+        cin >> v[i].ss >> v[i].ff;
+    }
+    sort(rall(v));
+    cout<<v[x-1].ss<<endl;
 }
 
 signed main()
@@ -91,7 +94,6 @@ signed main()
 
     FastIO;
     int tt = 1;
-    cin >> tt;
     for (int i = 1; i <= tt; i++)
         {            
          // cout<<"Case #"<< i <<": "; 

@@ -4,7 +4,7 @@
 		{
 			"type": "cppbuild",
 			"label": "C/C++: g++.exe build active file",
-			"command": "C:\\Programs\\gcc11-64-winlibs\\bin\\g++.exe",
+			"command": "C:\\Programs\\msys2-mingw64-9\\bin\\g++.exe",
 			"args": [
 				"-static",
 				"-Wl,--stack=268435456",
@@ -26,7 +26,7 @@
 				"kind": "build",
 				"isDefault": true
 			},
-			"detail": "compiler: C:\\Programs\\gcc11-64-winlibs\\bin\\g++.exe"
+			"detail": "compiler: C:\\Programs\\msys2-mingw64-9\\bin\\g++.exe"
 		}
 	]
 }

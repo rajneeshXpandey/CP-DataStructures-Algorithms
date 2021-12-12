@@ -76,13 +76,57 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 void solve()
 {
-    int n;
-    cin >> n;
+    int x,n;
+    cin >>x>> n;
     vector<int> v(n);
-    forn(i, n) cin >> v[i];
-    
-}
+    forn(i, n) 
+       cin >> v[i];
+    /*
+    For every prefix, store the prefix_sum mod x.
+    This prefix sum will always lie between [0, x-1].
 
+    1. If for any prefix ending at index i, if there exists any prefix ending at 
+        j ( j<i ) and pref[i] == pref[j], 
+        then the subarray from [j+1, i] should be divisible by x.
+
+    2. Suppose there are 2 or more than 2 such possible values of j, 
+       satisfying the above criteria, 
+       then we need to consider only the smallest value of j.
+       bcz need to find max.
+
+    */
+
+    vector<int> low(x);
+    // low[y] = The smallest value of j,
+    // such that sum of prefix ending at j mod x = y
+
+    for (int i = 0; i < x; i++)
+    {
+        low[i] = -1; // -1 indicates no such prefix is available
+    }
+
+    int sum = 0, ans = 0;
+    for (int i = 0; i < n; i++)
+    {
+        //       (a+b)%x = ((a%x) + (b%x))%x
+        sum = (sum + v[i]) % x;
+        if (low[sum] != -1)
+        {
+            int j = low[sum];
+            ans = max(ans, i - j);
+        }
+        else
+        {
+            low[sum] = i;
+        }
+        if (sum % x == 0) //for starting to i
+        {
+            ans = max(ans, i + 1);
+        }
+    }
+
+    cout << ans;
+}
 signed main()
 {
 
@@ -91,7 +135,6 @@ signed main()
 
     FastIO;
     int tt = 1;
-    cin >> tt;
     for (int i = 1; i <= tt; i++)
         {            
          // cout<<"Case #"<< i <<": "; 
