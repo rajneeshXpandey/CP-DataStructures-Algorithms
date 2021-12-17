@@ -141,8 +141,75 @@ Techniques :
         ϕ(n) = ϕ(p1^a1)*ϕ(p2^a2)...ϕ(pk^ak)
              = (p1^a1−p1^(a1−1))*(p2^a2−p2^(a2−1))...(pk^ak−pk^(ak−1))
 
-        ***  ϕ(n) = n*(1−1/p1)*(1−1/p2)...(1−1/pk) ***       
+        ***  ϕ(n) = n*(1−1/p1)*(1−1/p2)...(1−1/pk) ***   
 
+     *----------------------------------
+     8. Modular Multiplicative Inverse
+
+     A modular multiplicative inverse of an integer a is an integer x such that a⋅x is congruent to 1 modular some modulus m. To write it in a formal way: we want to find an integer x so that
+
+        -> a*x ≡ 1 (mod m)  => (a*x)%m = 1
+
+        -> We will also denote x simply with a^−1.
+         also 1 <= x <= m-1
+        
+        -> modular inverse exists if and only if a and m are relatively prime
+         (i.e. gcd(a,m)=1).
+
+      Methods to calculate :
+
+       a) run loop from 1 to m-1 and check (a*x)%m == 1
+       
+       b) Extended Euclids theoreom :
+             a*x+m*y=1 (.'. gcd(a,m)=1)
+            ```
+            int x, y;
+            int g = extended_euclidean(a, m, x, y);
+            if (g != 1) 
+                cout << "No solution!";
+            else
+                x = (x % m + m) % m;
+                cout << x << endl;
+            ```    
+            
+      *c) Fermats little theoreom :
+                    a^ϕ(m) ≡ 1 (mod m)
+                ϕ is Euler's Totient function. 
+                If m is a prime number, this simplifies to Fermat's little theorem:
+                    a^m−1 ≡ 1 (mod m)
+                Multiply both sides of the above equations by a^−1, and we get:
+
+            -> For an arbitrary (but coprime) modulus m: a^ϕ(m)−1 ≡ a^−1 (mod m)
+            -> For a prime modulus m: a^m−2 ≡ a^−1 (mod m)
+            
+            just calculate the a^(m-2) by binary expo.
+            
+            From these results, we can easily find the modular inverse 
+            using the binary exponentiation algorithm, which works in O(logm) time
+      
+      **d) Finding the modular inverse for every number(1 to m-1) modulo m.
+            -> by using above methods O(MlogM)
+           ==> but we have O(M) :
+           
+           We denote by inv[i] the modular inverse of i. 
+           Then for i>1 the following equation is valid:
+
+           inv[i] = −⌊m/i⌋*inv[m mod i]mod m (⌊.⌋ is floor value)  
+
+          Thus the implementation is very simple:
+            ```
+            inv[1] = 1;
+            for(int i = 2; i < m; ++i)
+                inv[i] = m - (m/i) * inv[m%i] % m;
+            ```
+          *Proof*   
+           We have:
+               m mod i = m−⌊m/i⌋*i
+           Taking both sides modulo m yields:
+           Multiply both sides by i^−1⋅(m mod i)^−1 yields
+           which simplifies to:
+            i^−1 ≡ −⌊m/i⌋*(m mod i)^−1 mod m       
+ 
 **------------------------------------------------------------                
  
 Property No. 1 :
