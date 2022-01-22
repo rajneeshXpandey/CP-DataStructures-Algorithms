@@ -24,7 +24,7 @@ using namespace std;
 #define all(x) (x).begin(), (x).end()
 #define rall(x) (x).rbegin(), (x).rend()
 #define endl "\n"
-#define int long
+#define int long long
 #define ll long long
 #define pb push_back
 #define pii pair<int, int>
@@ -42,7 +42,7 @@ using namespace std;
 #define pqs priority_queue<int, vector<int>, greater<int>>    // minheap
 #define piipqs priority_queue<pii, vector<pii>, greater<pii>> // minheap for pair<int,int>
 #define piipqb priority_queue<pii>                            // maxheap for pair<int,int>
-#define mod 1000000007   //1e9+7
+
 #define mod1 998244353
 #define inf 2000000000000000000 //2e18
 #define PI  3.141592653589793238
@@ -73,15 +73,56 @@ inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // *********************** Code Begins ************************ //
+int p = 1000000007; // 1e9+7
+
+//https://www.codechef.com/EXUN21B/problems/GOODBINTREE
 
 void solve()
 {
-    int m,x;
-    cin >> m >> x;
-    for(int i=1;i<=x;i++){
-        cout<<((i-1)*(m-1)-1)%i+1<<' ';
+    int n,m;
+    cin >> n >>m;
+    int levels = log2(n+1);
+    /* 
+    at 
+        even level => par < node 
+        odd level => par > node 
+
+                 node --->(h+1,w')
+                 / \
+                l   r --->(h,w)
+
+     dp[i][j] => number of perfect binary tree at height=i and val_node = j            
+    */
+    vector<vector<int>> dp(levels+1,vector<int>(m+1,0));
+
+    // base case with only one node
+    rep(j,1,m+1) dp[1][j] = 1;
+
+    int w = 0;
+    for(int i=2;i<=levels;i++){
+            if(i%2){ // even level
+                    w = 0;
+                    for(int k=1;k<=m;k++){
+                        dp[i][k] = (dp[i][k] + w * w) % p;
+                        w = (w + dp[i - 1][k]) % p;
+                        }
+                            
+                }
+                else{ // odd level
+                    w=0;
+                    for (int k = m; k >= 1; k--)
+                    {
+                        dp[i][k] = (dp[i][k] + w * w) % p;
+                        w = (w + dp[i - 1][k]) % p;
+                    }
+                }
     }
-    cout<<endl;
+
+    int ans= 0;
+    rep(j,1,m+1)
+        ans = (ans + dp[levels][j])%p;
+    cout<<ans<<endl;    
+
 }
 
 signed main()

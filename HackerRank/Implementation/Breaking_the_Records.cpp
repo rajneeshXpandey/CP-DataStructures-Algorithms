@@ -42,7 +42,7 @@ using namespace std;
 #define pqs priority_queue<int, vector<int>, greater<int>>    // minheap
 #define piipqs priority_queue<pii, vector<pii>, greater<pii>> // minheap for pair<int,int>
 #define piipqb priority_queue<pii>                            // maxheap for pair<int,int>
-
+#define mod 1000000007   //1e9+7
 #define mod1 998244353
 #define inf 2000000000000000000 //2e18
 #define PI  3.141592653589793238
@@ -73,36 +73,27 @@ inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // *********************** Code Begins ************************ //
-int p = 1000000007; // 1e9+7
-int modexpo(int a, int n)
-{
-    int res = 1;
-    while (n > 0)
-    {
-        if (n % 2)
-            res = (res * a) % p;
-        a = (a * a) % p;
-        n /= 2;
-    }
-    return res;
-}
+
 void solve()
 {
-    int n,m;
-    cin >> n >>m;
-    int levels = log2(n+1);
-    int odd = 0,ans=0,esum=0;
-    if(levels%2)
-        odd = (levels + 1) / 2;
-    else
-        odd = (levels) / 2;
-    esum = (levels * (levels + 1) / 2 - (odd * odd));
-    //deb2(levels,esum);
-    for(int i=m-1;i>0;i--){
-        ans = ans+modexpo(i,esum);
-        ans%=p;
-    }   
-    cout<<ans<<endl;
+    int n;
+    cin >> n;
+    vector<int> v(n);
+    forn(i, n) cin >> v[i];
+    int mn = v[0],minn=0, mx = v[0],maxx=0;
+    rep(i, 1, n)
+    {
+        if(mx<v[i]) {
+            mx = v[i];
+            maxx++;
+        }
+        if(mn>v[i]) {
+            mn = v[i];
+            minn++;
+        }
+    }
+    cout<<maxx<<' '<<minn<<endl;
+    
 }
 
 signed main()
@@ -113,7 +104,6 @@ signed main()
 
     FastIO;
     int tt = 1;
-    cin >> tt;
     for (int i = 1; i <= tt; i++)
         {            
          // cout<<"Case #"<< i <<": "; 
