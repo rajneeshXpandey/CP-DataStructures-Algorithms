@@ -3,6 +3,9 @@
     "*.js": "javascript",
     "random": "cpp",
     "iostream": "cpp",
-    "tuple": "cpp"
-  }
+    "tuple": "cpp",
+    "array": "cpp",
+    "*.tcc": "cpp"
+  },
+  "python.formatting.provider": "yapf"
 }

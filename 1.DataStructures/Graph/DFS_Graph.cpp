@@ -30,18 +30,13 @@ vector<int> *adj;
 
 int *visited;
 
-void dfs(int root)
-{
-    cout<<root<<" ";
-
-    visited[root]=1;
-   
-    for (auto nb : adj[root])
-    {
-        if(!visited[nb])
-             dfs(nb);
+void dfs(int u){
+    cout<<u<<" ";
+    visited[u]=1;
+    for (auto v : adj[u]){
+        if(!visited[v])
+             dfs(v);
     }
-
 }
 
 signed main()
@@ -63,6 +58,11 @@ signed main()
         adj[u].push_back(v);
         adj[v].push_back(u);
     }
+    //for (int u = 1; u <= n; u++)
+    //{
+    //    if (!visited[u])
+    //        dfs(u);
+    //}
     dfs(1);
 
     return 0;

@@ -1,0 +1,1 @@
+{"name":"Local: gfgA","url":"d:\\Codes-Projects\\Programs\\gfgA.cpp","tests":[{"id":1646505373477,"input":"3\n1 3\n7 24\n10 1","output":"1\n2\n9"},{"id":1646507749657,"input":"2\n4 5\n10 11","output":"1\n1"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\Codes-Projects\\Programs\\gfgA.cpp","group":"local","local":true}

@@ -58,17 +58,38 @@ template<typename T, typename T1> T amin(T &a, T1 b) {if (b < a)a = b; return a;
 mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
-inline ll power(ll a, ll n){ ll res = 1; while (n > 0){ if (n % 2) res *= a; a *= a,n /= 2;} return res;}
-inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
+inline void printArr(vector<int> &v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
 
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
+    vector<int> a(n),b(n);
     forn(i, n) cin >> a[i];
+    forn(i, n) cin >> b[i];
+    int fa=inf,la=inf,fb=inf,lb=inf;
+    forn(i,n)
+        amin(fa, abs(a[0] - b[i]));
+    forn(i,n)
+        amin(fb, abs(b[0] - a[i]));
+    forn(i,n)
+        amin(la, abs(a[n-1] - b[i]));
+    forn(i,n)
+        amin(lb, abs(b[n-1] - a[i]));
 
+    /* two edges */
+    int cost = abs(b[0] - a[0]) + abs(b[n-1] - a[n-1]);
+    amin(cost, abs(b[n - 1] - a[0]) + abs(b[0] - a[n-1]));
+    /* three edges */
+    amin(cost, abs(b[n - 1] - a[0]) +la+fb);
+    amin(cost, abs(b[0] - a[n-1]) +lb+fa);
+    amin(cost, abs(b[0] - a[0]) +lb+la);
+    amin(cost, abs(b[n-1] - a[n-1]) +fb+fa);
+    /* four edges */
+    amin(cost,fa+fb+la+lb);
+
+    cout<<cost<<endl;    
 }
 
 signed main(){

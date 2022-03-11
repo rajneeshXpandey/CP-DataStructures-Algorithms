@@ -1,0 +1,11 @@
+For prefix sum of alternating sum
+
+for (int i = 1; i <= n; ++i)
+{
+    /* current_value; */
+    prex[i] = prex[i - 1];
+    if (i % 2 == 0)
+        prex[i] += current_value;;
+    else
+        prex[i] -= current_value;;
+}
