@@ -40,8 +40,8 @@ using namespace std;
 #define mod1 998244353
 #define inf 2000000000000000000 //2e18
 #define PI  3.141592653589793238
-#define yes cout << "YES" << endl
-#define no cout << "NO" << endl
+#define yes cout << "Yes" << endl
+#define no cout << "No" << endl
 #define precise(x, y) fixed << setprecision(y) << x // cout<<precise(value,uptodecimalpt)<<endl;
 
 //assign and update min and max values.
@@ -62,12 +62,39 @@ inline ll power(ll a, ll n){ ll res = 1; while (n > 0){ if (n % 2) res *= a; a *
 inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
-
+struct point{
+    int x,y,idx;
+    char dir;
+};
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
+    vector<point> a(n);
+    forn(i, n) cin >> a[i].x >> a[i].y;
+    string str;
+    cin>>str;
+    forn(i,str.size()){
+        a[i].dir = str[i];
+        a[i].idx = i;
+    }
+    map<int,vector<point>> samey;
+    forn(i,n){
+        samey[a[i].y].pb(a[i]);
+    }
+    for(auto ys : samey){
+        bool left=0,right=0;
+        int li=-inf,ri=inf;
+        for(auto pts : ys.ss){
+            if(pts.dir=='R') right=1, ri = min(ri,pts.x);
+            if(pts.dir=='L') left=1, li = max(li,pts.x);
+        }
+        if(right and left and li>=ri){
+            yes;
+            return;
+        }
+    }
+    no;
+
 
 }
 
@@ -76,7 +103,6 @@ signed main(){
     //freopen("output.txt", "w", stdout);
     FastIO;
     int total_testcases = 1;
-    cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         // cout<<"Case #"<< test_case <<": ";
         solve();

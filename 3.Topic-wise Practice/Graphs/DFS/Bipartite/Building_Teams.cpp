@@ -62,13 +62,47 @@ inline ll power(ll a, ll n){ ll res = 1; while (n > 0){ if (n % 2) res *= a; a *
 inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
+bool dfs(vector<vector<int>> &adj, vector<int> &color, vector<int> &vis, int u,bool col)
+{
+    vis[u] = 1;
+    color[u] = col;
+    for(auto v : adj[u]){
+        if(!vis[v]){
+            if(!dfs(adj,color,vis,v,!col))
+                return false;    
+        }
+        else {
+            if(color[v]==color[u]) return false;
+        }
+    }
+    return true;
+}
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    int n,e,u,v;
+    cin >> n >> e;
+    vector<vector<int>> adj(n);
+    forn(i, e){
+        cin>>u>>v;
+        u--,v--;
+        adj[u].pb(v);
+        adj[v].pb(u);
+    }
+    vector<int> color(n),vis(n,0);
+    forn(i,n){
+        if(!vis[i] and !dfs(adj,color,vis,i,0)){
+            cout << "IMPOSSIBLE" <<endl;
+            return;
+        }
+    }
+    for (auto col : color)
+    {
+        if (col)
+            cout << 2 << ' ';
+        else
+            cout << 1 << ' ';
+    }
+    cout << endl;
 }
 
 signed main(){
@@ -76,7 +110,6 @@ signed main(){
     //freopen("output.txt", "w", stdout);
     FastIO;
     int total_testcases = 1;
-    cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         // cout<<"Case #"<< test_case <<": ";
         solve();

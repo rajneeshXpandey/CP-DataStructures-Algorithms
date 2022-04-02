@@ -66,9 +66,19 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
+    vector<int> a(n), b(n);
     forn(i, n) cin >> a[i];
-
+    forn(i, n) cin >> b[i];
+    int same=0,diffsame=0;
+    forn(i,n) if(a[i]==b[i]) same++;
+    forn(i,n){
+        forn(j,n){
+            if(b[j]==a[i] and j!=i) diffsame++;
+        } 
+            
+    }
+    cout<<same<<endl;
+    cout<<diffsame<<endl;
 }
 
 signed main(){
@@ -76,7 +86,6 @@ signed main(){
     //freopen("output.txt", "w", stdout);
     FastIO;
     int total_testcases = 1;
-    cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         // cout<<"Case #"<< test_case <<": ";
         solve();

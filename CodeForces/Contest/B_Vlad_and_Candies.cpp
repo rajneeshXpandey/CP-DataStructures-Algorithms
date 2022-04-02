@@ -68,7 +68,43 @@ void solve(){
     cin >> n;
     vector<int> a(n);
     forn(i, n) cin >> a[i];
-
+    //piipqmx pq;
+    //map<int,int> mp;
+    //forn(i,n){
+    //    mp[a[i]]++;
+    //}
+    //for(auto p : mp){
+    //    pq.push({p.ss,p.ff});
+    //}
+    //while(!pq.empty()){
+    //    auto tp = pq.top();
+    //    pq.pop();
+    //    if(tp.ss-1<=0) continue;
+    //    pii nxt = {tp.ss-1,tp.ff};
+    //    pq.push(nxt);
+    //    if(pq.size()==1 and pq.top().ff>1) {
+    //        no;
+    //        return;
+    //    }
+    //}
+    if(n==1){
+        if(a[0]>1) {
+            no;
+            return;
+        }
+        else {
+            yes;
+            return;
+        }
+    } 
+    sort(all(a));
+        if (a[n-2] + 1 == a[n-1] or a[n-2] == a[n-1])
+        {
+           yes;
+        }
+        else {
+            no;
+        }
 }
 
 signed main(){

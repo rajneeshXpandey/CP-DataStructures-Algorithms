@@ -73,73 +73,37 @@ inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // *********************** Code Begins ************************ //
-int modexpo(int a, int n, int p)
-{
-    int res = 1;
-    while (n > 0)
-    {
-        if (n % 2)
-            res = (res * a) % p;
-        a = (a * a) % p;
-        n /= 2;
-    }
-    return res;
-}
-int expo(int a, int n)
-{
-    int res = 1;
-    while (n > 0)
-    {
-        if (n % 2)
-            res = (res * a);
-        a = (a * a);
-        n /= 2;
-    }
-    return res;
-}
-int modinv(int a, int m)
-{
-    return modexpo(a, m - 2, m);
-}
-int N = 1e4;
-vector<int> dp(N + 1);
-void nums(){
-    dp[1] = 1;
-    int i2 = 1, i3 = 1, i5 = 1;
-    for (int i = 2; i <= N; i++)
-    {
-        int val2 = (dp[i2] * 2), val3 = (dp[i3] * 3), val5 = (dp[i5] * 5);
-        dp[i] = min({val2, val3, val5});
-        if (dp[i] == val2)
-            i2++;
-        if (dp[i] == val3)
-            i3++;
-        if (dp[i] == val5)
-            i5++;
-    }
-}
+
 void solve()
 {
-    int n;
-    cin >> n;
-    
-    int x = dp[n];
-    int p2 = 0, p3 = 0, p5 = 0;
-    while(x%2==0) x/=2, p2++;
-    while(x%3==0) x/=3, p3++;
-    while(x%5==0) x/=5, p5++;
-
-    int s = max({p2, p3, p5});
-    int k = 0;
-    if(s==p5) k=5;
-    else if(s==p3) k=3;
-    else k=2;
-
-    int pow = modexpo(k, s, mod);
-    int modi = modinv(pow, mod);
-    int ans = (dp[n]%mod*n%mod*modi%mod)%mod;
-    //deb3(dp[n], k, s);
-    cout << ans << endl;
+    int n,m;
+    cin >> n >> m;
+    vector<int> q(n);
+    forn(i, n) cin >> q[i];
+    vector<vector<array<int,2>>> react(n);
+    forn(i,m){
+        int u,vs,wt,v;
+        cin>>u>>vs;
+        u--;
+        forn(j,vs){
+            cin>>wt>>v;
+            v--;
+            react[u].push_back({wt,v});
+        }
+    }
+    forn(c0,n){
+        if(react[c0].size()>0){
+            for(auto ci : react[c0]){
+                q[ci[1]] += q[c0]*ci[0];
+                q[ci[1]] %= mod;
+            }
+            q[c0] = 0;
+        }
+    }
+    for(auto qis : q){
+        cout<<qis<<endl;
+    }
+     
 }
 
 signed main()
@@ -149,9 +113,7 @@ signed main()
     //freopen("output.txt", "w", stdout);
 
     FastIO;
-    nums();
     int tt = 1;
-    cin >> tt;
     for (int i = 1; i <= tt; i++)
         {            
          // cout<<"Case #"<< i <<": "; 

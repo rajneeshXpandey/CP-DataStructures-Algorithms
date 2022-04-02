@@ -63,12 +63,23 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 // ********************************* Code Begins ********************************** //
 
-void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
 
+void solve(){
+   string str;
+   cin>>str;
+   
+   int n = str.size(),ans=0;
+   map<char,int> f;
+   for(int i=0;i<n;i++)
+   {
+       f[str[i]]++;
+       if(f[str[i]]==2)
+       {
+           ans += 2;
+           f.clear();
+       }
+   }
+   cout<<(n-ans)<<endl;
 }
 
 signed main(){

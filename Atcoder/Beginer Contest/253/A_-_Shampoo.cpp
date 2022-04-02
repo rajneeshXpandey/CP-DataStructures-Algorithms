@@ -64,11 +64,30 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 // ********************************* Code Begins ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    int tot,f,m,t;
+    cin >> tot>>f>>m>>t;
+    int sum = f+m+t;
+    int rem = tot%sum;
+    if(rem>=f){
+        rem -= f;
+    }
+    else{
+        cout<<"F"<<endl;
+        return;
+    }
+    if(rem>=m) rem -= m;
+    else
+    {
+        cout << "M" << endl;
+        return;
+    }
+    if (rem >= t)
+        rem -= t;
+   else
+    {
+        cout << "T" << endl;
+        return;
+    }
 }
 
 signed main(){
@@ -76,7 +95,6 @@ signed main(){
     //freopen("output.txt", "w", stdout);
     FastIO;
     int total_testcases = 1;
-    cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         // cout<<"Case #"<< test_case <<": ";
         solve();

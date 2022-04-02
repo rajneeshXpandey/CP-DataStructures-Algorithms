@@ -62,13 +62,75 @@ inline ll power(ll a, ll n){ ll res = 1; while (n > 0){ if (n % 2) res *= a; a *
 inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
+struct point{
+     int x, y, idx;
+};
+vector<int> dx = {0, 0, 1, -1};
+vector<int> dy = {1, -1, 0, 0};
+
+map<pii,int> givenpts;
+bool haveDirectAns(int x, int y)
+{
+    for (int i = 0; i < 4; i++)
+    {
+        int x1 = x + dx[i];
+        int y1 = y + dy[i];
+        if (givenpts.find({x1, y1}) == givenpts.end())
+        {
+            return true;
+        }
+    }
+    return false;
+}
+pii getPoint(int x, int y)
+{
+    for (int i = 0; i < 4; i++)
+    {
+        int x1 = x + dx[i];
+        int y1 = y + dy[i];
+        if (givenpts.find({x1, y1}) == givenpts.end())
+        {
+            return {x1, y1};
+        }
+    }
+    assert(1==0);
+}
 
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    vector<point> a(n);
+    forn(i, n) cin >> a[i].x >> a[i].y, a[i].idx = i, givenpts[{a[i].x,a[i].y}]=i;
+    vector<pii> ans(n);
+    vector<bool> direct(n,0);
+    queue<int> q;
+    forn(i, n){
+        if(haveDirectAns(a[i].x,a[i].y)){
+            q.push(i);
+            direct[i] = 1;
+            ans[i] = getPoint(a[i].x, a[i].y);
+        }
+    } 
+    while(!q.empty()){
+        int u = q.front();
+        q.pop();
+        forn(i,4){
+            point v;
+            v.x = a[u].x + dx[i], v.y = a[u].y + dy[i];
+            if (givenpts.find({v.x, v.y}) != givenpts.end()){
+                int index = givenpts[{v.x, v.y}];
+                v.idx = index;
+                if(direct[index]==0){
+                    direct[index] = 1;
+                    ans[index] = ans[u];
+                    q.push(index);
+                }    
+            }
+        }
+    }
+    for(int i=0;i<n;i++){
+        cout << ans[i].ff << ' ' << ans[i].ss<<endl;
+    }
 }
 
 signed main(){
@@ -76,7 +138,6 @@ signed main(){
     //freopen("output.txt", "w", stdout);
     FastIO;
     int total_testcases = 1;
-    cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         // cout<<"Case #"<< test_case <<": ";
         solve();

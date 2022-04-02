@@ -62,7 +62,7 @@ inline ll power(ll a, ll n){ ll res = 1; while (n > 0){ if (n % 2) res *= a; a *
 inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
-
+// https://codingcompetitions.withgoogle.com/kickstart/round/000000000019ff43/00000000003379bb
 void solve(){
     int n;
     cin >> n;
@@ -78,7 +78,7 @@ signed main(){
     int total_testcases = 1;
     cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
-        // cout<<"Case #"<< test_case <<": ";
+         cout<<"Case #"<< test_case <<": ";
         solve();
     }        
 }
