@@ -66,44 +66,11 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
+    vector<int> a(n), b(n), c(n);
     forn(i, n) cin >> a[i];
-    vector<int> pref(n, 0), suff(n, 0);
+    forn(i, n) cin >> b[i];
+    forn(i, n) cin >> c[i];
 
-    unordered_map<int,vector<int>> mpp;
-
-    pref[0] = a[0];
-    suff[n-1] = a[n-1];
-
-    for (int i = 1; i<n; i++)
-    {
-        pref[i] = a[i]+pref[i-1];
-    }
-    for(int i=n-2;i>=0;i--){
-        suff[i] = a[i]+suff[i+1];
-    }
-    for(int i=0;i<n;i++)
-    {
-        mpp[pref[i]].pb(i);
-    }
-    for (int i = 0; i < n; i++)
-        mpp[suff[i]].pb(i);
-    //printArr(pref);
-    //printArr(suff);
-    int ans=0;
-
-    for(auto p : mpp){
-        if(p.ss.size()>1){
-            if(p.ss[0]<p.ss[1]){
-                ans = max(ans, p.ss[0]+ 1 +  n - p.ss[1]);
-            }
-        }
-    }
-    //int ans=0,sz=mpp[summ].size();
-    //if(sz>1)
-    //    ans += mpp[summ][sz - 1] + mpp[summ][sz - 2];
-
-    cout<< ans << endl;
 }
 
 signed main(){
