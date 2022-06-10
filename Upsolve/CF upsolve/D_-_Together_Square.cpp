@@ -64,11 +64,47 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 // ********************************* Code Begins ********************************** //
 
+vector<pii> primeFactors(int n) {
+    vector<pii> v;
+    for (int j = 2; j * j <= n; j++)
+    {
+        int cnt = 0;
+        while (n % j == 0){
+            cnt++;
+            n /= j;
+        }
+        if(cnt)
+        {
+            if (cnt % 2 == 0)
+                v.push_back({j, 2});
+            else
+                v.push_back({j, 1});
+        }
+    }
+    if (n > 1) v.push_back({n,1});
+    return v;
+}
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
+    map<vector<pii>,int> mp;
+    for(int i=2;i<=n;i++){
+        vector<pii> v = primeFactors(i);
+        mp[v]++;
+    }
+    //for(auto it:mp){
+    //    
+    //   for(auto it1:it.ff){
+    //       cout<<it1.ff<<" "<<it1.ss<<" ";
+    //   }
+    //   cout<<endl;
+    //}
+    int f = sqrt(n);
+    int ans=f*f+n;
+    for(auto it:mp){
+        ans+=it.ss*(it.ss-1);
+    }
+    cout<<ans<<endl;
 
 }
 
@@ -77,7 +113,6 @@ signed main(){
     //freopen("output.txt", "w", stdout);
     FastIO;
     int total_testcases = 1;
-    cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         // cout<<"Case #"<< test_case <<": ";
         solve();

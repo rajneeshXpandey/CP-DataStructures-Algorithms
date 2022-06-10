@@ -69,7 +69,69 @@ void solve(){
     cin >> n;
     vector<int> a(n);
     forn(i, n) cin >> a[i];
-
+    if(n==1){
+        cout<<"-1"<<endl;
+        return;
+    }
+    bool nosort=0;
+    forn(i,n){
+        if(a[i]!=i+1){
+            nosort=1;
+            break;
+        }
+    }
+    vector<int> b(n);
+    forn(i,n) b[i]=i+1;
+    int idx=0;
+    vector<int> ans(n,0);
+    //if(!nosort){
+    //    idx = 1;
+    //    forn(i,n-1) ans[i] = b[idx],idx++;
+    //    ans[n-1] = 1;
+    //}
+    //else{
+        set<int> st; 
+        int i=0;
+        forn(i,n) st.insert(a[i]);
+        while(!st.empty()){
+            auto st_it = st.begin(); 
+            if(*st_it==a[i]) {
+                st_it++;
+                if (st_it == st.end())
+                    break;
+                else {
+                    ans[i] = *st_it;
+                    st.erase(st_it);
+                    i++;
+                 }
+            }
+            else{
+                ans[i] = *st_it;
+                st.erase(st_it);
+                i++;
+            }
+        }
+        if(!st.empty())
+        {
+            while(!st.empty()){
+                auto st_it = st.begin(); 
+                ans[i] = *st_it;
+                st.erase(st_it);
+                i++;
+            }
+        }
+        int index=n-1,r=n-1,l=n-2;
+        while(index>=0 and a[index]!=ans[index]) index--;
+        r=index;
+        while(index>=0 and a[index]==ans[r]) index--;
+        l=index;
+        if(l>=0 and r>=0){
+            if(ans[r]==a[r]){
+                swap(ans[r],ans[l]);
+            }
+        }
+    //}
+    printArr(ans);
 }
 
 signed main(){

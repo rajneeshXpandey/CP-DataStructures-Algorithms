@@ -67,9 +67,25 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    int d2,d1,d3;
+    int rem = n%3;
+    d2 = n/3;
+    d1 = n/3;
+    d3 = n/3;
+    if(rem==0){
+        d1++;
+        d3--;
+    }
+    else if(rem==1){
+        d1+=2;
+        d3--;
+    }
+    else if(rem==2){
+        d1 += 2;
+        d2++;
+        d3--;
+    }
+    cout<<d2<<" "<<d1<<" "<<d3<<endl;
 }
 
 signed main(){

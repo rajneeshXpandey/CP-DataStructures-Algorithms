@@ -67,9 +67,23 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    vector<int> b(n);
+    forn(i, n) cin >> b[i];
+    if(n==1){
+        cout << "YES" << endl;
+        return;
+    }
+    int maxx = max(b[0],b[1]),minn=min(b[0],b[1]);
+    for(int i=2;i<n;i++){
+        if (b[i]>minn and b[i]<maxx)
+        {
+            cout << "NO" << endl;
+            return;
+        }
+        maxx = max(maxx,b[i]);
+        minn = min(minn,b[i]);
+    }
+    cout << "YES" << endl;
 }
 
 signed main(){

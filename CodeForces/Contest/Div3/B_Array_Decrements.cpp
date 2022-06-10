@@ -63,13 +63,47 @@ inline ll power(ll a, ll n){ ll res = 1; while (n > 0){ if (n % 2) res *= a; a *
 inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
-
+bool poss(vector<int> a, vector<int> &b, int n,int steps)
+{
+    forn(i,n){
+        a[i] = max((ll)0,a[i]-steps);
+    }
+    //cout<<"steps: "<<steps<<' ';
+    //printArr(a);
+    forn(i,n){
+        if(a[i]!=b[i])
+            return false;
+    }
+    return true;
+}
 void solve(){
     int n;
     cin >> n;
     vector<int> a(n);
     forn(i, n) cin >> a[i];
+    vector<int> b(n);
+    forn(i, n) cin >> b[i];
+    if(poss(a,b,n,0)){
+        cout<<"YES"<<endl;
+        return;
+    }
+    vector<int> steps(n);
+    forn(i, n){
+            if(a[i]<b[i]) {
+                no;
+                return;
+            } 
+            steps[i] = (a[i]-b[i]);
 
+    } 
+    for(auto val : steps){
+        if (poss(a, b, n, val))
+        {
+            yes;
+            return;
+        }
+    }
+    no;
 }
 
 signed main(){

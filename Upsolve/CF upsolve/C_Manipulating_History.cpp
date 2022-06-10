@@ -67,8 +67,26 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
+    multiset<string> a;
+    string str,target;
+    forn(i, 2*n){
+        cin >> str;
+        a.insert(str);
+    }
+    cin>>target;
+    multiset<pair<int,string>> b;
+    string build="";
+    forn(i,target.size()){    
+        if(a.find(build)!=a.end()) {
+            b.insert({i,build});
+            build.clear();
+            build = "";
+        }
+        else
+            build += target[i];
+    }
+    
+
 
 }
 

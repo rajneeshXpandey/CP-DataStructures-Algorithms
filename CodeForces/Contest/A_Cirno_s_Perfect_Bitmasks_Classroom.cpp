@@ -64,11 +64,33 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 // ********************************* Code Begins ********************************** //
 
+bool powerOfTwo(int n) {
+    return (n & (n - 1)) == 0;
+}
+int getFirstSetBit(int n)
+{
+    return log2(n & -n);
+}
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
+    if(n==1){
+        cout << "3" << endl;
+        return;
+    }
+    if(powerOfTwo(n)){
+        cout << n+1 << endl;
+    }
+    else{
+        if(n%2==0){
+            int pos = getFirstSetBit(n);
+
+            cout << (1<<pos) << endl;
+        }
+        else{
+            cout << "1" << endl;
+        }
+    }
 
 }
 

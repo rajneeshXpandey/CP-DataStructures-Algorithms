@@ -63,13 +63,80 @@ inline ll power(ll a, ll n){ ll res = 1; while (n > 0){ if (n % 2) res *= a; a *
 inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
-
+int calculateSum(string str,int n){
+    int sum=0;
+    forn(i,n-1){
+        if(str[i]=='1' and str[i+1]=='0') sum += 10;
+        else if(str[i]=='0' and str[i+1]=='1') sum += 1;
+        else if(str[i]=='1' and str[i+1]=='1') sum += 11;
+        else if(str[i]=='0' and str[i+1]=='0') sum += 0;
+    }
+    return sum;
+}
+void option1(string str,int k,int &ans,int *pos,int n){
+    if (pos[0] <= k and pos[0] != 0)
+    {
+        str[0] = '1';
+        str[pos[0]] = '0';
+        k -= pos[0];
+    }
+    ans = min(calculateSum(str, n), ans);
+    if (pos[1] <= k and pos[1] != 0)
+    {
+        str[n - 1] = '1';
+        str[n - 1 - pos[1]] = '0';
+        k -= pos[1];
+    }
+    ans = min(calculateSum(str, n), ans);
+}
+void option2(string str, int k, int &ans, int *pos, int n)
+{
+    if (pos[1] <= k and pos[1] != 0)
+    {
+        str[n - 1] = '1';
+        str[n - 1 - pos[1]] = '0';
+        k -= pos[1];
+    }
+    ans = min(calculateSum(str, n), ans);
+    if (pos[0] <= k and pos[0] != 0)
+    {
+        str[0] = '1';
+        str[pos[0]] = '0';
+        k -= pos[0];
+    }
+    ans = min(calculateSum(str, n), ans);
+}
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
+    int n,k;
+    cin >> n>>k;
+    string str;
+    cin>>str;
+    int pos[2]={-1,-1};
+    for(int i=0;i<n;i++){
+        if (str[i]=='1'){
+            pos[0] = i;
+            break;
+        }
+    }
+    for(int i=n-1;i>=0;i--){
+        if (str[i]=='1'){
+            pos[1] = n-i-1;
+            break;
+        }
+    }
+    if(pos[0]==-1 and pos[1]==-1){
+        cout<<0<<endl;
+        return;
+    }
 
+    int ans = calculateSum(str,n);
+    
+    option1(str,k,ans,pos,n);
+    option2(str,k,ans,pos,n);
+
+    //cout<<str<<endl;
+    
+    cout<<ans<<endl;
 }
 
 signed main(){

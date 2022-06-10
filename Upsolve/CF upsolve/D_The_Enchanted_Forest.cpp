@@ -64,12 +64,81 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 // ********************************* Code Begins ********************************** //
 
-void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
+char move(vector<int> &v,int idx,int n){
+    int l=idx-1,r=idx+1;
+    if(l>=0 and r<n){
+        if(v[idx]>v[l] and v[idx]>v[r]) return 'S';
 
+        if(l>=0 && r<n){
+            if(v[l]==v[r]){
+                if (l > n - r)
+                {
+                    return 'L';
+                }
+                else
+                {
+                    return 'R';
+                }
+            }
+            else if(v[l]>v[r]){
+                return 'L';
+            }
+            else{
+                return 'R';
+            }
+        } 
+    }
+    if((l<0 and r>=n)){
+        return 'S';
+    }
+    else if(l<0){
+        return 'R';
+    }
+    else {
+        return 'L';
+    }
+}
+int summ(int n){
+    return (n*(n+1));
+}
+void solve(){
+    int n,k,sum=0;
+    cin >> n >>k;
+    vector<int> a(n);
+    forn(i, n) cin >> a[i],sum+=a[i];
+    int idx = max_element(all(a)) - a.begin();
+    //deb(idx);
+    int ans = 0,time=0;
+    if(n==1){
+        cout<<a[0]+k-1<<endl;
+        return;
+    }
+    if(k>=n){
+        k -= n;
+        //int rem = k%(n-1);
+        ans = sum + summ(n-1)*k;
+        cout << ans << endl;
+        return;
+    }
+    while(k--){
+        char dir = move(a,idx,n);
+        if(dir=='L'){
+            idx--;
+            ans += a[idx];
+            a[idx] = 1;
+        }
+        else if(dir=='R'){
+            idx++;
+            ans += a[idx];
+            a[idx] = 1;
+        }
+        else{
+            ans += a[idx];
+            a[idx] = 1;
+        }
+        time++;
+    }
+    cout << ans+time << endl;
 }
 
 signed main(){

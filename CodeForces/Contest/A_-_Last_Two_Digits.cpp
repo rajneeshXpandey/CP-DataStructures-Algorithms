@@ -67,8 +67,14 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
+    string ans="";
+    int k=2;
+    while(k--){
+        ans+=to_string(n%10);
+        n/=10;
+    }
+    reverse(all(ans));
+    cout<<ans<<endl;
 
 }
 
@@ -77,7 +83,6 @@ signed main(){
     //freopen("output.txt", "w", stdout);
     FastIO;
     int total_testcases = 1;
-    cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         // cout<<"Case #"<< test_case <<": ";
         solve();

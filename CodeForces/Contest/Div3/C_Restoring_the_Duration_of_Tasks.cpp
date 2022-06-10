@@ -67,8 +67,22 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
+    vector<int> f(n), s(n) ,d(n);
+    forn(i, n) cin >> s[i]; //start
+    forn(i, n) cin >> f[i]; //finish
+    vector<pii> tasks(n);
+    deque<pii> dq;
+    int time = s[0];
+    d[0] = f[0] - s[0];
+    int prev=f[0];
+    loop(i,1,n-1){
+        prev = max(f[i-1],s[i]);
+        //deb(prev);
+        if (f[i] - prev<0)
+            d[i] = 0;
+        else d[i] = f[i] - prev;
+    }
+    printArr(d);
 
 }
 

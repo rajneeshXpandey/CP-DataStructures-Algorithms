@@ -65,11 +65,33 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 // ********************************* Code Begins ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    int n,k;
+    cin >> n >>k;
+    vector<int> v(n), visited(n, 0);
+    forn(i, n) cin >> v[i];
+    set<pii> st;
+    sort(all(v), greater<int>());
+    for (int i = 0; i < n; i++){
+        st.insert({v[i] % k, i});
+    }
+    int idx = 0, ans = 0;
+    while (idx < n){
+        while (idx < n and visited[idx])
+            idx++;
+        if (idx == n)
+            break;
+        st.erase({v[idx] % k, idx});
+        int a = v[idx] % k;
+        auto it = st.lower_bound({k - a, -1});
+        if(it == st.end())
+            it = st.begin();
+        int index = it->second;
+        ans += (v[index] + v[idx]) / k;
+        visited[index] = 1;
+        idx++;
+        st.erase(it);
+    }
+    cout << ans << endl;
 }
 
 signed main(){

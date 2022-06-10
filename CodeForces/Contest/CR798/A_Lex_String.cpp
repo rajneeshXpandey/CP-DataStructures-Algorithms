@@ -65,11 +65,49 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 // ********************************* Code Begins ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    int n,m,k;
+    cin >> n >>m >>k;
+    string a,b;
+    cin>>a>>b;
+    sort(all(a));
+    sort(all(b));
+    string c = "";
+    int ca=0,cb=0,i=0,j=0;
+    while(i<n && j<m){
+        if(a[i]==b[j]){
+        }
+        else if(a[i]<b[j]){
+            if(ca<k)
+            {   c+=a[i];
+                i++;
+                cb=0;
+                ca++;
+            }
+            else
+            {
+                c += b[j];
+                j++;
+                ca = 0;
+                cb++;
+            }
+        }
+        else if(a[i]>b[j])
+        {
+            if(cb < k)
+            {    c+=b[j];
+                j++;
+                ca=0;
+                cb++;
+                }
+            else{
+                c += a[i];
+                i++;
+                cb = 0;
+                ca++;
+            } 
+        }
+    }
+    cout<<c<<endl;
 }
 
 signed main(){

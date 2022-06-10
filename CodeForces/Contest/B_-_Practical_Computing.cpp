@@ -67,9 +67,25 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    vector<vector<int>> mat(n);
+    for(int i=0;i<n;i++){
+       for(int j=0;j<=i;j++){
+           if(j==0 || j==i){
+               mat[i].pb(1LL);
+           }
+           else{
+               mat[i].pb(mat[i-1][j-1] + mat[i-1][j]);
+           }
+       }
+    }
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j <= i; j++)
+        {
+            cout<<mat[i][j]<<" ";
+        }
+        cout<<endl;
+    }
 }
 
 signed main(){
@@ -77,7 +93,6 @@ signed main(){
     //freopen("output.txt", "w", stdout);
     FastIO;
     int total_testcases = 1;
-    cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         // cout<<"Case #"<< test_case <<": ";
         solve();

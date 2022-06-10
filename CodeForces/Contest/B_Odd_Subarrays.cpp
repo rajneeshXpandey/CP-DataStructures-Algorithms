@@ -69,7 +69,12 @@ void solve(){
     cin >> n;
     vector<int> a(n);
     forn(i, n) cin >> a[i];
+    int ans=0;
+    forn(i,n-1){
+        if(a[i]>a[i+1]) ans++,i++;
+    }
 
+    cout<<ans<<endl;
 }
 
 signed main(){

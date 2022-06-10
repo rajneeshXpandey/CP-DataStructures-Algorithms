@@ -63,13 +63,50 @@ inline ll power(ll a, ll n){ ll res = 1; while (n > 0){ if (n % 2) res *= a; a *
 inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
-
+bool check(vector<int> &v,int &n){
+    forn(i,n-2){
+        if ((v[i] < v[i + 1] and v[i + 1] > v[i + 2]) or (v[i] > v[i + 1] and v[i + 1] < v[i + 2])){
+        }
+        else
+            return 0;
+    }
+    if ((v[n-2] < v[n-1] and v[n-1] > v[0]) or (v[n-2] > v[n-1] and v[n-1] < v[0])){}
+    else if((v[n-1] < v[0] and v[0] > v[1]) or (v[n-1] > v[0] and v[0] < v[1])){}
+    else
+        return 0;
+    return 1;
+}
 void solve(){
     int n;
     cin >> n;
     vector<int> a(n);
     forn(i, n) cin >> a[i];
-
+    if(n&1){
+        no;
+        return;
+    }
+    sort(all(a));
+    vector<int> result(n);
+    int idx = 0;
+    
+    forn(i,n){
+        if(i<n/2 and idx<n)
+            result[idx] = a[i], idx+=2;
+    }
+    idx=1;
+    forn(i,n){
+        if(i>=n/2 and idx<n)
+            result[idx] = a[i], idx+=2;
+    }
+    //printArr(result);
+    if(check(result,n)){
+        yes;
+        printArr(result);
+    }
+    else
+    {
+        no;
+    }
 }
 
 signed main(){

@@ -67,8 +67,10 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
+    vector<int> a(n),b(n);
     forn(i, n) cin >> a[i];
+    forn(i, n) cin >> b[i];
+        
 
 }
 

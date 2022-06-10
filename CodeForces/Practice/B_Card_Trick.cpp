@@ -65,11 +65,17 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 // ********************************* Code Begins ********************************** //
 
 void solve(){
-    int n;
+    int n,m;
     cin >> n;
     vector<int> a(n);
     forn(i, n) cin >> a[i];
-
+    cin >> m;
+    vector<int> b(m);
+    int sum=0;
+    forn(i, m) cin >> b[i], sum += b[i];
+    sum %= n;
+    sum--;
+    cout<<a[sum+1]<<endl;
 }
 
 signed main(){

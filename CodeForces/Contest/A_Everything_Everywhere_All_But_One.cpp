@@ -65,10 +65,23 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 // ********************************* Code Begins ********************************** //
 
 void solve(){
-    int n;
+    int n,sum=0,avg;
     cin >> n;
     vector<int> a(n);
-    forn(i, n) cin >> a[i];
+    set<int> st;
+    forn(i, n) cin >> a[i],st.insert(a[i]),sum+=a[i];
+
+    forn(i,n){
+        if ((sum - a[i]) % (n - 1)==0){
+            avg = (sum - a[i]) / (n - 1);
+            if (avg==a[i]){
+                yes;
+                return;
+            }
+        }
+    }
+    no;
+
 
 }
 

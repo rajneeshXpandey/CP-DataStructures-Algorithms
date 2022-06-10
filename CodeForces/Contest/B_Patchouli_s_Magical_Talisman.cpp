@@ -64,12 +64,38 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 // ********************************* Code Begins ********************************** //
 
+int step(int num){
+    int cnt = 0;
+    while(!(num&1)){
+        num /= 2;
+        cnt++;
+    }
+    return cnt;
+}
 void solve(){
     int n;
     cin >> n;
     vector<int> a(n);
     forn(i, n) cin >> a[i];
-
+    vector<pii> critic; // #reduce to odd, value
+    int even = 0, odd = 0;
+    for(auto val : a){
+        if(!(val&1)){
+            critic.pb(mp(step(val),val));
+            even++;
+        }
+        else odd++;
+    }
+    if(even==0){
+        cout << "0\n";
+        return;
+    }
+    sort(all(critic));
+    if(odd==0){
+        cout<<critic[0].ff+even-1<<endl;
+        return;
+    }
+    cout<<even<<endl;
 }
 
 signed main(){

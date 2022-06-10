@@ -64,12 +64,61 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 // ********************************* Code Begins ********************************** //
 
+bool checkSort(vector<int> &v,int n){
+    forn(i, n-1)
+        if(v[i]>v[i+1]) return 0;
+    return 1;    
+}
+
+void findSwap(vector<int> &a,vector<int> &b,vector<pii> &path,int n){
+
+    for (int i = 0; i < n - 1; i++)
+    {
+        int mna = a[i],idx = i;
+        loop(j,i+1,n-1){
+            if(mna>a[j])
+                mna = a[j],idx = j;
+        }
+        if(idx>i){
+            int temp = a[i], temp1 = b[i];
+            a[i] = mna;b[i] = b[idx];a[idx] = temp;b[idx] = temp1;
+            path.pb({i+1,idx+1});
+        }        
+    }
+
+}
+
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
+    vector<int> a(n),a1(n),b(n),b1(n);
+    forn(i, n) cin >> a[i] , a1[i] = a[i];
+    forn(i, n) cin >> b[i], b1[i] = b[i];
 
+    vector<pii> path, path1;
+    findSwap(a,b,path,n);
+    findSwap(b,a,path,n);
+    if(checkSort(b,n) and checkSort(a,n)){
+        cout<<path.size()<<endl;
+        for(auto idx : path){
+            cout<<idx.ss<<' '<<idx.ff<<endl;
+        }
+    }
+    else{
+        findSwap(b1,a1,path1,n);
+        findSwap(a1,b1,path1,n);
+        if (checkSort(b1, n) and checkSort(a1, n))
+        {
+            cout << path1.size() << endl;
+            for (auto idx : path1)
+            {
+                cout << idx.ss << ' ' << idx.ff << endl;
+            }
+        }
+        else{
+            cout<<"-1"<<endl;
+        }
+    }
 }
 
 signed main(){

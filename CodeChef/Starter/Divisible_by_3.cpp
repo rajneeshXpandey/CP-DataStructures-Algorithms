@@ -65,10 +65,19 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 // ********************************* Code Begins ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
+    int a,b;
+    cin >> a>>b;
+    int steps = 0;
+    if(a%3==0 or b%3==0){
+        cout << "0" << endl;
+        return;
+    }
+    if(a<b) swap(a,b);
+    while(a%3){
+        a = abs(a-b);
+        steps++;
+    }
+    cout << steps << endl;
 
 }
 
