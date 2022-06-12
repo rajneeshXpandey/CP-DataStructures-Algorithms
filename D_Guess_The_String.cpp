@@ -16,7 +16,6 @@ using namespace std;
 #define mp make_pair
 #define all(x) (x).begin(), (x).end()
 #define rall(x) (x).rbegin(), (x).rend()
-#define endl "\n"
 #define int long long
 #define ll long long
 #define sz(v) (ll)(v.size())
@@ -66,9 +65,58 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    string ans = "";
+    forn(i,n){
+        ans += '*';
+    }
+    // cout<<ans<<endl;
+    if(n<=26){
+        forn(i,n){
+            cout<<'?'<<' '<<1<<' '<<i+1<<endl;
+            cout<<flush;
+            char ch;
+            cin>>ch;
+            ans[i] = ch;
+        }
+        cout<<"! "<<ans<<endl;
+        cout<<flush;
+        return;
+    }
+    cout<<'?'<<' '<<1<<' '<<1<<endl;
+    cout<<flush;
+    char ch;
+    cin>>ch;
+    ans[0] = ch;
+    forn(i,n){
+        if(ans[i]!='*'){
+            char prevChar=ans[i];
+            int idx = i;
+            loop(j,i+1,n-1){
+                if(ans[j]!='*') 
+                {
+                    idx=j;
+                    prevChar=ans[j];
+                    continue;
+                }
+                cout<<'?'<<' '<<2<<' '<<idx+1<<' '<<j+1<<endl;
+                cout<<flush;
+                int dist;
+                cin>>dist;
+                if((j-idx+1)>dist) ans[j] = prevChar;
+                // else{
+                //     cout<<'?'<<' '<<1<<' '<<j+1<<endl;
+                //     cout<<flush;
+                //     char ch;
+                //     cin>>ch;
+                //     ans[j] = ch;
+                // }
+                
+            }
+        }
+    }
+   
+   cout<<"! "<<ans<<endl;
+   cout<<flush;
 }
 
 signed main(){
@@ -76,7 +124,7 @@ signed main(){
     //freopen("output.txt", "w", stdout);
     FastIO;
     int total_testcases = 1;
-    cin >> total_testcases;
+    // cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         // cout<<"Case #"<< test_case <<": ";
         solve();

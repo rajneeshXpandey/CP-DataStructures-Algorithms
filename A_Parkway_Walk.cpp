@@ -64,11 +64,22 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 // ********************************* Code Begins ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
+    int n ,m;
+    cin >> n >>m;
     vector<int> a(n);
     forn(i, n) cin >> a[i];
-
+    int ans=0;
+    forn(i,n){
+        if(m>=a[i]){
+            m -= a[i];
+        }
+        else{
+            int inc = (a[i]-m);
+            ans += inc;
+            m = 0;
+        }
+    }
+    cout<<ans<<endl;
 }
 
 signed main(){

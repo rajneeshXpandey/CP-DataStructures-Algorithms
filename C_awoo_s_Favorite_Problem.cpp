@@ -64,11 +64,72 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 // ********************************* Code Begins ********************************** //
 
 void solve(){
+    /*
+    choose an occurrence of "ab" in 𝑠 and replace it with "ba";
+    choose an occurrence of "bc" in 𝑠 and replace it with "cb".
+    */
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    string s,t;
+    cin>>s>>t;
+   
+    if(n==1){
+        if(s.compare(t)==0){
+            yes;
+            return;
+        }
+        no;
+        return;
+    }
+    forn(i,n-1){
+        if(s[i]!=t[i]){
+            if(t[i]=='b'){
+                if(s[i]=='a' and s[i+1]=='b') {
+                    s[i]='b';
+                    s[i+1]='a';
+                }
+                else{
+                    int j=i;
+                    while(j<n and s[j]=='a'){
+                        j++;
+                    }
+                    if(j<n and s[j]=='b'){
+                        s[i]='b';
+                        s[j]='a';
+                    }
+                    else{
+                        no;
+                        return;
+                    }
+                }
+            }
+            else if(t[i]=='c'){
+                if(s[i]=='b' and s[i+1]=='c'){
+                    s[i]='c';
+                    s[i+1]='b';
+                }
+                else{
+                    int j=i;
+                    while(j<n and s[j]=='b'){
+                        j++;
+                    }
+                    if(j<n and s[j]=='c'){
+                        s[i]='c';
+                        s[j]='b';
+                    }
+                    else{
+                        no;
+                        return;
+                    }
+                }
+            }
+        }
+    }
+     if(s.compare(t)==0){
+            yes;
+            return;
+    }
+    no;
 }
 
 signed main(){
