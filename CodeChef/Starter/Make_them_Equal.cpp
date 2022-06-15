@@ -62,26 +62,45 @@ inline ll power(ll a, ll n){ ll res = 1; while (n > 0){ if (n % 2) res *= a; a *
 inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
-
+bool isPowerOfTwo(int n) {
+    return (n & (n - 1)) == 0;
+}
+bool findPlease(vector<int> a){
+        for(int i=0;i<40;i++){
+                if(a[0]==a[1] and a[1]==a[2]){
+                    return true;
+                }
+                int ct = ((a[0]>>i)&1) + ((a[1]>>i)&1) + ((a[2]>>i)&1);
+			if (ct == 2) {
+				if (((a[0]>>i)&1) == 0) a[0] += 1LL<<i;
+				if (((a[1]>>i)&1) == 0) a[1] += 1LL<<i;
+				if (((a[2]>>i)&1) == 0) a[2] += 1LL<<i;
+			}
+			else if (ct == 1) {
+				if ((a[0]>>i)&1) a[0] += 1LL<<i;
+				if ((a[1]>>i)&1) a[1] += 1LL<<i;
+				if ((a[2]>>i)&1) a[2] += 1LL<<i;
+			}
+			else break;
+            }
+    if(a[0]==a[1] and a[1]==a[2]){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
 void solve(){
-    int n;
-    cin >> n;
-    if(n==1){
-        cout<<"1"<<endl;
-        cout<<"1"<<endl;
-        return;
+    int n=3;
+    vector<int> a(n);
+    forn(i, n) cin >> a[i];
+    sort(all(a));
+    if(findPlease(a)){
+        cout<<"YES"<<endl;
     }
-    if(n==2){
-        cout<<"1 2"<<endl;
-        cout<<"2 1"<<endl;
-        return;
+    else{
+        cout<<"NO"<<endl;
     }
-    if(n==4){
-        cout<<"1 2 3 4"<<endl;
-        cout<<"2 1 4 3"<<endl;
-        return;
-    }
-    cout<<"-1"<<endl;
 }
 
 signed main(){
