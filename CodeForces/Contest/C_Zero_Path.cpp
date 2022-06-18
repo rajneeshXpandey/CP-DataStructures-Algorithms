@@ -68,10 +68,40 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 // ********************************* Code Begins ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
+    int n,m;
+    cin >> n >>m;
+    vector<vector<int>> a(n,vector<int>(m));
+    forn(i,n){
+        forn(j,m){
+            cin>>a[i][j];
+        }
+    }
+    if((n+m)%2==0)
+    {
+        no;
+        return;
+    }
+    vector<vector<array<int,2>>> dp(n,vector<array<int,2>>(m)); // max_sum
+    dp[n-1][m-1] = {a[n-1][m-1],a[n-1][m-1]};
+    rloop(i,n-2,0){
+         dp[i][m-1]= {dp[i+1][m-1][0]+a[i][m-1],dp[i+1][m-1][1]+a[i][m-1]};
+    }
+    rloop(i,m-2,0){
+        dp[n-1][i] = {dp[n-1][i+1][0]+a[n-1][i],dp[n-1][i+1][1]+a[n-1][i]};
+    }
+    for(int i=n-2;i>=0;i--){
+        for(int j=m-2;j>=0;j--){
+            dp[i][j][0] = min({dp[i+1][j][0],dp[i][j+1][0]})+a[i][j];
+            dp[i][j][1] = max({dp[i+1][j][1],dp[i][j+1][1]})+a[i][j];
+        }
+    }
+    
+    if(dp[0][0][0]<=0 and dp[0][0][1]>=0){
+       yes;
+    }
+    else{
+       no;
+    }
 
 }
 

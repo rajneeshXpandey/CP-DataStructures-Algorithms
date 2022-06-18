@@ -71,8 +71,20 @@ void solve(){
     int n;
     cin >> n;
     vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    int min_stone=inf;
+    forn(i, n) cin >> a[i],min_stone=min(min_stone, a[i]);
+    // (i%n)+1
+    if(n&1){ //odd -> M(J) J M J M 
+       cout<<"Mike"<<endl;
+       return;
+    } 
+    int idx = min_element(all(a)) - a.begin();
+    if(idx&1){
+        cout<<"Mike"<<endl;
+    }
+    else{
+        cout<<"Joe"<<endl;
+    }
 }
 
 signed main(){

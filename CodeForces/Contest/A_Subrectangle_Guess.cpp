@@ -68,11 +68,21 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 // ********************************* Code Begins ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    int n,m;
+    cin >> n >>m;
+    vector<vector<int>> mat(n,vector<int>(m));
+    int maxi = -inf,x=-1,y=-1;
+    forn(i,n){
+        forn(j,m){
+            cin>>mat[i][j];
+            if(mat[i][j]>maxi)
+              maxi=mat[i][j],x=i,y=j;
+        }
+    }
+    // deb3(maxi,x,y);
+    int xans = max(x+1,n-x),yans = max(y+1,m-y);
+    // deb2(xans,yans);
+    cout<<xans*yans<<endl;
 }
 
 signed main(){
