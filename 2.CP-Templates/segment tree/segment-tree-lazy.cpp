@@ -27,7 +27,7 @@ public:
 
     //merge function
     static void merge(node &curr, node &left, node &right) {
-        curr.val =min( left.val , right.val);
+        curr.val = min( left.val , right.val);
     }
 
 
