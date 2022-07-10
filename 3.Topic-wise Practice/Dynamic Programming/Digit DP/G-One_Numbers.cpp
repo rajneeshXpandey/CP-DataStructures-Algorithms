@@ -1,5 +1,4 @@
 #pragma GCC optimize("unroll-loops,O3,Ofast")
-#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
 
 #include "bits/stdc++.h"
 using namespace std;
@@ -7,7 +6,6 @@ using namespace std;
 #define loop(i, a, b)  for(int i = a; i <= b; i++)
 #define rloop(i, a, b) for(int i = a; i >= b; i--)
 #define forn(i, n) loop(i, 0, n-1)
-#define forone(i, n) loop(i,1,n)
 #define deb(x) cout << #x << "=" << x << endl
 #define deb2(x, y) cout << #x << "=" << x << "," << #y << "=" << y << endl
 #define deb3(x, y, z) cout << #x << "=" << x << "," << #y << "=" << y << "," << #z << "=" << z << endl
@@ -33,17 +31,22 @@ using namespace std;
 #define min3(a,b,c) min({a, b, c});
 #define setbits(x) __builtin_popcountll(x)      // count set bits in binary rep
 #define zerobefone(x) __builtin_ctzll(x) // zeros before first setbit
+#define mod 1000000007   //1e9+7
+#define mod1 998244353
+#define inf 2000000000000000000 //2e18
+#define pi  3.141592653589793238
+#define yes cout << "YES" << endl
+#define no cout << "NO" << endl
+#define neg1 cout << "-1" << endl
+#define precise(x, y) fixed << setprecision(y) << x // cout<<precise(value,uptodecimalpt)<<endl;
+
 #define pqmx priority_queue<int>                               // maxheap
 #define pqmn priority_queue<int, vector<int>, greater<int>>    // minheap
 #define piipqmx priority_queue<pii>                            // maxheap for pair<int,int>
 #define piipqmn priority_queue<pii, vector<pii>, greater<pii>> // minheap for pair<int,int>
-#define mod 1000000007   //1e9+7
-#define mod1 998244353
-#define inf 2000000000000000000 //2e18
-#define PI  3.141592653589793238
-#define yes cout << "YES" << endl
-#define no cout << "NO" << endl
-#define precise(x, y) fixed << setprecision(y) << x // cout<<precise(value,uptodecimalpt)<<endl;
+#define ump unordered_map<int, int>
+
+typedef tuple<int, int, int> tuplei;
 
 //assign and update min and max values.
 template<typename T, typename T1> T amax(T &a, T1 b) {if (b > a)a = b; return a;}
@@ -64,19 +67,55 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 // ********************************* Code Begins ********************************** //
 
-void solve(){
-    int n;
-    cin >> n;
-    string ans="";
-    int k=2;
-    while(k--){
-        ans+=to_string(n%10);
-        n/=10;
-    }
-    reverse(all(ans));
-    cout<<ans<<endl;
-    
+// (idx ,bound, sum) -> states
+int dp[10][2][82];
 
+bool isPrime(int n){
+    if(n == 1) return false;
+    if(n == 2) return true;
+    if(n % 2 == 0) return false;
+    for(int i = 3; i*i <= n; i += 2){
+        if(n % i == 0) return false;
+    }
+    return true;
+}
+
+int findDigitSum(string &nums,int idx,int bound=1,int sum=0){
+    // cout<<sum<<' ';
+    if(idx==nums.size()){
+        if(isPrime(sum)) return 1;
+        else return 0;
+    }
+    if(dp[idx][bound][sum]!=-1) return dp[idx][bound][sum];
+    if(bound==1){
+        int res = 0;
+        for(int i=0;i<=nums[idx]-'0';i++){
+            if(i==nums[idx]-'0') res += findDigitSum(nums,idx+1,1,sum+i);
+            else res += findDigitSum(nums,idx+1,0,sum+i);
+        }
+        return dp[idx][bound][sum] = res;
+    }   
+    else {
+        int res = 0;
+        for(int i=0;i<=9;i++){
+            res += findDigitSum(nums,idx+1,0,sum+i);
+        }
+        return dp[idx][bound][sum] = res;
+    } 
+}
+
+
+void solve(){
+    int l,r;
+    cin>>l>>r;
+    l--;
+    string lstr = to_string(l);
+    string rstr = to_string(r);
+    memset(dp,-1,sizeof(dp));
+    int ans1  = findDigitSum(lstr,0,1);
+    memset(dp,-1,sizeof(dp));
+    int ans2  = findDigitSum(rstr,0,1);
+    cout<<ans2-ans1<<endl;
 }
 
 signed main(){
@@ -84,6 +123,7 @@ signed main(){
     //freopen("output.txt", "w", stdout);
     FastIO;
     int total_testcases = 1;
+    cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         // cout<<"Case #"<< test_case <<": ";
         solve();

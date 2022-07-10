@@ -1,5 +1,4 @@
 #pragma GCC optimize("unroll-loops,O3,Ofast")
-#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
 
 #include "bits/stdc++.h"
 using namespace std;
@@ -7,7 +6,6 @@ using namespace std;
 #define loop(i, a, b)  for(int i = a; i <= b; i++)
 #define rloop(i, a, b) for(int i = a; i >= b; i--)
 #define forn(i, n) loop(i, 0, n-1)
-#define forone(i, n) loop(i,1,n)
 #define deb(x) cout << #x << "=" << x << endl
 #define deb2(x, y) cout << #x << "=" << x << "," << #y << "=" << y << endl
 #define deb3(x, y, z) cout << #x << "=" << x << "," << #y << "=" << y << "," << #z << "=" << z << endl
@@ -33,17 +31,22 @@ using namespace std;
 #define min3(a,b,c) min({a, b, c});
 #define setbits(x) __builtin_popcountll(x)      // count set bits in binary rep
 #define zerobefone(x) __builtin_ctzll(x) // zeros before first setbit
+#define mod 1000000007   //1e9+7
+#define mod1 998244353
+#define inf 2000000000000000000 //2e18
+#define pi  3.141592653589793238
+#define yes cout << "YES" << endl
+#define no cout << "NO" << endl
+#define neg1 cout << "-1" << endl
+#define precise(x, y) fixed << setprecision(y) << x // cout<<precise(value,uptodecimalpt)<<endl;
+
 #define pqmx priority_queue<int>                               // maxheap
 #define pqmn priority_queue<int, vector<int>, greater<int>>    // minheap
 #define piipqmx priority_queue<pii>                            // maxheap for pair<int,int>
 #define piipqmn priority_queue<pii, vector<pii>, greater<pii>> // minheap for pair<int,int>
-#define mod 1000000007   //1e9+7
-#define mod1 998244353
-#define inf 2000000000000000000 //2e18
-#define PI  3.141592653589793238
-#define yes cout << "YES" << endl
-#define no cout << "NO" << endl
-#define precise(x, y) fixed << setprecision(y) << x // cout<<precise(value,uptodecimalpt)<<endl;
+#define ump unordered_map<int, int>
+
+typedef tuple<int, int, int> tuplei;
 
 //assign and update min and max values.
 template<typename T, typename T1> T amax(T &a, T1 b) {if (b > a)a = b; return a;}
@@ -64,18 +67,62 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 // ********************************* Code Begins ********************************** //
 
-void solve(){
-    int n;
-    cin >> n;
-    string ans="";
-    int k=2;
-    while(k--){
-        ans+=to_string(n%10);
-        n/=10;
+vector<vector<int>> grid;
+void buildMat(){
+    vector<int> rowType1(50),rowType2(50);
+    bool flip=1;
+    for(int i=0;i<50;i+=2){
+        if(flip){
+            rowType1[i] = 1;
+            rowType1[i+1] = 0;
+        }
+        else{
+            rowType1[i] = 0;
+            rowType1[i+1] = 1;
+        }
+        flip = !flip;
     }
-    reverse(all(ans));
-    cout<<ans<<endl;
+    flip=1;
+    for(int i=0;i<50;i+=2){
+        if(!flip){
+            rowType2[i] = 1;
+            rowType2[i+1] = 0;
+        }
+        else{
+            rowType2[i] = 0;
+            rowType2[i+1] = 1;
+        }
+        flip = !flip;
+    }
+    flip=1;
+    for(int i=0;i<50;i+=2){
+        if(flip){
+            grid.pb(rowType1);
+            grid.pb(rowType2);
+        }
+        else{
+            grid.pb(rowType2);
+            grid.pb(rowType1);
+        }
+        flip = !flip;
+    }
+}
+void solve(){
+    int n,m;
+    cin >> n >>m;
+    vector< vector<int>> matrix(n,vector<int>(m,0));
+    forn(i,n){
+        forn(j,m){
+            matrix[i][j] = grid[i][j];
+        }
+    }
     
+    forn(i,n){
+        forn(j,m){
+            cout<<matrix[i][j]<<' ';
+        }
+        cout<<endl;
+    }
 
 }
 
@@ -83,7 +130,9 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     FastIO;
+    buildMat();
     int total_testcases = 1;
+    cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         // cout<<"Case #"<< test_case <<": ";
         solve();
