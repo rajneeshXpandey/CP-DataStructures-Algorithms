@@ -76,13 +76,13 @@ void solve(){
 }
 
 signed main(){
+    FastIO;
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
-    FastIO;
     int total_testcases = 1;
     cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
-        // cout<<"Case #"<< test_case <<": ";
+        //cout<<"Case #"<< test_case <<": ";
         solve();
     }        
 }
