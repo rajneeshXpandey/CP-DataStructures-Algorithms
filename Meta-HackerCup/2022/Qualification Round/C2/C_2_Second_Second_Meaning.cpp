@@ -110,6 +110,7 @@ void buildStr(vector<string> &ans,string &str, int pos, int n = 10)
 void solve()
 {
     // check for prefix diffrence
+    /* this is wrong submission */
     int n;
     cin >> n;
     string c1;

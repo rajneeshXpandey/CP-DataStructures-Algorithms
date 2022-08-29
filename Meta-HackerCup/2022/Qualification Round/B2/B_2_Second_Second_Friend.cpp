@@ -130,6 +130,8 @@ bool check(int x, int y, int n, int m, vector<vector<char>> &paint){
 }
 void solve()
 {
+
+        /* this is wrong submission */
     int n, m, tree = 0,rock=0;
     cin >> n >> m;
     vector<vector<char>> paint(n, vector<char>(m));
