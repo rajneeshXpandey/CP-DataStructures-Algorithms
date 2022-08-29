@@ -109,6 +109,7 @@ void buildStr(vector<string> &ans,string &str, int pos, int n = 10)
 }
 void solve()
 {
+    // check for prefix diffrence
     int n;
     cin >> n;
     string c1;
@@ -123,14 +124,7 @@ void solve()
     for(int i=500;i<=n+498;i++) fans.pb(ans[i]);
     for(auto &ss : fans){
         if(ss.compare(c1)==0){
-            for(int i=0;i<sz(c1)/2;i++){
-                if(c1[i]=='.'){
-                    ss[i] = '-';
-                }
-                else{
-                    ss[i] = '.';
-                }
-            }
+            reverse(all(ss));
         }
     }
     assert(fans.size() == n - 1);
