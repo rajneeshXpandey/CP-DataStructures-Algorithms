@@ -1,6 +1,6 @@
 #pragma GCC optimize("unroll-loops,O3,Ofast")
 
-#include <bits/stdc++.h>
+#include "bits/stdc++.h"
 using namespace std;
 
 #define loop(i, a, b)  for(int i = a; i <= b; i++)
@@ -57,8 +57,7 @@ template<typename T, typename T1> T amin(T &a, T1 b) {if (b < a)a = b; return a;
     cin.tie(0);                   \
     cout.tie(0)
 
-// mt19937_64 rng(61378913);
-/* usage - just do rng() */
+/* usage - just do rng()  : random number generator*/
 mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
@@ -70,9 +69,23 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    set<int> s;
+    while (sz(s) < n - 1)
+    {
+        s.insert(rng() % (1LL << 31));
+    }
+    int nth_term = 0;
+    for (auto &i : s)
+    {
+        cout << i << " ";
+        nth_term ^= i;
+    }
+    /*
+    if xor of even index terms is X 
+        & xor of whole array is 0 then,
+        xor of odd index terms is also X
+    */
+    cout << nth_term << "\n";
 }
 
 signed main(){

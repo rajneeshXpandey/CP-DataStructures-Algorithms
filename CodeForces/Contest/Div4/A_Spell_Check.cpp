@@ -1,6 +1,6 @@
 #pragma GCC optimize("unroll-loops,O3,Ofast")
 
-#include <bits/stdc++.h>
+#include "bits/stdc++.h"
 using namespace std;
 
 #define loop(i, a, b)  for(int i = a; i <= b; i++)
@@ -70,8 +70,19 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
+    string str;
+    cin>>str;
+    map<char,int> mp,tmp;
+    mp['T']++;
+    mp['i']++; 
+    mp['m']++; 
+    mp['u']++; 
+    mp['r']++;
+    for(auto ch : str) tmp[ch]++;
+    if(mp==tmp){
+        yes;
+    }
+    else no;
 
 }
 

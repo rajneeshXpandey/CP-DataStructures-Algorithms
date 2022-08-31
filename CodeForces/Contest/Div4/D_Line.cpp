@@ -1,6 +1,6 @@
 #pragma GCC optimize("unroll-loops,O3,Ofast")
 
-#include <bits/stdc++.h>
+#include "bits/stdc++.h"
 using namespace std;
 
 #define loop(i, a, b)  for(int i = a; i <= b; i++)
@@ -70,8 +70,66 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
+    string str;
+    cin>>str;
+    vector<int> ans(n);
+    int cnt=0;
+    forn(i,n){
+        if(str[i]=='L'){
+            cnt += i;
+        }
+        else {
+            cnt += n-1-i;
+        }
+    }
+    //deb(cnt);
+    int l=0,r=n-1,twist=0;
+    for(int i=1;i<=n;i++){
+        while(twist<i and l<=r){
+            if((str[l]=='L' and str[r]=='R')){
+                if ((n - 1 - l) >= r and l < n / 2)
+                {
+                    str[l] = 'R';
+                    cnt += ((n - 1) - l);
+                    cnt -= l;
+                    twist++;
+                    l++;
+                }
+                else if (r >= n / 2 and (n - 1 - l) <= r)
+                {
+                    str[r] = 'L';
+                    cnt -= ((n - 1) - r);
+                    cnt += (r);
+                    twist++;
+                    r--;
+                }            }
+            else if (l < n / 2 and str [l] == 'L')
+            {
+                str[l] = 'R';
+                cnt += (n - 1 - l); 
+                cnt -= l; 
+                twist++;
+                r--;
+                l++;
+            }
+            else if (r >= n / 2 and str [r] == 'R')
+            {
+                str[r] = 'L';
+                cnt -= (n - 1) - r;
+                cnt += (r);
+                twist++;
+                l++;
+                r--;
+            }
+            else{
+                r--;
+                l++;    
+            } 
+        }
+        cout<<cnt<<' ';
+    }
+    //printArr(ans);
+    cout<<endl;
 
 }
 

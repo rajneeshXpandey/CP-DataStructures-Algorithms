@@ -70,8 +70,34 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
+    vector<vector<string>> data(3,vector<string>(n));
+    forn(i, 3){
+        forn(j,n){
+            cin>>data[i][j];
+        }
+    }
+    map<string,vector<int>> mp;
+    forn(i, 3)
+    {
+        forn(j, n)
+        {
+            mp[data[i][j]].pb(i);
+        }
+    }
+    vector<int> score(3,0);
+    for(auto p : mp){
+        if(sz(p.ss)==1){
+            score[p.ss[0]]+=3;
+        }
+        else if(sz(p.ss)==2){
+            score[p.ss[0]] += 1;
+            score[p.ss[1]] += 1;
+        }
+    }
+    for(auto x : score){
+        cout<<x<<" ";
+    }
+    cout<<endl;
 
 }
 

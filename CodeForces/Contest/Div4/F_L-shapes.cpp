@@ -67,12 +67,64 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 // ********************************* Code Begins ********************************** //
 
-void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
+const int maxn = 55;
+int a[maxn][maxn];
+int vis[maxn][maxn];
+int n, m;
+int dx[] = {-1, 0, 1, 0, 1, 1, -1, -1};
+int dy[] = {0, 1, 0, -1, -1, 1, 1, -1};
 
+void dfs(int i, int j, int &ans, int &mnx, int &mxx, int &mny, int &mxy)
+{
+    forn(dir, 8)
+    {
+        int xx = i + dx[dir];
+        int yy = j + dy[dir];
+        if (xx >= 0 && xx < n && yy >= 0 && yy < m && !vis[xx][yy] && a[xx][yy])
+        {
+            ans++;
+            amax(mxx, xx);
+            amax(mxy, yy);
+            amin(mnx, xx);
+            amin(mny, yy);
+            vis[xx][yy] = 1;
+            dfs(xx, yy, ans, mnx, mxx, mny, mxy);
+        }
+    }
+}
+
+void solve()
+{
+    memset(a, 0, sizeof(a));
+    memset(vis, 0, sizeof(vis));
+    cin >> n >> m;
+    forn(i, n)
+    {
+        forn(j, m)
+        {
+            char ch;
+            cin >> ch;
+            if (ch == '*')
+                a[i][j] = 1;
+        }
+    }
+    forn(i, n)
+    {
+        forn(j, m)
+        {
+            if (!vis[i][j] && a[i][j])
+            {
+                int ans = 1, mnx = i, mxx = i, mny = j, mxy = j;
+                vis[i][j] = 1;
+                dfs(i, j, ans, mnx, mxx, mny, mxy);
+                if (ans != 3 || ((mxx - mnx) != 1) || ((mxy - mny) != 1)){
+                    no;
+                    return;
+                }
+            }
+        }
+    }
+    yes;
 }
 
 signed main(){

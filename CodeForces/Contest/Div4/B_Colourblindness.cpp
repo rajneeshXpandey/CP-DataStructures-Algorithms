@@ -1,6 +1,6 @@
 #pragma GCC optimize("unroll-loops,O3,Ofast")
 
-#include <bits/stdc++.h>
+#include "bits/stdc++.h"
 using namespace std;
 
 #define loop(i, a, b)  for(int i = a; i <= b; i++)
@@ -70,9 +70,19 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    string r1,r2;
+    cin>>r1;
+    cin>>r2;
+    bool ans = 1;
+    forn(i,n){
+        if ((r1[i] == 'R' and r2[i] == 'B') or (r1[i] == 'R' and r2[i] == 'G') or (r1[i] == 'B' and r2[i] == 'R') or (r1[i] == 'G' and r2[i] == 'R'))
+         {
+            ans=0;
+            break;
+         }
+    }
+    if(ans) yes;
+    else no;
 }
 
 signed main(){
