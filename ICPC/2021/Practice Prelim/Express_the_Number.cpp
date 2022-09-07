@@ -1,6 +1,6 @@
 #pragma GCC optimize("unroll-loops,O3,Ofast")
 
-#include "bits/stdc++.h"
+#include <bits/stdc++.h>
 using namespace std;
 
 #define loop(i, a, b)  for(int i = a; i <= b; i++)
@@ -16,7 +16,7 @@ using namespace std;
 #define all(x) (x).begin(), (x).end()
 #define rall(x) (x).rbegin(), (x).rend()
 #define endl "\n"
-//#define int long long
+#define int long long
 #define ll long long
 #define sz(v) (ll)(v.size())
 #define pb push_back
@@ -67,47 +67,27 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 // ********************************* Code Begins ********************************** //
 
-/*
-bool isBalanced(string &str){
-    int open=0,close=0;
-    for(int i=0;i<sz(str);i++){
-        if(str[i]=='(') open++;
-        else close++;
-        if(open<close) return 0;
-    }
-    if(open==close) return 1;
-    return 0;
-}
-*/
-void makeBalanceParanthesis(set<string> &ans,string str,int open,int close,int len,int n){
-    if(len==n){
-        if(open==close)
-            ans.insert(str);
-        return;
-    }
-    if(open>close){
-        str += ')';
-        makeBalanceParanthesis(ans, str,open,close+1,len+1, n);
-        str.pop_back();
-        str += '(';
-        makeBalanceParanthesis(ans, str, open + 1, close, len + 1, n);
-        str.pop_back();
-    }
-    else if(open<=close){
-        str+='(';
-        makeBalanceParanthesis(ans, str,open+1,close,len+1, n);
-        str.pop_back();
-    }
-}
 void solve(){
-    int n;
-    cin >> n;
-    set<string> ans;
-    string str = "";
-    makeBalanceParanthesis(ans,str,0,0,0,n);
-    for(auto strs : ans){
-        cout<<strs<<endl;
+    int n, x;
+    cin >> n >> x;
+    int cnt = 0;
+    while (n > x)
+    {
+        int pos = log2(n);
+        if (pos > 0 and pos % 2 == 0)
+            n -= (1 << (pos - 1));
+        else if (pos % 2)
+            n -= (1 << pos);
+        else
+            break;
+        cnt++;
     }
+    if (n and n <= x)
+        cout << cnt + 1 << endl;
+    else if (n == 0)
+        cout << cnt << endl;
+    else
+        cout << "-1" << endl;
 }
 
 signed main(){
@@ -115,7 +95,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    //cin >> total_testcases;
+    cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

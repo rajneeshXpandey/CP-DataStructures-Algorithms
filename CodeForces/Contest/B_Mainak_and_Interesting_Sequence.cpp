@@ -1,6 +1,6 @@
 #pragma GCC optimize("unroll-loops,O3,Ofast")
 
-#include "bits/stdc++.h"
+#include <bits/stdc++.h>
 using namespace std;
 
 #define loop(i, a, b)  for(int i = a; i <= b; i++)
@@ -70,9 +70,53 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 void solve(){
     int n,m;
     cin >> n >> m;
-    int ans = (n/m);
-    ans += (n%m);
-    cout<<ans<<endl;
+    if(n>m){
+        no;
+        return;
+    }
+    if(n==m){
+        yes;
+        forn(i,n) cout<<1<<' ';
+        cout<<endl;
+        return;
+    }
+    if(n==1) {
+        yes;
+        cout << m << endl;
+        return;
+    }
+    vector<int> ans(n);
+    if(n&1){ // odd  _ _ _ _ _
+        forn(i,n-1){
+            ans[i] = 1;
+        }
+        if(m-(n-1)>1){
+            ans[n-1] = m-(n-1);
+        }
+        else{
+            no;
+            return;
+        }
+        yes;
+        printArr(ans);
+        return;
+    }
+     // even  _ _ _ _ _
+    int x = 1;
+    //while(m>(n-2)*x and (m-(n-2)*x)%2!=0){
+    //    x++;
+    //}
+    if(m%2!=0){
+        no;
+        return;
+    }
+    forn(i,n - 2)
+        ans[i] = 1;
+    ans[n - 1] = (m-(n-2)*x)/2;
+    ans[n - 2] = (m-(n-2)*x)/2;
+    yes;
+    printArr(ans);
+    return;
 }
 
 signed main(){

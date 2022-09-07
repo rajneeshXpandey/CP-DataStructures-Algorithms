@@ -1,0 +1,75 @@
+                            ****** Day 1 ******
+
+1) Inside array max size => 2*10^6 and on global scope max size => 10^8
+
+
+2) State compression (Hashing Trick) :
+
+    lets we have dp[1000][100][10] for c,b,a respectively
+    then, 
+        int getValue(int a,int b,int c){
+            return x = (a*10^5 + b*10^3 + c);
+            /* its like: (-)(--)(---) */
+        }
+        to retrive the value:
+            c = x%1000; b = (x/1000)%100; a = (x/100000);
+    so, 
+        dp[1000][100][10] => dp[100000]        
+
+
+3) When to decide DP and greedy?
+    -> always try DP first and then try greedy
+
+4) Base cases for DP:
+               valid base     invalid state
+    min   ->        0              +inf
+    max   ->        0              -inf
+    count ->        1               0
+
+
+                            ****** Day 2 ******
+
+!!! DP Framework !!!:
+
+=> Look for the form of the problem.
+    1) Form 1 : (subset, subsequences. like take drop etc to build incremental solutions)
+        a) Level : define and have answer to the problem
+        b) Choices : possible choices at each level
+        c) Check : check if the transiton is valid or not
+        d) Moves : go to next valid levels
+
+=> Decide the states and meaning : DP(__) = ___ 
+
+=> DP transitions.
+
+=> Check the time complexity. (don't code until you have the time complexity)
+        Formula to calculate TC : O(#States * (1+Avg.Transitions cost))
+                                : O(#States * (1+Avg. #Transitions per state)) 
+
+=> Code !! - Pruning
+           - Base Case
+           - Cache check
+           - Transitions
+           - Save and return
+
+!!! Query and  Printing solution in DP !!!:
+
+Query =>  
+    we need to cache things accross query
+    so instead DP(level,taken) => DP(level,remaining)
+
+    proof : in code of DP(level,sum_taken) dependes on target sum T
+            but if write code for DP(level,remaining) then it will be independent of T.
+            hence we don't need to clear our cache for every query.
+            time complexity will be O(#States * (1+Avg. #Transitions per state) + Q)
+                   instead of O(#States * (1+Avg. #Transitions per state) * Q).
+
+Printing solution in DP: => 
+    -recheck, 
+    -saving backpointers
+        : check by making dp call 
+            if not take gives true then don't take and move in the same
+            else take (true) print the item and move to next level in the same
+
+
+                            ****** Day 3 ******

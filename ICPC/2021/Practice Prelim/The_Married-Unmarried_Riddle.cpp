@@ -1,6 +1,6 @@
 #pragma GCC optimize("unroll-loops,O3,Ofast")
 
-#include "bits/stdc++.h"
+#include <bits/stdc++.h>
 using namespace std;
 
 #define loop(i, a, b)  for(int i = a; i <= b; i++)
@@ -67,39 +67,36 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 // ********************************* Code Begins ********************************** //
 
-bool place_possible(vector<vector<char>> &board, vector<int> &queen, int row_level, int n,int col){
-    if (board[row_level][col]=='*' or queen[row_level]!=-1) return 0;
-    for (int row = 0; row < row_level; row++){
-        if(queen[row]==col) return 0; // check for column
-        if (abs(row_level - row) == abs(col - queen[row])) return 0; // check for diagonal
-    }
-    return 1;
-}
-
-int findways(vector<vector<char>> &board,vector<int> &queen,int row_level,int n){
-    if(row_level==n) return 1; // because, as when we reached n, we have made one possible arrangments.  
-    int cnt = 0;
-    for(int col=0;col<n;col++){
-        if (place_possible(board,queen,row_level,n,col))
-        {
-            queen[row_level] = col;
-            cnt += findways(board,queen,row_level+1,n);
-            queen[row_level] = -1;
-        }
-    }
-    return cnt;
-}
 void solve(){
-    int n=8;
-    vector<vector<char>> board(n,vector<char>(n));
-    vector<int> queen(n,-1); // position of queen in every row
-    forn(i,n){
-        forn(j,n){
-            cin >> board[i][j];
+    string str;
+    cin >> str;
+    int n = str.length();
+    int idxm = -1, idxu = -1;
+    for (int i = 0; i < n; i++)
+    {
+        if (str[i] == 'M')
+        {
+            idxm = i;
+            break;
         }
     }
-    int ans = findways(board, queen, 0, n);
-    cout<<ans<<endl;
+    for (int i = n - 1; i >= 0; i--)
+    {
+        if (str[i] == 'U')
+        {
+            idxu = i;
+            break;
+        }
+    }
+
+    if (idxm == -1 || idxu == -1 || idxm > idxu)
+    {
+        cout << "No" << endl;
+    }
+    else
+    {
+        cout << "Yes" << endl;
+    }
 }
 
 signed main(){
@@ -107,7 +104,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    //cin >> total_testcases;
+    cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();
