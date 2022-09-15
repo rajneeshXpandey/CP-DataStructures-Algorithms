@@ -1,0 +1,1 @@
+{"name":"Local: Subtraction Game","url":"d:\\Codes-Projects\\Programs\\Subtraction Game.cpp","tests":[{"id":1662795083726,"input":"5\n0 \n2\n12783\n1001\n33","output":"Abhishek\nVivek\nAbhishek\nVivek\nAbhishek"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\Codes-Projects\\Programs\\Subtraction Game.cpp","group":"local","local":true}

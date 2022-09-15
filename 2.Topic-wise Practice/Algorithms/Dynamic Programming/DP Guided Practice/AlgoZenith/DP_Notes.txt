@@ -1,3 +1,5 @@
+                       ******  Dynamic Programming ******
+                            
                             ****** Day 1 ******
 
 1) Inside array max size => 2*10^6 and on global scope max size => 10^8
@@ -32,11 +34,14 @@
 !!! DP Framework !!!:
 
 => Look for the form of the problem.
-    1) Form 1 : (subset, subsequences. like take drop etc to build incremental solutions)
+
+1) Form 1 : (subset, subsequences. like take drop etc to build incremental solutions)
         a) Level : define and have answer to the problem
         b) Choices : possible choices at each level
         c) Check : check if the transiton is valid or not
         d) Moves : go to next valid levels
+
+        DP(level,taken/remaining) = answer to that level
 
 => Decide the states and meaning : DP(__) = ___ 
 
@@ -73,3 +78,225 @@ Printing solution in DP: =>
 
 
                             ****** Day 3 ******
+
+2) Form 2 :- 
+   ** If we see path, sequence, subarray dependencies **
+   !! ** stores the Best possible answer ending at this level **
+
+ => (Longest Increasing Subsequence.)
+
+    solving this problem using Form 1: 
+     state: DP(level, last_element_taken) = max lenght of subsequence ending at level
+     transitions: DP(level, last_element_taken) :
+                max(DP(level+1, last_element_taken), DP(level+1, arr[level])+1)
+                                                        |-> this case if(arr[level]>last_element_taken))
+      time complexity: O(N*max(arr))->can'nt feasible for large arr.
+
+      so, just try to store index instead of element :time complexity O(N*N)
+
+ Solving with Form 2: 
+    state : DP(level) = Best answer ending at level
+
+   _2_ _5_ _3_ _6_ _1_ _4_
+   < --------- >|-> level 
+     prev_taken
+ traverse from level-1 to 0 and take maxmium of all the possible prev_taken 
+
+ state : DP(level) = max length of subsequence ending at level
+
+ transitions : DP(level) = max(DP(level), DP(prev_taken)+1)
+                                                |-> if(arr[level]>arr[prev_taken])
+                         prev_taken = 0 to level-1  
+
+time complexity : O(N(for levels) * N(for transitions)) = O(N^2)
+
+=> In N*M Grid find the max Path sum from (0,0) to (N-1,M-1) if ->(side) and |(down) are allowed.
+    state : DP(row,col) = max path sum ending at (row,col)
+    transitions : DP(row,col) = max(DP(row-1,col), DP(row,col-1)) + arr[row][col]
+    time complexity : O(N*M)
+
+    can keep done[][] array to check whether its value is save or not. 
+
+
+
+3) Form 3 :- Multisequence DP  :- given multiple seq and we have to match them
+
+                  |-> ith
+   seq1/arr1 [_ _ _ _ _] size = N
+
+                    |-> jth
+   seq2/arr2 [_ _ _ _ _]  size = M
+
+   DP(i,j,___) = best answer when i - N and j - M are remaining or 0-i , 0-j explored
+
+   ** Longest Common Subsequence.
+
+   state : DP(i,j) = LCS from seq1[i,N-1] and seq2[j,M-1]
+   transitions : DP(i,j) = 
+                            max(DP(i+1,j), DP(i,j+1))
+                            if(seq1[i]==seq2[j]) then DP(i,j) = max(DP(i,j), DP(i+1,j+1)+1)
+              ith -> _ _ x _ _ _
+              jth -> _ _ y _ _ _
+
+    time complexity : O(N*M)
+
+    ! for multiple seq:
+    ** things remains same
+    state : DP(i,j,k) = LCS from seq1[i,N-1] and seq2[j,M-1] and seq3[k,L-1]
+    transitions : DP(i,j) = 
+                            max(DP(i+1,j,k), DP(i,j+1,k), DP(i,j,k+1))
+                            if(seq1[i]==seq2[j] && seq2[j]==seq3[k]) then DP(i,j,k) = max(DP(i,j,k), DP(i+1,j+1,k+1)+1)
+              ith -> _ _ x _ _ _
+              jth -> _ _ y _ _ _
+              kth -> _ _ z _ _ _
+
+    time complexity : O(N*M*L)
+
+4) Form 4:  L-R DP / Interval DP
+
+    ** Rod Cutting Problem:
+          l           r
+    |-----|--|--------|---------| , we have to cut rod in pieces such that we get min cost.
+    cost :- length of current rod. 
+                  4     2     => cost = 6 and we have |------| and |----| left
+           i.e |------|---| 
+                                 
+    state : DP(l,r) = min cost to cut rod from l to r
+    transitions : DP(l,r) = min(DP(l,r), DP(l,i)+DP(i+1,r)+(r-l))
+                                               |-> for all i in [l+1,r-1]
+
+    time complexity : O((N*N){for states}*N{for transitions}) = O(N^3)})  
+
+    !! can we do it in less than O(N^3) time complexity ?
+
+5) Form 5:  Game DP ( Combinatorially impartial game )
+
+    Subtraction Game:
+
+    [ x chips ] :- player can y (2^m m:{0,inf}) chips from x chips. and x-y will remain
+
+    now if playey can't take any chips then he will loose.
+
+    state : DP(x) = true if player can win else false
+    transitions : DP(x) : DP(x-y) y = 2^m m:{0,log2X} and x-y>=0.
+         if any one of the transition is losing then DP(x) = win
+         else if all are winning then DP(x) = lose
+    time complexity : O(N*logN)
+
+    observation :  after printing the patterns 
+        if x%3 then DP(x) = win
+        else DP(x) = lose
+
+                            ****** Day 4 ******
+
+                 << Prefix match, Building Automata, using mask >>
+
+** # LIS in O(NLogN): ** 
+
+    Imporvements in LIS:
+        1) Incremental processing:
+            add / not add current element in the prev sequence.
+                1    2       5                   6 4 7 8 9
+                {1} {2}     {5}
+                    {1,2}  {2,5},{1,2,5} etc.
+        2) Compairing partial solutions:
+            (length , last_element) -> if(length is same)  compare last_element and take lesser one.
+                                        else take greater length one.
+        3) Storing and maintaining partial solutions.
+
+        eg 1 5 6 9 4 2 3 5 8
+            arr : [ 1, 5 , 6 , 9] now -> [ 1, 4 , 6 , 9] -> [ 1, 2 , 6 , 9] -> [ 1, 2 , 3 , 5] -> [ 1, 2, 3, 5, 8]
+            arr[i] -> best last element of LIS ending at i
+
+        4) Printing Soln
+             [1, 5, 7, 10, 9, 6, 8, 9, 2, 3]
+           |->1, 5, 7, 10
+                 |->6, 8, 9
+              |->2, 3
+        --------------------------| see from here
+        so,  1 2 3 8 9 : LIS
+
+        ** Getting LIS **
+        !! Code for getting LIS in O(NLogN)
+        vector<int> lis;
+        for(int i=0;i<n;i++){
+            if(lis.empty()||lis.back()<arr[i]){
+                lis.push_back(arr[i]);
+                inserted_at[i] = lis.size();
+            } else{
+                auto it = lower_bound(lis.begin(), lis.end(), arr[i]); 
+                *it = arr[i];
+                inserted_at[i] = it-lis.begin()+1;
+            } 
+        } 
+        cout<<lis.size()<<endl;
+        !!
+        ** Printing LIS **
+        for above eg. inserted_at[] = {1_ , 2_ , 3 , 4 , 4 , 3_ , 4_ , 5_ , 2 , 3} 
+          this is the size of current lis when the ith element is inserted.
+
+        _ : these len of lis while insertion are important bcz they build the lis finally. 
+
+        !! Code for Printing LIS in O(N)
+            int curlen  = lis.size();
+            vector<int> final_lis;
+            for(int i=n-1;i>=0;i—){
+                if(inserted_at[i]==curlen){
+                    final_lis.push_back(arr[i]);
+                    curlen--;
+                }
+            } 
+            reverse(final_lis.begin(), final_lis.end());
+            for(auto &x: final_lis){ 
+                    cout<<x<<"";
+            }
+        !!
+
+** # Find the number of Binary Strings of length N that does'nt contain "0100" as 
+                        (N <= 10^5)
+    !! 1) Subsequence 
+                  0 1 2 3 4 : idx : it means we explored idx-1 and want to put idx element in the string
+           we have  0 1 0 0 
+        [_ _ _ _ _ _ _ _ _ _]
+
+        state : DP(level,index_of_given str=x) = number of valid binary strings of length if we fill i to n-1
+        transitions : DP(level,x) = 
+                                    if(x==4) DP(level+1,x); 
+                                    else if(t[x])
+                                        DP(level+1,x+1)
+                                     else
+                                        DP(level+1,x)
+        time complexity : O(N)
+        /* pruning */  if(x==4) return 0;
+        /* base case */ if(level==N) return 1;
+
+        so for all same length string t answer would be same , infact it comes out to be a formulae
+
+    !! 2) Substring
+
+        mask of 3 bit : prev 3 bits info
+        state : DP(level,mask) = number of valid binary strings of length if we fill i to n-1
+        transitions : DP(level,mask) 
+                                  if mask=(level>=3 and 010) -> DP(level+1,101); we can only place 1
+                                  else if mask=(001) -> DP(level+1,010) + DP(level+1,011)
+        time complexity : O(N)
+        /* base case */ if(level==N) return 1;
+
+        ** another method if creating FS automata **
+
+        string : 0 1 0 0   () -> accepted state 
+                
+        _1_      _0_                          _0/1__
+        | |  0   | |   1        0          0   | |
+start: ([0])--->([1])--->([2]) ---> ([3]) ---> [4]
+         |<_________________|<______|   
+                0               1 
+
+         !! code for automata                      
+        int ans = 0; 
+        if(match==0)      ans=dp(level+1,0)+dp(level+1,1);
+        else if(match==1) ans=dp(level+1,1)+dp(level+1,2);
+        else if(match==2) ans dp(level+1,3)+dp(level+1,0);
+        else if(match==3) ans dp(level+1,4)+dp(level+1,2);
+        /* save and return */ 
+        return dp[level][match] = ans;
