@@ -25,7 +25,10 @@ using namespace std;
 #define generate_random(vec) generate(all(vec), rand); // fill vec with ramdom nums
 #define rotate_by_k(vec,k) rotate(vec.begin(), vec.begin() + k, vec.end()); // cyclically shift a vector by k.
 #define vector_to_set(a) set<int> S(all(a)); // Create a set from a vector
+#define is_present(vec, key) binary_search(all(vec), key); // Check if an element occurs in a sorted sequence
 #define binary_rep(n) bitset<32> (n); // binary representation of a number
+#define min4(a,b,c,d) min({a, b, c, d}); // min of four elements
+#define min3(a,b,c) min({a, b, c});
 #define setbits(x) __builtin_popcountll(x)      // count set bits in binary rep
 #define zerobefone(x) __builtin_ctzll(x) // zeros before first setbit
 #define mod 1000000007   //1e9+7
@@ -34,8 +37,14 @@ using namespace std;
 #define pi  3.141592653589793238
 #define yes cout << "YES" << endl
 #define no cout << "NO" << endl
-#define neg cout << "-1" << endl
+#define neg1 cout << "-1" << endl
 #define precise(x, y) fixed << setprecision(y) << x // cout<<precise(value,uptodecimalpt)<<endl;
+
+#define pqmx priority_queue<int>                               // maxheap
+#define pqmn priority_queue<int, vector<int>, greater<int>>    // minheap
+#define piipqmx priority_queue<pii>                            // maxheap for pair<int,int>
+#define piipqmn priority_queue<pii, vector<pii>, greater<pii>> // minheap for pair<int,int>
+#define ump unordered_map<int, int>
 
 typedef tuple<int, int, int> tuplei;
 
@@ -49,7 +58,7 @@ template<typename T, typename T1> T amin(T &a, T1 b) {if (b < a)a = b; return a;
     cout.tie(0)
 
 // mt19937_64 rng(61378913);
-/* usage - generate random numbers, just do rng() */
+/* usage - just do rng() */
 mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
@@ -59,12 +68,34 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 // ********************************* Code Begins ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    int row,col;
+    cin>>row>>col;
+    int ans=0;
+    if(row>col){
+        if(row&1){ // increase
+            ans = ((row-1)*(row-1)) + col;
+        }
+        else{ // decrease
+            ans = (row*row) - col + 1;
+        }
+    }
+    else{
+        if (col&1){ // decrease
+            ans = (col*col) - row+1;
+        }
+        else{ // increase
+            ans = ((col-1)*(col-1)) + row;
+        }
+    }
+    cout<<ans<<endl;
 }
+/*
+1  2  9  10 25
+4  3  8  11 24
+5  6  7  12 23
+16 15 14 13 22
+17 18 19 20 21
+*/
 
 signed main(){
     FastIO;

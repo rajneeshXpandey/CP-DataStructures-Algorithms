@@ -59,11 +59,46 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 // ********************************* Code Begins ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    int d,n,x;
+    cin>>d>>n>>x; // d: Max D days after they mature, x : one day plant value
+    vector<array<int,3>> data(n);
+    forn(i, n) 
+        cin >> data[i][0] >> data[i][1] >> data[i][2]; // qi, li, vi
+    sort(all(data),[&](array<int,3> &a,array<int,3> &b){
+        if((d-a[1])==(d-b[1])) 
+            return (a[2]>b[2]);
+        return ((d - a[1]) < (d - b[1]));
+    });
+    /*
+        we will start planting seeds and when the capacity {(d-li)*x} will reach we remove 
+        previuosly planted seeds (that have less vi) from the min_priority_queue and adjust the answers.
+    */
+    priority_queue<pii, vector<pii>, greater<pii>> minheap;
+    int max_cost=0,planted=0,capacity=0;
+    forn(i,n){
+        capacity = (d-data[i][1])*x;
+        planted += data[i][0];
+        max_cost += data[i][0]*data[i][2];
+        minheap.push({data[i][2],data[i][0]}); // vi , qi
+        while(planted>capacity){
+            int to_remove = planted-capacity;
+            if(minheap.top().ss > to_remove){
+                auto c = minheap.top();
+                minheap.pop();
+                planted -= to_remove;
+                c.ss -= to_remove;
+                max_cost -= to_remove*c.ff;
+                minheap.push(c); // vi , qi-to_remove
+            }
+            else{
+                auto c = minheap.top();
+                minheap.pop();
+                max_cost -= c.ss * c.ff;
+                planted -= c.ss;
+            }
+        }
+    } 
+    cout<<max_cost<<endl;
 }
 
 signed main(){
@@ -73,7 +108,7 @@ signed main(){
     int total_testcases = 1;
     cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
-        //cout<<"Case #"<< test_case <<": ";
+        cout<<"Case #"<< test_case <<": ";
         solve();
     }        
 }

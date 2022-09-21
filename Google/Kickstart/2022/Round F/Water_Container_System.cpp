@@ -25,7 +25,10 @@ using namespace std;
 #define generate_random(vec) generate(all(vec), rand); // fill vec with ramdom nums
 #define rotate_by_k(vec,k) rotate(vec.begin(), vec.begin() + k, vec.end()); // cyclically shift a vector by k.
 #define vector_to_set(a) set<int> S(all(a)); // Create a set from a vector
+#define is_present(vec, key) binary_search(all(vec), key); // Check if an element occurs in a sorted sequence
 #define binary_rep(n) bitset<32> (n); // binary representation of a number
+#define min4(a,b,c,d) min({a, b, c, d}); // min of four elements
+#define min3(a,b,c) min({a, b, c});
 #define setbits(x) __builtin_popcountll(x)      // count set bits in binary rep
 #define zerobefone(x) __builtin_ctzll(x) // zeros before first setbit
 #define mod 1000000007   //1e9+7
@@ -34,8 +37,14 @@ using namespace std;
 #define pi  3.141592653589793238
 #define yes cout << "YES" << endl
 #define no cout << "NO" << endl
-#define neg cout << "-1" << endl
+#define neg1 cout << "-1" << endl
 #define precise(x, y) fixed << setprecision(y) << x // cout<<precise(value,uptodecimalpt)<<endl;
+
+#define pqmx priority_queue<int>                               // maxheap
+#define pqmn priority_queue<int, vector<int>, greater<int>>    // minheap
+#define piipqmx priority_queue<pii>                            // maxheap for pair<int,int>
+#define piipqmn priority_queue<pii, vector<pii>, greater<pii>> // minheap for pair<int,int>
+#define ump unordered_map<int, int>
 
 typedef tuple<int, int, int> tuplei;
 
@@ -49,7 +58,7 @@ template<typename T, typename T1> T amin(T &a, T1 b) {if (b < a)a = b; return a;
     cout.tie(0)
 
 // mt19937_64 rng(61378913);
-/* usage - generate random numbers, just do rng() */
+/* usage - just do rng() */
 mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
@@ -58,12 +67,76 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 // ********************************* Code Begins ********************************** //
 
+void bfs(vector<vector<int>> &adj,vector<int> &level,int root,int n){
+    queue<int> q;
+    q.push(root);
+    vector<int> vis(n,0);
+    vis[root] =1;
+    while(!q.empty()){
+        root = q.front();
+        q.pop();
+        for (int i = 0; i < adj[root].size(); i++)
+        {
+            int b = adj[root][i];
+            if (!vis[b])
+            {
+                q.push(b);
+                //deb2(b,root);
+                level[b] = level[root] + 1;
+                vis[b] = true;
+            }
+        }
+    }
+}
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    int n,q;
+    cin >> n >> q;
+    vector<vector<int>> adj(n);
+    vector<int> query(q);
+    int u,v;
+    forn(i,n-1){
+        cin>>u>>v;
+        u--;v--;
+        adj[u].pb(v);
+        adj[v].pb(u);
+    }
+    forn(i,q){
+        cin>>query[i];
+    }
+    // for test case type1
+    if(n==1){
+        cout<<1<<endl;
+        return;
+    }
+    vector<int> level(n),levelNode(n,0);
+    level[0] = 1;
+    bfs(adj,level,0,n);
+    forn(i,n){
+        levelNode[level[i]-1]++;
+    }
+    vector<int> arr(levelNode);
+    //forn(i,n){
+    //    if(levelNode[level[i] - 1] == 0)
+    //        levelNode[level[i] - 1] = -1;
+    //}
+    int fillPtr = 0;
+    while(q--){
+        levelNode[fillPtr]--;
+        if(levelNode[fillPtr]==0){
+            fillPtr++;
+        }
+    }
+    fillPtr--;
+    int ans=0;
+    for(int i=0;i<=fillPtr;i++){
+        ans += arr[i];
+    }
+    
+    //printArr(levelNode);
+    //printArr(level);
+    //int ans = log2(q+1);
+    //ans  = (1<<ans)-1;
+    cout<<ans<<endl;
 }
 
 signed main(){
@@ -73,7 +146,7 @@ signed main(){
     int total_testcases = 1;
     cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
-        //cout<<"Case #"<< test_case <<": ";
+        cout<<"Case #"<< test_case <<": ";
         solve();
     }        
 }

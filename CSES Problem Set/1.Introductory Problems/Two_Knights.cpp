@@ -25,7 +25,10 @@ using namespace std;
 #define generate_random(vec) generate(all(vec), rand); // fill vec with ramdom nums
 #define rotate_by_k(vec,k) rotate(vec.begin(), vec.begin() + k, vec.end()); // cyclically shift a vector by k.
 #define vector_to_set(a) set<int> S(all(a)); // Create a set from a vector
+#define is_present(vec, key) binary_search(all(vec), key); // Check if an element occurs in a sorted sequence
 #define binary_rep(n) bitset<32> (n); // binary representation of a number
+#define min4(a,b,c,d) min({a, b, c, d}); // min of four elements
+#define min3(a,b,c) min({a, b, c});
 #define setbits(x) __builtin_popcountll(x)      // count set bits in binary rep
 #define zerobefone(x) __builtin_ctzll(x) // zeros before first setbit
 #define mod 1000000007   //1e9+7
@@ -34,8 +37,14 @@ using namespace std;
 #define pi  3.141592653589793238
 #define yes cout << "YES" << endl
 #define no cout << "NO" << endl
-#define neg cout << "-1" << endl
+#define neg1 cout << "-1" << endl
 #define precise(x, y) fixed << setprecision(y) << x // cout<<precise(value,uptodecimalpt)<<endl;
+
+#define pqmx priority_queue<int>                               // maxheap
+#define pqmn priority_queue<int, vector<int>, greater<int>>    // minheap
+#define piipqmx priority_queue<pii>                            // maxheap for pair<int,int>
+#define piipqmn priority_queue<pii, vector<pii>, greater<pii>> // minheap for pair<int,int>
+#define ump unordered_map<int, int>
 
 typedef tuple<int, int, int> tuplei;
 
@@ -49,7 +58,7 @@ template<typename T, typename T1> T amin(T &a, T1 b) {if (b < a)a = b; return a;
     cout.tie(0)
 
 // mt19937_64 rng(61378913);
-/* usage - generate random numbers, just do rng() */
+/* usage - just do rng() */
 mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
@@ -61,17 +70,42 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    int ans = 0;
+    for(int k=1;k<=n;k++){
+        ans = 0;
+        ans += (k*k)*((k*k)-1)/2;
+        ans -= (4*(k-1)*(k-2));
+        cout<<ans<<endl;
+    }
 }
+
+/*
+
+* total number of ways to place two knights on an n*n chessboard
+
+ for one knight - n^2
+
+ for second knight - n^2-1
+
+ so, => (n^2)(n^2 - 1)/2 (/2 bcz all the cases counted twice).
+
+* the total number of ways two knights can attack each other on an n*n chessboard
+
+ 2*3 size board: (n-1)*(n-2)
+
+ 3*2 size board: (n-2)*(n-1)
+ so => 2*(n-1)*(n-2)
+ also two ways to place knights in 2*3 / 3*2 matrix  to attack
+ so, => 4*(n-1)*(n-2)
+
+*/
 
 signed main(){
     FastIO;
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();
