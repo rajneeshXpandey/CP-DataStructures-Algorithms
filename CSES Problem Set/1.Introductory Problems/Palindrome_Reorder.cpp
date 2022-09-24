@@ -60,19 +60,65 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 // ********************************* Code Begins ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
-}
+    string str;
+    cin>>str;
+    int n=sz(str);
+    sort(all(str));
+    vector<char> arr(n); 
+    vector<int> freq(26,0);
+    forn(i,n) freq[str[i]-'A']++;
+    int l=0,r=n-1,odd=0;
+    for(int i=0;i<26;i++){
+        if(freq[i]%2) 
+            odd++;
+    }
+    if(odd>1) {
+        cout << "NO SOLUTION" << endl;
+        return;
+    }
+    for(int i=0;i<26;i++){
+        if(freq[i]%2==0 and freq[i]>=2){
+            while(freq[i]){
+                arr[l] = i+'A';
+                arr[r] = i + 'A';
+                l++;
+                r--;
+                freq[i]-=2;
+            }
+        }
+        else{
+            while (freq[i]>1)
+            {
+                arr[l] = i + 'A';
+                arr[r] = i + 'A';
+                l++;
+                r--;
+                freq[i]-=2;
+            }
+        }
+    }
+    if(l==r){
+        forn(i,26){
+            if (freq[i]==1)
+                arr[l] = i+'A';
+        }
+    }
+    string ans="";
+    forn(i,n) ans+=arr[i];
+    string rev=ans;
+    reverse(all(rev));
+    //deb(ans);
+    if(rev==ans){
+        cout<<ans<<endl;
+    }
+}   
 
 signed main(){
     FastIO;
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

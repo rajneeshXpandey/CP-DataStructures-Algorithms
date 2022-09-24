@@ -60,11 +60,16 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 // ********************************* Code Begins ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    string str;
+    cin>>str;
+    sort(all(str));
+    set<string> st;
+    do{
+        st.insert(str);
+    } while(next_permutation(all(str)));
+    cout<<sz(st)<<endl;
+ 
+    for(auto s : st) cout<<s<<endl;
 }
 
 signed main(){
@@ -72,7 +77,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

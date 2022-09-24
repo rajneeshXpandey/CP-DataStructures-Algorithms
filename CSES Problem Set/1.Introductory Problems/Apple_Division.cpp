@@ -59,12 +59,29 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 
 // ********************************* Code Begins ********************************** //
 
+
 void solve(){
     int n;
     cin >> n;
     vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    int sum=0,minDiff=inf;
+    forn(i, n) cin >> a[i],sum+=a[i];
+    if(n==1){
+        minDiff=sum;
+    }
+    for(int mask=1;mask<((1<<n)-1);mask++){
+        int takenSum=0;
+        //std::string binaryMask = std::bitset<20>(mask).to_string();
+        //binary(mask);
+        for(int i=0;i<n;i++){
+            if(mask&(1<<i)){
+                takenSum += a[i];
+            }
+        }
+        //deb(takenSum);
+        minDiff = min(minDiff,abs((takenSum-(sum-takenSum))));
+    }
+    cout<<minDiff<<endl;
 }
 
 signed main(){
@@ -72,7 +89,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

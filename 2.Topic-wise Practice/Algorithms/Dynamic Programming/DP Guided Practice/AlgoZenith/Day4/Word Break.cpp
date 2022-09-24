@@ -32,8 +32,8 @@ using namespace std;
 #define mod1 998244353
 #define inf 2000000000000000000 //2e18
 #define pi  3.141592653589793238
-#define yes cout << "YES" << endl
-#define no cout << "NO" << endl
+#define yes cout << "Yes" << endl
+#define no cout << "No" << endl
 #define neg cout << "-1" << endl
 #define precise(x, y) fixed << setprecision(y) << x // cout<<precise(value,uptodecimalpt)<<endl;
 
@@ -54,7 +54,6 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline ll power(ll a, ll n){ ll res = 1; while (n > 0){ if (n % 2) res *= a; a *= a,n /= 2;} return res;}
-inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
 inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
@@ -62,11 +61,76 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    string s;
+    cin>>s;
+    int sz = sz(s);
+    vector<string> words(n);
+    forn(i, n) 
+        cin >> words[i];
+    vector<bool> visi(sz,0);
+    for(auto word: words){
+        for(int i=0;i<sz;){
+            if(s[i]==word[0]){
+                int j=i,k=0;
+                while(j<sz and k<sz(word) and s[j]==word[k]){
+                    j++,k++;
+                }
+                if(k==sz(word)){
+                    loop(z,i,i+k-1){
+                        visi[z] = 1;
+                    }
+                    //i += sz(word);
+                }
+                //else
+                //    i++;
+            }
+            //else 
+            i++;
+        }
+        //L:
+    }
+    //printArr(visi);
+    forn(i,sz){
+        if(visi[i]==0){ 
+            no;
+            return;
+        }
+    }
+    yes;
 }
+/*
+Description
 
+Given a string s and a dictionary of strings "words"
+, output "Yes" if s can be segmented into a space-separated sequence of one or more dictionary
+words, else output "No".
+
+Note that the same word in the dictionary may be reused multiple times in the segmentation.
+
+
+Input Format
+
+First-line contains T - the number of test cases.
+The first line of each test case contains n - the size of the dictionary
+words
+The second line of each test case contains string s.
+The next n lines of each test case contain n words of the dictionary
+words.
+
+Output Format
+
+For each test case, output "Yes" if
+s can be segmented into a space-separated sequence of one or more dictionary
+words, else output "No".
+
+
+Constraints:
+T => [1,1000]
+N => [1,1000]
+|s| => [1,300]
+words.size() => [1,20]
+Sum of |s| over all test cases is <= 30000
+*/
 signed main(){
     FastIO;
     //freopen("input.txt", "r", stdin);

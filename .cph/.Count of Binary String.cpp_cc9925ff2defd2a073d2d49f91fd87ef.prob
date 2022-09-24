@@ -1,0 +1,1 @@
+{"name":"Local: Count of Binary String","url":"d:\\Codes-Projects\\Programs\\Count of Binary String.cpp","tests":[{"id":1663871569027,"input":"3\n3\n4\n5","output":"8\n15\n28"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\Codes-Projects\\Programs\\Count of Binary String.cpp","group":"local","local":true}

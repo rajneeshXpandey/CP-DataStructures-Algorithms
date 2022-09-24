@@ -54,23 +54,93 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline ll power(ll a, ll n){ ll res = 1; while (n > 0){ if (n % 2) res *= a; a *= a,n /= 2;} return res;}
-inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
 inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
+int dp[1000001][5]; // level, match of prefix of "0100"
 
-void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+int countOfBinStr(int level,int match){
+    //base
+    if(match==4) return 0;
+    if(level==0) return 1;
+    // check
+    if(dp[level][match]!=-1){
+        return dp[level][match];
+    }
+    int ans = 0;
+    if (match == 0)
+        ans = (countOfBinStr(level - 1, 0) + countOfBinStr(level - 1, 1))%mod;
+    else if (match == 1)
+        ans = (countOfBinStr(level - 1, 1) + countOfBinStr(level - 1, 2))%mod;
+    else if (match == 2)
+        ans = (countOfBinStr(level - 1, 3) + countOfBinStr(level - 1, 0))%mod;
+    else if (match == 3)
+        ans = (countOfBinStr(level - 1, 4) + countOfBinStr(level - 1, 2))%mod;
+    // save and return
+    return dp[level][match] = (ans%mod);
 }
 
+void solve()
+{
+    int n;
+    cin >> n;
+    int ans = dp[n][0];
+    cout<<ans%mod<<endl;
+        /*
+
+            string : 0 1 0 0   
+            () -> accepted state, [] -> states
+
+            FSA for above string
+
+            _1_      _0_                          _0/1__
+            | |  0   | |   1        0          0   | |
+    start: ([0])--->([1])--->([2]) ---> ([3]) ---> [4]
+             |<_________________|<______|
+                    0               1
+
+            int ans = 0;
+            if(match==0)      ans=dp(level+1,0)+dp(level+1,1);
+            else if(match==1) ans=dp(level+1,1)+dp(level+1,2);
+            else if(match==2) ans dp(level+1,3)+dp(level+1,0);
+            else if(match==3) ans dp(level+1,4)+dp(level+1,2);
+        / save and return
+        return dp[level][match] = ans;
+    */
+}
+/*
+Description
+
+Find the number of binary strings of length n where 
+“0100” is not present as a substring.
+
+
+Input Format
+
+The first line of the input contains one integer 
+t - the number of test cases. Then t test cases follow.
+
+The first and only line of each test case contains an integer n.
+
+
+Output Format
+
+For each test case, print the number of binary strings of 
+length n where “0100” is not present as a substring mod 10^9+7.
+
+
+Constraints
+
+1 ≤ t ≤ 106
+
+1 ≤ n ≤ 106 where n is the length of the string.
+*/
 signed main(){
     FastIO;
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
+    memset(dp,-1,sizeof(dp));
+    countOfBinStr(1e6,0);
     int total_testcases = 1;
     cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){

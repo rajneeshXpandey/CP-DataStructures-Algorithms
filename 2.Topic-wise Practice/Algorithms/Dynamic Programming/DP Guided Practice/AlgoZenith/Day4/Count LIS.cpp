@@ -54,7 +54,6 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline ll power(ll a, ll n){ ll res = 1; while (n > 0){ if (n % 2) res *= a; a *= a,n /= 2;} return res;}
-inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
 inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
@@ -64,9 +63,57 @@ void solve(){
     cin >> n;
     vector<int> a(n);
     forn(i, n) cin >> a[i];
-
+    vector<int> lis(n,1),totalLIS(n,1);
+    int _lis = 1; 
+    forn(i,n){
+        for(int j=i-1;j>=0;j--){
+            if(a[j] < a[i]){
+                if(lis[i]<lis[j]+1){
+                    lis[i] = lis[j]+1;
+                    totalLIS[i] = totalLIS[j];
+                }
+                else if(lis[i]==lis[j]+1){
+                    totalLIS[i] += totalLIS[j];
+                }
+            }
+        }
+        _lis = max(_lis,lis[i]);
+    }
+    //printArr(lis);
+    //printArr(totalLIS);
+    int ans=0;
+    forn(i,n){
+        if(_lis==lis[i]) ans += totalLIS[i];
+    }
+    cout<<ans<<endl;
 }
 
+/*
+Description
+
+Given an integer array arr of length n
+,output the number of longest increasing subsequences.
+
+Notice that the sequence has to be strictly increasing.
+
+Input Format
+
+First line contains
+T - the number of test cases.
+First line of each test case contains
+n - the length of the array arr.
+Second line of each test case contains array arr.
+
+Output Format
+
+For each test case, output the number of longest increasing subsequences in a newline.
+
+Constraints
+T => 100
+N => 1000
+a[i] E (-1e6 , 1e6)
+
+*/
 signed main(){
     FastIO;
     //freopen("input.txt", "r", stdin);

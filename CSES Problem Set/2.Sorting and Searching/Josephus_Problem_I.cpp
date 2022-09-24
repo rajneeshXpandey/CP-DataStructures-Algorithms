@@ -1,8 +1,11 @@
 #pragma GCC optimize("unroll-loops,O3,Ofast")
 
 #include <bits/stdc++.h>
-using namespace std;
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
 
+using namespace std;
+using namespace __gnu_pbds;
 #define loop(i, a, b)  for(int i = a; i <= b; i++)
 #define rloop(i, a, b) for(int i = a; i >= b; i--)
 #define forn(i, n) loop(i, 0, n-1)
@@ -54,25 +57,43 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline ll power(ll a, ll n){ ll res = 1; while (n > 0){ if (n % 2) res *= a; a *= a,n /= 2;} return res;}
-inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
 inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> pbds;
+
 
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    pbds oset;
+    forn(i, n)
+    {
+        oset.insert(i + 1);
+    }
+    int k=1;
+    int pos = k % n;
+    while (oset.size() > 0)
+    {
+        int killed = *oset.find_by_order(pos);
+        cout << killed << ' ';
+        oset.erase(killed);
+        if (oset.size() > 0)
+            pos = (k + pos) % sz(oset);
+    }
 }
-
+/* 
+    k = 1
+   1  {2}  3   4  5  6 7 8 9 
+   ~1 {2}~ 3  {4} 5  6 7 8 9 1
+   ~1 {2} {4}~ 5 {6} 7 8 9 1 3
+ */
 signed main(){
     FastIO;
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

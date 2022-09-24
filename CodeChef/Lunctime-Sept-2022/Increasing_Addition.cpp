@@ -54,17 +54,55 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline ll power(ll a, ll n){ ll res = 1; while (n > 0){ if (n % 2) res *= a; a *= a,n /= 2;} return res;}
-inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
 inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
-
+int minOpToMakeGood(multiset<int> &mst,vector<int> &a,int idx,int x,int n){
+    pii oldDiff = {inf, inf}, newDiff = {inf, inf};
+    if(idx>0) 
+        oldDiff.ff = a[idx]-a[idx-1],
+        newDiff.ff = x-a[idx-1];
+    if(idx<n-1) 
+        oldDiff.ss = a[idx+1]-a[idx],
+        newDiff.ss = a[idx+1]-x;
+    if(oldDiff.ff!=inf) 
+        mst.erase(mst.lower_bound(oldDiff.ff));
+    if(oldDiff.ss!=inf) 
+        mst.erase(mst.lower_bound(oldDiff.ss));
+    if(newDiff.ff!=inf) 
+        mst.insert(newDiff.ff);
+    if(newDiff.ss!=inf) 
+        mst.insert(newDiff.ss);
+    int ans = min(0LL,*mst.begin());
+    a[idx] = x;
+    return abs(ans);
+}
 void solve(){
-    int n;
-    cin >> n;
+    int n,q,idx,x;
+    cin >> n >> q;
     vector<int> a(n);
     forn(i, n) cin >> a[i];
+    multiset<int> mst;
+    forn(i,n-1) mst.insert(a[i+1]-a[i]);
+    while(q--){
+        cin>>idx>>x;
+        idx--;
+        cout << minOpToMakeGood(mst,a,idx,x,n) << endl;
+    }
+    /*
+    we will applying the operation in the whole array proof:
 
+        case 1 : if subarray is non-dec -> it will not affect there order
+               given : ..... a1 < a2 == a3 .....
+               diff : a2-a1=d, a3-a2=0
+               apply op : a1+x , a2+x+1, a3+x+2
+               diff : a2-a1+1=d+1, a3-a2+1=d+1 => diff increases so no change in order
+        case 2 : subarray is dec -> diff b/w the elements decrease by 1
+               given : ..... a1 > a2 > a3 .....
+               diff : a2-a1=-d1, a3-a2=-d2
+               apply op : a1+x , a2+x+1, a3+x+2
+               diff : a2-a1=-(d1-1), a3-a2=-(d2-1) => diff dec by 1
+    */
 }
 
 signed main(){

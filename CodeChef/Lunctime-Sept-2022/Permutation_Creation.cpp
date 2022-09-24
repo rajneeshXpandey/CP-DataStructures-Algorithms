@@ -54,7 +54,6 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline ll power(ll a, ll n){ ll res = 1; while (n > 0){ if (n % 2) res *= a; a *= a,n /= 2;} return res;}
-inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
 inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
@@ -62,9 +61,25 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    if(n==2 or n==3){
+        neg;
+        return;
+    }
+    vector<int> a;
+    loop(i,1,n) {
+        if(!(i&1)){
+            a.pb(i);
+        }
+    }
+    loop(i,1,n) {
+        if((i&1)){
+            a.pb(i);
+        }
+    }
+    loop(i,0,min(n-1,sz(a))) {
+       cout<<a[i]<<' ';
+    }
+    cout<<endl;
 }
 
 signed main(){

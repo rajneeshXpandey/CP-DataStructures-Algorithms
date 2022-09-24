@@ -1,7 +1,11 @@
 #pragma GCC optimize("unroll-loops,O3,Ofast")
 
 #include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+
 using namespace std;
+using namespace __gnu_pbds;
 
 #define loop(i, a, b)  for(int i = a; i <= b; i++)
 #define rloop(i, a, b) for(int i = a; i >= b; i--)
@@ -58,13 +62,23 @@ inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string
 inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> pbds;
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    int n,k;
+    cin >> n >> k;
+    pbds oset;
+    forn(i,n){
+        oset.insert(i+1);
+    }
+    int pos=k%n;
+    while(oset.size()>0){
+        int killed = *oset.find_by_order(pos);
+        cout<<killed<<' ';
+        oset.erase(killed);
+        if(oset.size()>0)
+            pos = (k+pos)%sz(oset);
+    }
 }
 
 signed main(){
@@ -72,7 +86,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

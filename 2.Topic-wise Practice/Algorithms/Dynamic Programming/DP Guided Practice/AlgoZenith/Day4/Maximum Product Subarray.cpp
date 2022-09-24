@@ -54,7 +54,6 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline ll power(ll a, ll n){ ll res = 1; while (n > 0){ if (n % 2) res *= a; a *= a,n /= 2;} return res;}
-inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
 inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
@@ -64,9 +63,84 @@ void solve(){
     cin >> n;
     vector<int> a(n);
     forn(i, n) cin >> a[i];
-
+    /*
+        -> break the array with bound by 0,
+        -> count -ve terms in each subarray(breaked) : 
+            if odd [....-x{.....-z......]-y....} => ans will be max of these two cases
+            else [....-w....-x....-y....-z....] => whole ans
+    */
+    vector<int> zero_idx;
+    zero_idx.pb(-1);
+    forn(i,n){
+        if(a[i]==0) zero_idx.pb(i);
+    }
+    zero_idx.pb(n);
+    int ans = -11;
+    forn(i,sz(zero_idx)-1){
+        int negCount=0,currAns=-11;
+        pii boundNegIdx = {-1,-1};
+        for(int j=zero_idx[i]+1;j<=zero_idx[i+1]-1;j++){
+            if(a[j]<0){
+                if (boundNegIdx.ff == -1)
+                    boundNegIdx.ff = j;
+                boundNegIdx.ss = j;
+                negCount++;
+            } 
+        }
+        if(zero_idx[i]+1==zero_idx[i+1]-1){
+            currAns = a[zero_idx[i]+1];
+        }
+        else if(negCount&1){
+            int case1Ans=1,case2Ans=1;
+            for(int j=boundNegIdx.ff+1;j<=zero_idx[i+1]-1;j++){
+                case1Ans *= a[j];
+            }
+            for(int j=zero_idx[i]+1;j<=boundNegIdx.ss-1;j++){
+                case2Ans *= a[j];
+            }
+            //deb2(case1Ans,case2Ans);
+            currAns = max(case1Ans,case2Ans);
+        }
+        else{
+            for(int j=zero_idx[i]+1;j<=zero_idx[i+1]-1;j++){
+                if(j==zero_idx[i]+1) currAns = 1;
+                currAns *= a[j];
+            }
+        }
+        ans = max(ans,currAns);
+    }
+    if(sz(zero_idx)>2 and ans<0) ans=0;
+    cout<<ans<<endl;
 }
+/*
+Description
 
+Given an integer array nums ,find a contiguous non-empty subarray within the array
+that has the largest product and return the product.
+
+The test cases are generated so that the answer will fit in a 64-bit integer.
+
+A subarray is a contiguous subsequence of the array.
+
+
+Input Format
+
+First-line contains T- the number of test cases.
+The first line of each test case contains n - the size of the array.
+The second line of each test case contains n elements of the array nums
+
+
+Output Format
+
+For each test case, print the maximum subarray product on a new line.
+
+Constraints:
+T => [1,100]
+N => [1,1e5]
+a[i] => [-10,10]
+
+The test cases are generated so that the answer will fit in a 64-bit integer.
+*/
 signed main(){
     FastIO;
     //freopen("input.txt", "r", stdin);

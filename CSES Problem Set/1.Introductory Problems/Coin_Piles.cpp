@@ -60,11 +60,31 @@ inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl
 // ********************************* Code Begins ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
+    int a,b;
+    cin>>a>>b;
+    if(a<b) swap(a,b);
+    /*
+     let we play the game and:
+      x time choose 2 time and y time choose 1 for A
+      then
+      y time choose 2 time and x time choose 1 for B
+      so 
+        2*x+y=a, x+2*y=b
+        x+y = (a+b)/3
+        and this is the total moves
+        also x = (2*a-b)/3 and y = (2*b-a)/3
+        so x and y should >= 0
+    */
 
+    if((a+b)%3==0 and (2*a-b)%3==0 and (2*b-a)%3==0){
+        int x = (2*a-b)/3;
+        int y = (2*b-a)/3;
+        //deb2(x,y);
+        if(x>=0 and y>=0)
+            yes;
+        else no;    
+    }
+    else no;
 }
 
 signed main(){
