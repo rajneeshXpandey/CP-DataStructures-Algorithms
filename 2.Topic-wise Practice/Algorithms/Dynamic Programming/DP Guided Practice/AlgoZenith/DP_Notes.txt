@@ -34,8 +34,8 @@
 !!! DP Framework !!!:
 
 => Look for the form of the problem.
-
-1) Form 1 : (subset, subsequences. like take drop etc to build incremental solutions)
+*  mostly :  how we can perform given operation on the first and the last element of the subarr-array [L-R]. *
+?? 1) Form 1 : (subset, subsequences. like take drop etc to build incremental solutions)
         a) Level : define and have answer to the problem
         b) Choices : possible choices at each level
         c) Check : check if the transiton is valid or not
@@ -79,7 +79,7 @@ Printing solution in DP: =>
 
                             ****** Day 3 ******
 
-2) Form 2 :- 
+?? 2) Form 2 :- 
    ** If we see path, sequence, subarray dependencies **
    !! ** stores the Best possible answer ending at this level **
 
@@ -119,7 +119,7 @@ time complexity : O(N(for levels) * N(for transitions)) = O(N^2)
 
 
 
-3) Form 3 :- Multisequence DP  :- given multiple seq and we have to match them
+?? 3) Form 3 :- Multisequence DP  :- given multiple seq and we have to match them
 
                   |-> ith
    seq1/arr1 [_ _ _ _ _] size = N
@@ -152,7 +152,7 @@ time complexity : O(N(for levels) * N(for transitions)) = O(N^2)
 
     time complexity : O(N*M*L)
 
-4) Form 4:  L-R DP / Interval DP
+?? 4) Form 4:  L-R DP / Interval DP
 
     ** Rod Cutting Problem:
           l           r
@@ -167,9 +167,12 @@ time complexity : O(N(for levels) * N(for transitions)) = O(N^2)
 
     time complexity : O((N*N){for states}*N{for transitions}) = O(N^3)})  
 
+    ** L-R DP ideation :
+        how we can perform given operation on the first and the last element of the subarr-array [L-R].
+    
     !! can we do it in less than O(N^3) time complexity ?
 
-5) Form 5:  Game DP ( Combinatorially impartial game )
+?? 5) Form 5:  Game DP ( Combinatorially impartial game )
 
     Subtraction Game:
 
@@ -187,11 +190,15 @@ time complexity : O(N(for levels) * N(for transitions)) = O(N^2)
         if x%3 then DP(x) = win
         else DP(x) = lose
 
+ => when states are -ve nums then make add the offset to make them positive and in the desire range.
+    dp(idx,vals) => idx E [0,N-1] and vals E [-x,+x] then add offset x to it 
+
+
                             ****** Day 4 ******
 
                  << Prefix match, Building Automata, using mask >>
 
-** # LIS in O(NLogN): ** 
+ ?? ** # LIS in O(NLogN): ** 
 
     Imporvements in LIS:
         1) Incremental processing:
@@ -254,7 +261,7 @@ time complexity : O(N(for levels) * N(for transitions)) = O(N^2)
 
 ** # Find the number of Binary Strings of length N that does'nt contain "0100" as 
                         (N <= 10^5)
-    !! 1) Subsequence 
+    ?? 1) Subsequence 
                   0 1 2 3 4 : idx : it means we explored idx-1 and want to put idx element in the string
            we have  0 1 0 0 
         [_ _ _ _ _ _ _ _ _ _]
@@ -272,7 +279,7 @@ time complexity : O(N(for levels) * N(for transitions)) = O(N^2)
 
         so for all same length string t answer would be same , infact it comes out to be a formulae
 
-    !! 2) Substring
+    ?? 2) Substring
 
         mask of 3 bit : prev 3 bits info
         state : DP(level,mask) = number of valid binary strings of length if we fill i to n-1
@@ -300,3 +307,118 @@ start: ([0])--->([1])--->([2]) ---> ([3]) ---> [4]
         else if(match==3) ans dp(level+1,4)+dp(level+1,2);
         /* save and return */ 
         return dp[level][match] = ans;
+    
+                                ****** Day 5 ******
+
+!! Iterative DP
+    - hepls in space optimize
+    - order of execution is important
+ 
+ ?? Problem : two piles of stone is given
+               ____   
+               |  |
+               |  |   ____
+               |  |   |  |
+               |  |   |  |
+              ------  ---- 
+  # of piles     a      b
+        
+        Rules : 
+        1) player can pick any number of stones from any one pile.
+        2) player can pick equal number of stones from both piles.
+        3) player who picks last stone wins. 
+
+   ** Solution:
+        state: DP(x,y) -> if player plaing the move wins or not if there are x stones in pile 1 and y stones in pile 2.
+        transition : DP(x,y) => DP(x-k,y)   k=1...x
+                             => DP(x,y-k)   k=1...y
+                             => DP(x-k,y-k) k=1...min(x,y)
+                !!Logic 
+                  lets current state is losing. Now, if any of the transiton results in losing state then current state will be winning. 
+                i.e we can push opponent in the losing state.              
+        time complexity : O(A*B*(A+B)) A+B : for trans
+
+      !! Order of computations
+        we have the answers in the DP matrix of size A*B
+          [ # - - - # - ] ---------> first 1st   
+          [ - # - - # - ] ---------> then 2nd
+          [ - - # - # - ] ---------> then 3rd
+          [ # # # # * - ] ---------> then 4rth
+          [ - - - - - - ] ---------> then 5th  
+        to calculate (*) -> we need to calculate (#) first so the best way to iterate 
+        becz values are depends on x-k / y-k
+    ?? Problem : given coin denominations and amount find if its possible to make the amount using given coins.
+        state : DP(level,sum_left) -> if we can make amount sum_left using given coins [level-N].
+        transition : 
+           ** DP(level,sum_left) => ** DP(level+1,sum_left) // not using current coin
+                               => DP(level,sum_left-coin[level]) 
+                                                    / using current coin and as we have infinite coin we can reuse it.
+        time complexity : O(N*SUM_MAX)
+              !! Order of computations
+        we have the answers in the DP matrix of size A*B
+          [ - - - - - - ] ---------> then 5th   
+          [ - - - - - - ] ---------> then 4rt
+          [ - - # - * - ] ---------> then 3rd
+          [ - - - - # - ] ---------> then 2nd
+          [ - - - - - - ] ---------> first 1st  
+        to calculate (*) -> we need to calculate (#) first so the best way to iterate 
+        because the states depends on level+1 and sum-x vals
+
+        !! if base case has to be saved in memory then they should be assign space
+     ** insert code
+
+
+
+
+
+     ?? Ploygon Triangulation 
+        Given a convex polygon with n vertices, find the minimum cost to triangulate it.
+        cost of triangulation is sin(length of diagolan added).
+
+     ** Form 4
+             x : vertex
+                3(x)    4
+                *-------*
+               /| \      \
+              / |  \      \
+           2 *  |   \      * 5
+              \ |    \    /
+               \|     \  /
+            !   *-------*   !  -> base of triangle
+                1       6
+
+     take 1-6 as a base of trinagle and calculate the cost of triangulation
+        of polygon formed by removing 1-x and x-6 
+      so we have clear transitons 
+
+      state : DP(l,r) -> min cost of triangulation of polygon formed by plolygon points[l-r]  
+      transition : DP(l,r) => DP(l,x) + DP(x,r) + cost(1,x) + cost(x,6) 
+                    x => [l+1,r-1]  /* x is the vertex which is added to form a triangle */
+      time complexity : O(N^3) , N = number of vertices
+
+      !! Order of computations
+        in L - R dp problems we need to solve the small length problems first
+        for 1 len 2 len like this 
+      
+      !! /** insert code */
+
+
+
+      ?? Maximum sum Subarray (Kadane's Algo)
+       : Form 2 : 
+                 i-1 i
+                    |  |
+                    |  |      
+                  * | *|
+    arr [__  __  __  __  __  __  __]
+        
+        state : DP(i) -> max sum of subarray ending at i
+        transition : DP(i) => max(DP(i-1) + arr[i]  , arr[i])
+           dp[i-1] => max sum of subarray ending at i-1
+                      so if we add a[i] to it whether it will increase the sum or not.
+        -> at last we need to find the max of all the DP(i) values.
+        time complexity : O(N)
+
+        ** just replace DP[i-1] as the last_best then the code will be KADANE's algo
+
+
