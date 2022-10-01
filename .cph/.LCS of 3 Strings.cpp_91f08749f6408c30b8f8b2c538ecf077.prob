@@ -1,0 +1,1 @@
+{"name":"Local: LCS of 3 Strings","url":"d:\\Codes-Projects\\Programs\\LCS of 3 Strings.cpp","tests":[{"id":1662653390143,"input":"3\nabc abc bbc\nalgozenith algo algorithm\nalgo zenith zen","output":"2\n4\n0"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\Codes-Projects\\Programs\\LCS of 3 Strings.cpp","group":"local","local":true}

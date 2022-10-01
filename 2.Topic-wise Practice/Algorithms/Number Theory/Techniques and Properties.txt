@@ -1,0 +1,226 @@
+Techniques :
+    1. we can find all the divisors of a number in O(sqrt(N))
+         for(1,sqrt(N)) => i and N/i
+
+    2. Check prime : O(sqrt(N))
+    **--------------------------------
+    3. Number of divisors (at max N):
+            prime factorization of n is p1^e1 * p2^e2.....pk^ek, 
+            where pi are distinct prime numbers, 
+            then the number of divisors is:
+       d(n)=(e1+1)*(e2+1)....(ek+1)
+       ---> divisors can be generated as (for eg. for p1^e1 * p2^e2 ) :
+
+                | 1  p2  p2^2 ........p2^e2
+         -------|-----------------------------------
+          1     | ..........................
+          p1    | .........................
+          p1^2  | .......................
+          .     | .........................
+          .     | .......................
+          p1^e1 | .........................
+    **--------------------------------
+    4. Sum of divisors :
+        if n = p1^e1 * p2^e2.....pk^ek
+            we receive the formula:
+       σ(n) = (p1^(e1+1)−1)/p1−1  * (p2^(e2+1)−1)/p2−1......(pk^(ek+1)−1)/pk−1
+         sum for every possible factor
+    **--------------------------------
+    5. Smallest Prime Factor(SPF) :
+        spf[i] -> smallest prime number that divides i.
+        (3,6,8,10) => 3, 2, 2, 2
+        If z is a prime number, spf[z] = z
+        1<=q<=10^6,1<=x<=10^6
+        Find the spf[x] for each query?
+
+       => same as seive but with numbers. 
+    **--------------------------------
+    6. 
+    Q.1)- Given a number N, 
+         find the sum of its all prime divisors. (N<=10^6)
+            12-> 1,2,3,4,6,12
+            Sum of all prime divisors = (2+3)=5;
+        ** Approach => 
+            Find its all of its divisors and then check how many of them are prime number.
+
+           time : O(Nlog(log(N))) + O(N) => O(Nlog(log(N))) 
+
+    *--> Q.2) <--* Now solve the same above problem
+          but for q number of queries. (q<=10^6)
+          Time Complexity of Native solution -> O(q* Nlog(log(N))) 
+          ** but,
+                const int MAX=1000000;
+                bool is_prime[MAX+1];
+                int Sum[MAX+1];
+                memset(is_prime,true,sizeof(is_prime));
+                is_prime[0]=is_prime[1]=false;
+                
+                ** Sum[i]-> sum of its all prime divisors.
+                for(int i=2;i<=MAX;i++){
+                    if(is_prime[i]==true){
+                        for(int j=i;j<=MAX;j+=i){
+                            if(j>i) is_prime[j]=false;
+                            sum[j]+=i;
+                        }
+                    }
+                } 
+                ** O(NlogN)
+                *i=2(Prime);*2,4,6,8,10.... 
+                *Maked all these numbers as Non prime number and Sum[j]+=i;
+                *OverAll timeComplexity = O(N(logN))
+
+    Q.3)- You will be given a number N, find the number of its divisors. (N<=10^6)
+
+                Int count=0;
+                for(int i=1;i*i<=N;i++){
+                    if(N%i==0){
+                        Int first_divisor = i;
+                        Int second_divisor = (N/i);
+                        if(first_divisor!=second_divisor) count+=2;
+                        Else count++;
+                    }
+            }
+            cout<<count<<endl;
+            *Time Complexity -> O(sqrt(N))
+
+
+    Q.4)- Now solve the same above problem 
+            but for q number of queries. (q<=10^6)
+        Brute Force Time Complxity -> O(q*sqrt(N)) == 10^9
+
+                **Points-> 
+                    N-> z1^k1 * z2^k2 * z3^k3 * …….
+                    zi-> prime number.
+                    Number of divisors = (k1+1)*(k2+1)*(k3+1)......
+            ** NLog(logN))
+                    Int ans=1; (12)
+                    while(n>1){
+                        Int k=0;
+                        * Int spf = SPF[n]; // can also do for every i 
+                        while(n%spf==0){
+                            n/=spf;
+                            k++;
+                        }
+                        ans=ans*(k+1); 
+                    }
+                    cout<<ans<<endl;
+
+                Time complxity -> O(qlogn);
+
+                N = 2^20
+                Spf = SPF[N] = 2;
+                while(N%spf==0) n/=2;
+                It will run 20;
+                Log2(N);
+
+                N= 2^10 * 3^10
+    *-------------------------            
+    7. 
+     Euler's totient function, also known as phi-function ϕ(n), 
+     counts the number of integers between 1 and n inclusive,which are coprime to n.
+     Two numbers are coprime if their gcd equals 1 (1 is considered to be coprime to any number).
+
+     *If p is a prime number, then gcd(p,q)=1 for all 1≤q<p. Therefore we have:
+            ϕ(p)=p−1.
+     *If p is a prime number and k≥1, then there are exactly p^k/p numbers between 1 and p^k that are divisible by p.
+          Which gives us:
+            ϕ(p^k)=p^k−p^(k−1)
+         proof:
+            9 -> 3^2 ->3,6,9 = 9/3 = p^2/p
+            phi(p^k) -> p^k -> p,2*p,3*p,4*p...p^k => p^(k-1) 
+                                nums consist of p so we need to subtract
+            p^k = p+(n-1)*p
+            p^(k-1) = 1+n-1
+            N = p^(k-1)
+  
+     ***** If a and b are relatively prime, then:
+            ϕ(ab)=ϕ(a)⋅ϕ(b).
+
+     *If n=p1^a1 * p2^a2...pk^ak, where pi are prime factors of n,
+     take ϕ both side
+        ϕ(n) = ϕ(p1^a1)*ϕ(p2^a2)...ϕ(pk^ak)
+             = (p1^a1−p1^(a1−1))*(p2^a2−p2^(a2−1))...(pk^ak−pk^(ak−1))
+
+        ***  ϕ(n) = n*(1−1/p1)*(1−1/p2)...(1−1/pk) ***   
+
+     *----------------------------------
+     8. Modular Multiplicative Inverse
+
+     A modular multiplicative inverse of an integer a is an integer x such that a⋅x is congruent to 1 modular some modulus m. To write it in a formal way: we want to find an integer x so that
+
+        -> a*x ≡ 1 (mod m)  => (a*x)%m = 1
+
+        -> We will also denote x simply with a^−1.
+         also 1 <= x <= m-1
+        
+        -> modular inverse exists if and only if a and m are relatively prime
+         (i.e. gcd(a,m)=1).
+
+      Methods to calculate :
+
+       a) run loop from 1 to m-1 and check (a*x)%m == 1
+       
+       b) Extended Euclids theoreom :
+             a*x+m*y=1 (.'. gcd(a,m)=1)
+            ```
+            int x, y;
+            int g = extended_euclidean(a, m, x, y);
+            if (g != 1) 
+                cout << "No solution!";
+            else
+                x = (x % m + m) % m;
+                cout << x << endl;
+            ```    
+            
+      *c) Fermats little theoreom :
+                    a^ϕ(m) ≡ 1 (mod m)
+                ϕ is Euler's Totient function. 
+                If m is a prime number, this simplifies to Fermat's little theorem:
+                    a^m−1 ≡ 1 (mod m)
+                Multiply both sides of the above equations by a^−1, and we get:
+
+            -> For an arbitrary (but coprime) modulus m: a^ϕ(m)−1 ≡ a^−1 (mod m)
+            -> For a prime modulus m: a^m−2 ≡ a^−1 (mod m)
+            
+            just calculate the a^(m-2) by binary expo.
+            
+            From these results, we can easily find the modular inverse 
+            using the binary exponentiation algorithm, which works in O(logm) time
+      
+      **d) Finding the modular inverse for every number(1 to m-1) modulo m.
+            -> by using above methods O(MlogM)
+           ==> but we have O(M) :
+           
+           We denote by inv[i] the modular inverse of i. 
+           Then for i>1 the following equation is valid:
+
+           inv[i] = −⌊m/i⌋*inv[m mod i]mod m (⌊.⌋ is floor value)  
+
+          Thus the implementation is very simple:
+            ```
+            inv[1] = 1;
+            for(int i = 2; i < m; ++i)
+                inv[i] = m - (m/i) * inv[m%i] % m;
+            ```
+          *Proof*   
+           We have:
+               m mod i = m−⌊m/i⌋*i
+           Taking both sides modulo m yields:
+           Multiply both sides by i^−1⋅(m mod i)^−1 yields
+           which simplifies to:
+            i^−1 ≡ −⌊m/i⌋*(m mod i)^−1 mod m       
+ 
+**------------------------------------------------------------                
+ 
+Property No. 1 :
+
+                If (a-b)%k = (x-y) 
+                    Then,
+                       (a-x)%k = (b-y)%k
+
+        Proof: 
+            LHS => (a-b) = (a-b)*k + (x-y) (given) 
+            now, (a-x) = (a-b)*k + (b-y); // After reorder.
+        Take modulo with k on LHS and RHS
+            (a-x)%k = 0 + (b-y)%k;
+            (a-x)%k = (b-y)%k => RHS

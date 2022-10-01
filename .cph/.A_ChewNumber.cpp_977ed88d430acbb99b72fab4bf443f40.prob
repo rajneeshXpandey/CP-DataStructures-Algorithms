@@ -1,0 +1,1 @@
+{"name":"Local: A_ChewNumber","url":"d:\\Codes-Projects\\Programs\\A_ChewNumber.cpp","tests":[{"id":1658934234128,"input":"27","output":"22"},{"id":1658942590295,"input":"4545","output":"4444"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\Codes-Projects\\Programs\\A_ChewNumber.cpp","group":"local","local":true}

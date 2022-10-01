@@ -1,0 +1,1 @@
+{"name":"Local: N-Queens Revisited","url":"d:\\Codes-Projects\\Programs\\N-Queens Revisited.cpp","tests":[{"id":1661842894211,"input":"3","output":"0"},{"id":1661842899250,"input":"10","output":"4"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\Codes-Projects\\Programs\\N-Queens Revisited.cpp","group":"local","local":true}

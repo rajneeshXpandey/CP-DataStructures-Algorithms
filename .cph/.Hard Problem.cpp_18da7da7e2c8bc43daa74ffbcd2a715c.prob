@@ -1,0 +1,1 @@
+{"name":"Local: Hard Problem","url":"d:\\Codes-Projects\\Programs\\Hard Problem.cpp","tests":[{"id":1664124342887,"input":"3\n4\nabcd\n1 2 3 4\n10\nhhhaaarrdd\n1 2 3 4 1 2 3 4 2 3\n4\nhard\n2 1 4 6","output":"0\n5\n1"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\Codes-Projects\\Programs\\Hard Problem.cpp","group":"local","local":true}

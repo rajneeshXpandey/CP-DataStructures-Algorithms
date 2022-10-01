@@ -1,0 +1,527 @@
+                       ******  Dynamic Programming ******
+                            
+                            ****** Day 1 ******
+
+1) Inside array max size => 2*10^6 and on global scope max size => 10^8
+
+
+2) State compression (Hashing Trick) :
+
+    lets we have dp[1000][100][10] for c,b,a respectively
+    then, 
+        int getValue(int a,int b,int c){
+            return x = (a*10^5 + b*10^3 + c);
+            /* its like: (-)(--)(---) */
+        }
+        to retrive the value:
+            c = x%1000; b = (x/1000)%100; a = (x/100000);
+    so, 
+        dp[1000][100][10] => dp[100000]        
+
+
+3) When to decide DP and greedy?
+    -> always try DP first and then try greedy
+
+4) Base cases for DP:
+               valid base     invalid state
+    min   ->        0              +inf
+    max   ->        0              -inf
+    count ->        1               0
+
+
+                            ****** Day 2 ******
+
+!!! DP Framework !!!:
+
+=> Look for the form of the problem.
+*  mostly :  how we can perform given operation on the first and the last element of the subarr-array [L-R]. *
+?? 1) Form 1 : (subset, subsequences. like take drop etc to build incremental solutions)
+        a) Level : define and have answer to the problem
+        b) Choices : possible choices at each level
+        c) Check : check if the transiton is valid or not
+        d) Moves : go to next valid levels
+
+        DP(level,taken/remaining) = answer to that level
+
+=> Decide the states and meaning : DP(__) = ___ 
+
+=> DP transitions.
+
+=> Check the time complexity. (don't code until you have the time complexity)
+        Formula to calculate TC : O(#States * (1+Avg.Transitions cost))
+                                : O(#States * (1+Avg. #Transitions per state)) 
+
+=> Code !! - Pruning
+           - Base Case
+           - Cache check
+           - Transitions
+           - Save and return
+
+!!! Query and  Printing solution in DP !!!:
+
+Query =>  
+    we need to cache things accross query
+    so instead DP(level,taken) => DP(level,remaining)
+
+    proof : in code of DP(level,sum_taken) dependes on target sum T
+            but if write code for DP(level,remaining) then it will be independent of T.
+            hence we don't need to clear our cache for every query.
+            time complexity will be O(#States * (1+Avg. #Transitions per state) + Q)
+                   instead of O(#States * (1+Avg. #Transitions per state) * Q).
+
+Printing solution in DP: => 
+    -recheck, 
+    -saving backpointers
+        : check by making dp call 
+            if not take gives true then don't take and move in the same
+            else take (true) print the item and move to next level in the same
+
+
+                            ****** Day 3 ******
+
+?? 2) Form 2 :- 
+   ** If we see path, sequence, subarray dependencies **
+   !! ** stores the Best possible answer ending at this level **
+
+ => (Longest Increasing Subsequence.)
+
+    solving this problem using Form 1: 
+     state: DP(level, last_element_taken) = max lenght of subsequence ending at level
+     transitions: DP(level, last_element_taken) :
+                max(DP(level+1, last_element_taken), DP(level+1, arr[level])+1)
+                                                        |-> this case if(arr[level]>last_element_taken))
+      time complexity: O(N*max(arr))->can'nt feasible for large arr.
+
+      so, just try to store index instead of element :time complexity O(N*N)
+
+ Solving with Form 2: 
+    state : DP(level) = Best answer ending at level
+
+   _2_ _5_ _3_ _6_ _1_ _4_
+   < --------- >|-> level 
+     prev_taken
+ traverse from level-1 to 0 and take maxmium of all the possible prev_taken 
+
+ state : DP(level) = max length of subsequence ending at level
+
+ transitions : DP(level) = max(DP(level), DP(prev_taken)+1)
+                                                |-> if(arr[level]>arr[prev_taken])
+                         prev_taken = 0 to level-1  
+
+time complexity : O(N(for levels) * N(for transitions)) = O(N^2)
+
+=> In N*M Grid find the max Path sum from (0,0) to (N-1,M-1) if ->(side) and |(down) are allowed.
+    state : DP(row,col) = max path sum ending at (row,col)
+    transitions : DP(row,col) = max(DP(row-1,col), DP(row,col-1)) + arr[row][col]
+    time complexity : O(N*M)
+
+    can keep done[][] array to check whether its value is save or not. 
+
+
+
+?? 3) Form 3 :- Multisequence DP  :- given multiple seq and we have to match them
+
+                  |-> ith
+   seq1/arr1 [_ _ _ _ _] size = N
+
+                    |-> jth
+   seq2/arr2 [_ _ _ _ _]  size = M
+
+   DP(i,j,___) = best answer when i - N and j - M are remaining or 0-i , 0-j explored
+
+   ** Longest Common Subsequence.
+
+   state : DP(i,j) = LCS from seq1[i,N-1] and seq2[j,M-1]
+   transitions : DP(i,j) = 
+                            max(DP(i+1,j), DP(i,j+1))
+                            if(seq1[i]==seq2[j]) then DP(i,j) = max(DP(i,j), DP(i+1,j+1)+1)
+              ith -> _ _ x _ _ _
+              jth -> _ _ y _ _ _
+
+    time complexity : O(N*M)
+
+    ! for multiple seq:
+    ** things remains same
+    state : DP(i,j,k) = LCS from seq1[i,N-1] and seq2[j,M-1] and seq3[k,L-1]
+    transitions : DP(i,j) = 
+                            max(DP(i+1,j,k), DP(i,j+1,k), DP(i,j,k+1))
+                            if(seq1[i]==seq2[j] && seq2[j]==seq3[k]) then DP(i,j,k) = max(DP(i,j,k), DP(i+1,j+1,k+1)+1)
+              ith -> _ _ x _ _ _
+              jth -> _ _ y _ _ _
+              kth -> _ _ z _ _ _
+
+    time complexity : O(N*M*L)
+
+?? 4) Form 4:  L-R DP / Interval DP
+
+    ** Rod Cutting Problem:
+          l           r
+    |-----|--|--------|---------| , we have to cut rod in pieces such that we get min cost.
+    cost :- length of current rod. 
+                  4     2     => cost = 6 and we have |------| and |----| left
+           i.e |------|---| 
+                                 
+    state : DP(l,r) = min cost to cut rod from l to r
+    transitions : DP(l,r) = min(DP(l,r), DP(l,i)+DP(i+1,r)+(r-l))
+                                               |-> for all i in [l+1,r-1]
+
+    time complexity : O((N*N){for states}*N{for transitions}) = O(N^3)})  
+
+    ** L-R DP ideation :
+        how we can perform given operation on the first and the last element of the subarr-array [L-R].
+    
+    !! can we do it in less than O(N^3) time complexity ?
+
+?? 5) Form 5:  Game DP ( Combinatorially impartial game )
+
+    Subtraction Game:
+
+    [ x chips ] :- player can y (2^m m:{0,inf}) chips from x chips. and x-y will remain
+
+    now if playey can't take any chips then he will loose.
+
+    state : DP(x) = true if player can win else false
+    transitions : DP(x) : DP(x-y) y = 2^m m:{0,log2X} and x-y>=0.
+         if any one of the transition is losing then DP(x) = win
+         else if all are winning then DP(x) = lose
+    time complexity : O(N*logN)
+
+    observation :  after printing the patterns 
+        if x%3 then DP(x) = win
+        else DP(x) = lose
+
+ => when states are -ve nums then make add the offset to make them positive and in the desire range.
+    dp(idx,vals) => idx E [0,N-1] and vals E [-x,+x] then add offset x to it 
+
+
+                            ****** Day 4 ******
+
+                 << Prefix match, Building Automata, using mask >>
+
+ ?? ** # LIS in O(NLogN): ** 
+
+    Imporvements in LIS:
+        1) Incremental processing:
+            add / not add current element in the prev sequence.
+                1    2       5                   6 4 7 8 9
+                {1} {2}     {5}
+                    {1,2}  {2,5},{1,2,5} etc.
+        2) Compairing partial solutions:
+            (length , last_element) -> if(length is same)  compare last_element and take lesser one.
+                                        else take greater length one.
+        3) Storing and maintaining partial solutions.
+
+        eg 1 5 6 9 4 2 3 5 8
+            arr : [ 1, 5 , 6 , 9] now -> [ 1, 4 , 6 , 9] -> [ 1, 2 , 6 , 9] -> [ 1, 2 , 3 , 5] -> [ 1, 2, 3, 5, 8]
+            arr[i] -> best last element of LIS ending at i
+
+        4) Printing Soln
+             [1, 5, 7, 10, 9, 6, 8, 9, 2, 3]
+           |->1, 5, 7, 10
+                 |->6, 8, 9
+              |->2, 3
+        --------------------------| see from here
+        so,  1 2 3 8 9 : LIS
+
+        ** Getting LIS **
+        !! Code for getting LIS in O(NLogN)
+        vector<int> lis;
+        for(int i=0;i<n;i++){
+            if(lis.empty()||lis.back()<arr[i]){
+                lis.push_back(arr[i]);
+                inserted_at[i] = lis.size();
+            } else{
+                auto it = lower_bound(lis.begin(), lis.end(), arr[i]); 
+                *it = arr[i];
+                inserted_at[i] = it-lis.begin()+1;
+            } 
+        } 
+        cout<<lis.size()<<endl;
+        !!
+        ** Printing LIS **
+        for above eg. inserted_at[] = {1_ , 2_ , 3 , 4 , 4 , 3_ , 4_ , 5_ , 2 , 3} 
+          this is the size of current lis when the ith element is inserted.
+
+        _ : these len of lis while insertion are important bcz they build the lis finally. 
+
+        !! Code for Printing LIS in O(N)
+            int curlen  = lis.size();
+            vector<int> final_lis;
+            for(int i=n-1;i>=0;i—){
+                if(inserted_at[i]==curlen){
+                    final_lis.push_back(arr[i]);
+                    curlen--;
+                }
+            } 
+            reverse(final_lis.begin(), final_lis.end());
+            for(auto &x: final_lis){ 
+                    cout<<x<<"";
+            }
+        !!
+
+** # Find the number of Binary Strings of length N that does'nt contain "0100" as 
+                        (N <= 10^5)
+    ?? 1) Subsequence 
+                  0 1 2 3 4 : idx : it means we explored idx-1 and want to put idx element in the string
+           we have  0 1 0 0 
+        [_ _ _ _ _ _ _ _ _ _]
+
+        state : DP(level,index_of_given str=x) = number of valid binary strings of length if we fill i to n-1
+        transitions : DP(level,x) = 
+                                    if(x==4) DP(level+1,x); 
+                                    else if(t[x])
+                                        DP(level+1,x+1)
+                                     else
+                                        DP(level+1,x)
+        time complexity : O(N)
+        /* pruning */  if(x==4) return 0;
+        /* base case */ if(level==N) return 1;
+
+        so for all same length string t answer would be same , infact it comes out to be a formulae
+
+    ?? 2) Substring
+
+        mask of 3 bit : prev 3 bits info
+        state : DP(level,mask) = number of valid binary strings of length if we fill i to n-1
+        transitions : DP(level,mask) 
+                                  if mask=(level>=3 and 010) -> DP(level+1,101); we can only place 1
+                                  else if mask=(001) -> DP(level+1,010) + DP(level+1,011)
+        time complexity : O(N)
+        /* base case */ if(level==N) return 1;
+
+        ** another method if creating FS automata **
+
+        string : 0 1 0 0   () -> accepted state 
+                
+        _1_      _0_                          _0/1__
+        | |  0   | |   1        0          0   | |
+start: ([0])--->([1])--->([2]) ---> ([3]) ---> [4]
+         |<_________________|<______|   
+                0               1 
+
+         !! code for automata                      
+        int ans = 0; 
+        if(match==0)      ans=dp(level+1,0)+dp(level+1,1);
+        else if(match==1) ans=dp(level+1,1)+dp(level+1,2);
+        else if(match==2) ans dp(level+1,3)+dp(level+1,0);
+        else if(match==3) ans dp(level+1,4)+dp(level+1,2);
+        /* save and return */ 
+        return dp[level][match] = ans;
+    
+                                ****** Day 5 ******
+
+!! Iterative DP
+    - hepls in space optimize
+    - order of execution is important
+ 
+ ?? Problem : two piles of stone is given
+               ____   
+               |  |
+               |  |   ____
+               |  |   |  |
+               |  |   |  |
+              ------  ---- 
+  # of piles     a      b
+        
+        Rules : 
+        1) player can pick any number of stones from any one pile.
+        2) player can pick equal number of stones from both piles.
+        3) player who picks last stone wins. 
+
+   ** Solution:
+        state: DP(x,y) -> if player plaing the move wins or not if there are x stones in pile 1 and y stones in pile 2.
+        transition : DP(x,y) => DP(x-k,y)   k=1...x
+                             => DP(x,y-k)   k=1...y
+                             => DP(x-k,y-k) k=1...min(x,y)
+                !!Logic 
+                  lets current state is losing. Now, if any of the transiton results in losing state then current state will be winning. 
+                i.e we can push opponent in the losing state.              
+        time complexity : O(A*B*(A+B)) A+B : for trans
+
+      !! Order of computations
+        we have the answers in the DP matrix of size A*B
+          [ # - - - # - ] ---------> first 1st   
+          [ - # - - # - ] ---------> then 2nd
+          [ - - # - # - ] ---------> then 3rd
+          [ # # # # * - ] ---------> then 4rth
+          [ - - - - - - ] ---------> then 5th  
+        to calculate (*) -> we need to calculate (#) first so the best way to iterate 
+        becz values are depends on x-k / y-k
+    ?? Problem : given coin denominations and amount find if its possible to make the amount using given coins.
+        state : DP(level,sum_left) -> if we can make amount sum_left using given coins [level-N].
+        transition : 
+           ** DP(level,sum_left) => ** DP(level+1,sum_left) // not using current coin
+                               => DP(level,sum_left-coin[level]) 
+                                                    / using current coin and as we have infinite coin we can reuse it.
+        time complexity : O(N*SUM_MAX)
+              !! Order of computations
+        we have the answers in the DP matrix of size A*B
+          [ - - - - - - ] ---------> then 5th   
+          [ - - - - - - ] ---------> then 4rt
+          [ - - # - * - ] ---------> then 3rd
+          [ - - - - # - ] ---------> then 2nd
+          [ - - - - - - ] ---------> first 1st  
+        to calculate (*) -> we need to calculate (#) first so the best way to iterate 
+        because the states depends on level+1 and sum-x vals
+
+        !! if base case has to be saved in memory then they should be assign space
+     ** insert code
+
+        int dp[n+1][m+1]; 
+        for(int l=n; l>=0; l--){
+            for(int s=0;s<=m;s++){ 
+                    / compute for (1,s) 
+                    if(l==n){ 
+                            if(s==0)
+                                dp[l][s]=1; 
+                            else dp[l][s]=0;
+                    }
+                    / general 
+                    dp[l][s] = 0; 
+                    if(dp[l+1][s]){ 
+                        dp[l][s] = 1;
+                    } 
+                    if(s>=coin[l] && dp[l][s-coin[l]]){
+                        dp[l][s] = 1;
+                    }
+                }
+        }           
+     ! ?? Iterative code for L-R DP
+          [ \ - - - - ]   
+          [ - \ - - - ]  
+          [ - - \ - - ] 
+          [ - - - \ - ] 
+          [ - - - - \ ]  
+        Iterate diagonally with l incr of len = 1,2,3.....and if l = len then r = len-l+1; 
+
+     ?? Ploygon Triangulation 
+        Given a convex polygon with n vertices, find the minimum cost to triangulate it.
+        cost of triangulation is sin(length of diagolan added).
+
+     ** Form 4
+             x : vertex
+                3(x)    4
+                *-------*
+               /| \      \
+              / |  \      \
+           2 *  |   \      * 5
+              \ |    \    /
+               \|     \  /
+            !   *-------*   !  -> base of triangle
+                1       6
+
+     take 1-6 as a base of trinagle and calculate the cost of triangulation
+        of polygon formed by removing 1-x and x-6 
+      so we have clear transitons 
+
+      state : DP(l,r) -> min cost of triangulation of polygon formed by plolygon points[l-r]  
+      transition : DP(l,r) => DP(l,x) + DP(x,r) + cost(1,x) + cost(x,6) 
+                    x => [l+1,r-1]  /* x is the vertex which is added to form a triangle */
+      time complexity : O(N^3) , N = number of vertices
+
+      !! Order of computations
+        in L - R dp problems we need to solve the small length problems first
+        for 1 len 2 len like this 
+      
+      !! /** insert code */
+            vector<vector<ll>> dp;
+            vector<ll> a;
+            ll rec(int i, int j)
+            {
+                if (abs(j - i) == 1)
+                    return 0;
+                auto &ans = dp[i][j];
+                if (ans != -1)
+                    return ans;
+                ans = 1e18;
+                for (int k = i + 1; k <= j - 1; k++)
+                    ans = min(ans, a[i] * a[k] * a[j] + rec(i, k) + rec(k, j));
+                return ans;
+            }
+            ll minTriangulation(vector<ll> &v)
+            {
+                n = v.size();
+                a = v;
+                dp.assign(n + 1, vector<ll>(n + 1, -1));
+                return rec(0, n - 1);
+            }
+
+      ?? Maximum sum Subarray (Kadane's Algo)
+       : Form 2 : 
+                 i-1 i
+                    |  |
+                    |  |      
+                  * | *|
+    arr [__  __  __  __  __  __  __]
+        
+        state : DP(i) -> max sum of subarray ending at i
+        transition : DP(i) => max(DP(i-1) + arr[i]  , arr[i])
+           dp[i-1] => max sum of subarray ending at i-1
+                      so if we add a[i] to it whether it will increase the sum or not.
+        -> at last we need to find the max of all the DP(i) values.
+        time complexity : O(N)
+
+        ** just replace DP[i-1] as the last_best then the code will be KADANE's algo
+
+
+                        ************* Day 6 ************
+
+    !! Optimizing DP Solutions
+
+    * 1) State space optimization :
+            if state have x,y,z parameters and z = f(x,y)
+            then we can replace z with f(x,y) and save space.
+    * 2) State rotation
+            what we were returning will put in state and what we were storing 
+            return will be stored.
+    * 3) Transition optimization.
+    * 4) Space optimization
+    * 5) Advance :
+            - Knuth optimization: 
+                   LR DP -> Optimization of rod cutting problem that was N^3 -> N^2
+            - Divide and Conquer Optimization
+            - Convex Hull Optimization (**) -> can be learn)
+            - Alien Trick
+            - Monotonocity Based Optimization (**) -> can be learn)
+            - 1D 1D DP Optimization
+            - sorting based optimization (**) -> can be learn)
+    
+    ! 1) State space optimization :
+    ? Given set of nums divide them into two sets such that sumA % sumB = 0
+    DP(level,sumA,sumB) --> DP(level,sumA)
+                               and sumB = prefixSum[level] - sumA
+    ! 2) State rotation
+    ? AtCoder DP Contest Problem E
+    .
+    .
+    .
+    ? Problem:
+      there are n cities and roads between them.
+
+      |____|_____|_____|_____|_____|_____|_____|_____|_____|_____|
+      B1   B2    B3    B4   B5    B6    B7    B8    B9   B10   B11
+
+     Bi -> cost of bus from city i to i+1 
+     there is flight service from city i to i+j with cost Fi + Fj
+                        j -> [1,k]
+        find the min cost to travel from city 1 to city n
+     * Solution
+        state : Dp(level) -> min cost to travel from city 1 to city level
+        transition : Dp(level) => min{ 
+                                       Dp(level-j) + Fi + Fj) , j -> [1,k],
+                                       Dp(level-1) + Bi 
+                                     }
+        time complexity : O(N*K)
+
+        ! Optimize the transition
+        
+        in Dp(level-j) + Fi + F[level-j]) , j -> [1,k],
+          if we get min in O(1) approx then we can optimize the time complexity
+        i.e we only need array of DP[k]+Fk for k-len segment
+
+        so, we can use multiset to maintain the K-len segment and find min in O(1)
+        OR
+        Monotonic Queue : https://1e9.medium.com/monotonic-queue-notes-980a019d5793
+        
+
+
