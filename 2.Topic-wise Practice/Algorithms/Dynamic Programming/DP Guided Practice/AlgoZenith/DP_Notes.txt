@@ -367,9 +367,32 @@ start: ([0])--->([1])--->([2]) ---> ([3]) ---> [4]
         !! if base case has to be saved in memory then they should be assign space
      ** insert code
 
-
-
-
+        int dp[n+1][m+1]; 
+        for(int l=n; l>=0; l--){
+            for(int s=0;s<=m;s++){ 
+                    / compute for (1,s) 
+                    if(l==n){ 
+                            if(s==0)
+                                dp[l][s]=1; 
+                            else dp[l][s]=0;
+                    }
+                    / general 
+                    dp[l][s] = 0; 
+                    if(dp[l+1][s]){ 
+                        dp[l][s] = 1;
+                    } 
+                    if(s>=coin[l] && dp[l][s-coin[l]]){
+                        dp[l][s] = 1;
+                    }
+                }
+        }           
+     ! ?? Iterative code for L-R DP
+          [ \ - - - - ]   
+          [ - \ - - - ]  
+          [ - - \ - - ] 
+          [ - - - \ - ] 
+          [ - - - - \ ]  
+        Iterate diagonally with l incr of len = 1,2,3.....and if l = len then r = len-l+1; 
 
      ?? Ploygon Triangulation 
         Given a convex polygon with n vertices, find the minimum cost to triangulate it.
@@ -401,8 +424,27 @@ start: ([0])--->([1])--->([2]) ---> ([3]) ---> [4]
         for 1 len 2 len like this 
       
       !! /** insert code */
-
-
+            vector<vector<ll>> dp;
+            vector<ll> a;
+            ll rec(int i, int j)
+            {
+                if (abs(j - i) == 1)
+                    return 0;
+                auto &ans = dp[i][j];
+                if (ans != -1)
+                    return ans;
+                ans = 1e18;
+                for (int k = i + 1; k <= j - 1; k++)
+                    ans = min(ans, a[i] * a[k] * a[j] + rec(i, k) + rec(k, j));
+                return ans;
+            }
+            ll minTriangulation(vector<ll> &v)
+            {
+                n = v.size();
+                a = v;
+                dp.assign(n + 1, vector<ll>(n + 1, -1));
+                return rec(0, n - 1);
+            }
 
       ?? Maximum sum Subarray (Kadane's Algo)
        : Form 2 : 
@@ -420,5 +462,66 @@ start: ([0])--->([1])--->([2]) ---> ([3]) ---> [4]
         time complexity : O(N)
 
         ** just replace DP[i-1] as the last_best then the code will be KADANE's algo
+
+
+                        ************* Day 6 ************
+
+    !! Optimizing DP Solutions
+
+    * 1) State space optimization :
+            if state have x,y,z parameters and z = f(x,y)
+            then we can replace z with f(x,y) and save space.
+    * 2) State rotation
+            what we were returning will put in state and what we were storing 
+            return will be stored.
+    * 3) Transition optimization.
+    * 4) Space optimization
+    * 5) Advance :
+            - Knuth optimization: 
+                   LR DP -> Optimization of rod cutting problem that was N^3 -> N^2
+            - Divide and Conquer Optimization
+            - Convex Hull Optimization (**) -> can be learn)
+            - Alien Trick
+            - Monotonocity Based Optimization (**) -> can be learn)
+            - 1D 1D DP Optimization
+            - sorting based optimization (**) -> can be learn)
+    
+    ! 1) State space optimization :
+    ? Given set of nums divide them into two sets such that sumA % sumB = 0
+    DP(level,sumA,sumB) --> DP(level,sumA)
+                               and sumB = prefixSum[level] - sumA
+    ! 2) State rotation
+    ? AtCoder DP Contest Problem E
+    .
+    .
+    .
+    ? Problem:
+      there are n cities and roads between them.
+
+      |____|_____|_____|_____|_____|_____|_____|_____|_____|_____|
+      B1   B2    B3    B4   B5    B6    B7    B8    B9   B10   B11
+
+     Bi -> cost of bus from city i to i+1 
+     there is flight service from city i to i+j with cost Fi + Fj
+                        j -> [1,k]
+        find the min cost to travel from city 1 to city n
+     * Solution
+        state : Dp(level) -> min cost to travel from city 1 to city level
+        transition : Dp(level) => min{ 
+                                       Dp(level-j) + Fi + Fj) , j -> [1,k],
+                                       Dp(level-1) + Bi 
+                                     }
+        time complexity : O(N*K)
+
+        ! Optimize the transition
+        
+        in Dp(level-j) + Fi + F[level-j]) , j -> [1,k],
+          if we get min in O(1) approx then we can optimize the time complexity
+        i.e we only need array of DP[k]+Fk for k-len segment
+
+        so, we can use multiset to maintain the K-len segment and find min in O(1)
+        OR
+        Monotonic Queue : https://1e9.medium.com/monotonic-queue-notes-980a019d5793
+        
 
 
