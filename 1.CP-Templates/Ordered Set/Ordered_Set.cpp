@@ -133,7 +133,7 @@ int main()
     // finding number of elements smaller than X - 3rd query
     cout << "No. of elems smaller than 6: " << A.order_of_key(6) << endl;   // 2
     cout << "No. of elems smaller than 11: " << A.order_of_key(11) << endl; // 4
-    cout << "No. of elems smaller than 1: " << A.order_of_key(1) << endl;   // 0
+    cout << "No. of elems smaller than 1: " << A.order_of_key(7) << endl;   // 0
     cout << endl;
 
     // lower bound -> Lower Bound of X = first element >= X in the set

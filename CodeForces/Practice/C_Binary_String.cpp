@@ -53,17 +53,72 @@ template<typename T, typename T1> T amin(T &a, T1 b) {if (b < a)a = b; return a;
 mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
-inline ll power(ll a, ll n){a %= mod; int res = 1; while(n){if (n & 1) res = (res * a) % mod; a = (a * a) % mod;n >>= 1;} return res;}
+inline ll power(ll a, ll n){ ll res = 1; while (n > 0){ if (n % 2) res *= a; a *= a,n /= 2;} return res;}
 inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
 inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
+    string s;
+    cin>>s;
+    // lamda function
+    auto ifPossibleToGetCost = [&](int cost,string str,int ones,int zero,int n) {
+
+        
+        if(zero<cost) return 1;
+        //we can remove x = zero-cost zeros and the one removed should be <= cost
+        vector<int> prex,suffx;
+        prex.push_back(0);
+        suffx.push_back(0);
+        int one=0;
+        loop(i,0,n-1){
+            if(str[i]=='1') one++;
+            else
+                prex.push_back(one);
+        }
+        one=0;
+        rloop(i,n-1,0){
+            if(str[i]=='1') one++;
+            else
+                suffx.push_back(one);
+        }
+        //printArr(prex);
+        //printArr(suffx);
+        int zerosToRemove = zero-cost;
+        for(int left=0;left<=zerosToRemove;left++){
+            int right = zerosToRemove - left;
+            int one_removed = prex[left]+suffx[right];
+            //deb2(prex[left],suffx[right]);
+            if(one_removed<=cost) return 1;
+        }
+        return 0;
+    };
+
+    int n=sz(s);
+    int one=0,zero=0;
+    forn(i,n){
+        (s[i]=='1')?one++:zero++; 
+    }
+    int low = 0, high=max(one,zero);
+    //deb2(low,high);
+    if(zero==0){
+        cout<<0<<endl;
+        return;
+    }
+    int ans=high;
+    while(low<=high){
+        int cost = (low+high)/2;
+        if(ifPossibleToGetCost(cost,s,one,zero,n)){
+            ans = cost;
+            high = cost-1;
+        }
+        else{
+            low = cost+1;
+        }
+        //deb2(cost,ans);
+    }
+    cout<<ans<<endl;
 
 }
 

@@ -1,7 +1,12 @@
 #pragma GCC optimize("unroll-loops,O3,Ofast")
 
 #include <bits/stdc++.h>
+
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+
 using namespace std;
+using namespace __gnu_pbds;
 
 #define loop(i, a, b)  for(int i = a; i <= b; i++)
 #define rloop(i, a, b) for(int i = a; i >= b; i--)
@@ -32,8 +37,8 @@ using namespace std;
 #define mod1 998244353
 #define inf 2000000000000000000 //2e18
 #define pi  3.141592653589793238
-#define yes cout << "YES" << endl
-#define no cout << "NO" << endl
+#define yes cout << "Yes" << endl
+#define no cout << "No" << endl
 #define neg cout << "-1" << endl
 #define precise(x, y) fixed << setprecision(y) << x // cout<<precise(value,uptodecimalpt)<<endl;
 
@@ -53,18 +58,71 @@ template<typename T, typename T1> T amin(T &a, T1 b) {if (b < a)a = b; return a;
 mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
-inline ll power(ll a, ll n){a %= mod; int res = 1; while(n){if (n & 1) res = (res * a) % mod; a = (a * a) % mod;n >>= 1;} return res;}
+inline ll power(ll a, ll n){ ll res = 1; while (n > 0){ if (n % 2) res *= a; a *= a,n /= 2;} return res;}
 inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
 inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
+    /*
+     -> either all cols should be fill or the rows then answer is yes else no;
+    */
+    int n, q;
+    cin >> n >> q;
 
+    set<int> r{-1, n}, c{-1, n};
+    vector<int> cntr(n), cntc(n);
+    for (int i = 0; i < n; i++)
+    {
+        r.insert(i);
+        c.insert(i);
+    }
+
+    for (int i = 0; i < q; i++)
+    {
+        int t;
+        cin >> t;
+
+        if (t == 1)
+        {
+            int x, y;
+            cin >> x >> y;
+            x--,y--;
+            if (++cntr[x])
+            {
+                r.erase(x);
+            }
+            if (++cntc[y])
+            {
+                c.erase(y);
+            }
+        }
+        else if (t == 2)
+        {
+            int x, y;
+            cin >> x >> y;
+            x--,y--;
+            if (!--cntr[x])
+            {
+                r.insert(x);
+            }
+            if (!--cntc[y])
+            {
+                c.insert(y);
+            }
+        }
+        else
+        {
+            int x1, y1, x2, y2;
+            cin >> x1 >> y1 >> x2 >> y2;
+            x1--,y1--,x2--,y2--;
+            if (*r.lower_bound(x1) > x2 || *c.lower_bound(y1) > y2)
+                yes;
+            else
+                no;
+        }
+    }
 }
 
 signed main(){
@@ -72,7 +130,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

@@ -53,18 +53,62 @@ template<typename T, typename T1> T amin(T &a, T1 b) {if (b < a)a = b; return a;
 mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
-inline ll power(ll a, ll n){a %= mod; int res = 1; while(n){if (n & 1) res = (res * a) % mod; a = (a * a) % mod;n >>= 1;} return res;}
+inline ll power(ll a, ll n){ ll res = 1; while (n > 0){ if (n % 2) res *= a; a *= a,n /= 2;} return res;}
 inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
 inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
+    int n,m,k;
+    cin >> n >> m >>k;
 
+    vector<vector<char>> grid(n,vector<char>(m));
+    vector<vector<int>> visi(n,vector<int>(m,0));
+
+    forn(i,n){
+        forn(j,m){
+            cin>>grid[i][j];
+        }
+    }
+    vector<pii> vertex; 
+
+    for(int i=n-1;i>0;i--){
+        for(int j=1;j<m-1;j++){
+            if(grid[i][j]=='*' and grid[i-1][j-1]=='*' and grid[i-1][j+1]=='*'){
+                vertex.pb({i,j});
+            }
+        }
+    }
+
+    for(auto v: vertex){
+        int x = v.ff,y1=v.ss,y2=v.ss;
+        int height=-1;
+        while (x >= 0 and y1 >= 0 and y2 < m and grid[x][y1] == '*' and grid[x][y2] == '*')
+        {
+            height++;
+            x--,y1--,y2++;
+        }
+        if(height>=k){
+            x = v.ff, y1 = v.ss, y2 = v.ss;
+            forn(h,height+1){
+                visi[x-h][y1-h] = 1;
+                visi[x-h][y2+h] = 1;
+            }
+        }
+    }
+    forn(i, n)
+    {
+        forn(j, m)
+        {
+            if (grid[i][j] == '*' and visi[i][j] == 0)
+            {
+                no;
+                return;
+            }
+        }
+    }
+    yes;
 }
 
 signed main(){

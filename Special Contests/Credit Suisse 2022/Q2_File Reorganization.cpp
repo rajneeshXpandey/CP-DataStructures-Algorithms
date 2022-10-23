@@ -53,18 +53,40 @@ template<typename T, typename T1> T amin(T &a, T1 b) {if (b < a)a = b; return a;
 mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
-inline ll power(ll a, ll n){a %= mod; int res = 1; while(n){if (n & 1) res = (res * a) % mod; a = (a * a) % mod;n >>= 1;} return res;}
+inline ll power(ll a, ll n){ ll res = 1; while (n > 0){ if (n % 2) res *= a; a *= a,n /= 2;} return res;}
 inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
 inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
+int LPS(string s){
+    if (s == "" || s.length() == 0)
+        return 0;
 
+    multiset<char> hs;
+    int count = 0;
+
+    for (int i = 0; i < s.length(); i++)
+    {
+        if (hs.find(s[i])!=hs.end())
+        {
+            hs.erase(hs.lower_bound(s[i]));
+            count++;
+        }
+        else
+        {
+            hs.insert(s[i]);
+        }
+    }
+    if (!hs.empty())
+        return count * 2 + 1;
+
+    return count * 2;
+}
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    string s;
+    cin>>s;
+    int ans=LPS(s);
+    cout<<ans<<endl;
 }
 
 signed main(){
@@ -72,7 +94,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();
