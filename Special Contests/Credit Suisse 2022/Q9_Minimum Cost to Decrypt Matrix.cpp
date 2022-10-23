@@ -53,18 +53,97 @@ template<typename T, typename T1> T amin(T &a, T1 b) {if (b < a)a = b; return a;
 mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
-inline ll power(ll a, ll n){a %= mod; int res = 1; while(n){if (n & 1) res = (res * a) % mod; a = (a * a) % mod;n >>= 1;} return res;}
+inline ll power(ll a, ll n){ ll res = 1; while (n > 0){ if (n % 2) res *= a; a *= a,n /= 2;} return res;}
 inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
 inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
 
+pii maximalSq(vector<vector<char>>& matrix){
+    int l = matrix.size();
+    vector<vector<int>> dp(l, vector<int>(l, 0));
+    int ans = 0;
+    for (int i = l - 1; i >= 0; i--)
+    {
+        for (int j = l - 1; j >= 0; j--)
+        {
+            if ((i == l - 1 or j == l - 1) and matrix[i][j] == '$')
+                dp[i][j] = 1;
+            else if (matrix[i][j] == '$')
+            {
+                dp[i][j] = 1 + min({dp[i + 1][j], dp[i][j + 1], dp[i + 1][j + 1]});
+            }
+            ans = max(ans, dp[i][j]);
+        }
+    }
+    int cnt=0;
+    for (int i = 0; i < l; i++)
+    {
+        for (int j = 0; j < l; j++)
+        {
+            cout << dp[i][j] << ' ';
+            
+            if(dp[i][j]==ans){
+                cnt++;
+                for (int p = i; p <= i+ans; p++)
+                {
+                    for (int q = j; q <= j+ans; q++)
+                    {
+                        matrix[p][q] == '-';
+                    }
+                }
+            }
+        }
+        cout << endl;
+    }
+    return {cnt,ans};
+}
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    vector<vector<char>> matrix(n,vector<char>(n));
+    forn(i, n){
+        forn(j,n)
+            cin >> matrix[i][j];
+    }
+    vector<int> xProjection(n, 0), yProjection(n, 0);
+    forn(i, n){
+        forn(j,n)
+            if(matrix[i][j]=='$')
+                xProjection[i]=1,yProjection[j]=1;
+    }
+    //printArr(xProjection);
+    //printArr(yProjection);
+    int ans=0;
+    forn(i,n){
+        if (xProjection[i] == 1 and  yProjection[i]==1){
+            int len=0;
+            while(i<n and xProjection[i] == 1 and yProjection[i] == 1)
+            {
+                len++;
+                i++;
+            }
+            i--;
+            ans+=len;
+            //deb(len);
+        }
+        else if (xProjection[i] == 1)
+        {
+            ans++;
+        }
+        else if (yProjection[i] == 1){
+            ans++;
+        }
+    }
+    //pii maxSq = maximalSq(matrix);
+    //int ans=0;
+    //while (maxSq.ss){
+    //    maxSq = maximalSq(matrix);
+    //    ans += maxSq.ff;
+    //    maxSq.ss=0;
+    //}
+    ////cout<<maxSq.ss<<endl;
+    cout<<ans<<endl;
 }
 
 signed main(){
@@ -72,7 +151,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

@@ -1,0 +1,1 @@
+{"name":"Local: Q2_File Reorganization","url":"d:\\Codes-Projects\\Programs\\Q2_File Reorganization.cpp","tests":[{"id":1666464876967,"input":"abccccdd","output":"7"},{"id":1666464889638,"input":"a","output":"1"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\Codes-Projects\\Programs\\Q2_File Reorganization.cpp","group":"local","local":true}
