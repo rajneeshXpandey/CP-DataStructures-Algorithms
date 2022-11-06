@@ -1,0 +1,54 @@
+!!! How many numbers in a given range are coprime to N? !!!
+
+vector<int> prime_factorization(int n)
+{
+    map<int, int> mp;
+    for (int i = 2; i * i <= n; i++)
+    {
+        if (n % i == 0)
+        {
+            while (n % i == 0)
+                mp[i]++, n /= i;
+        }
+    }
+    if (n > 1)
+        mp[n]++;
+    vector<int> v;
+    for(auto p : mp) v.pb(p.ff);
+    sort(all(v));
+    return v;
+}
+
+Link:
+https://math.stackexchange.com/questions/218890/how-many-numbers-in-a-given-range-are-coprime-to-n
+
+int coprimeCount(int f, int c)
+{
+    vector<int> pfacs = prime_factorization(f);
+    int k = sz(pfacs);
+    int gcc = 0;
+    for (int mask = 1; mask<(1<<k); mask++)
+    {
+        if (setbits(mask) & 1)
+        { // odd -> add
+            int cc = c;
+            for (int j = 0; j < k; j++)
+            {
+                if (mask&(1 << j))
+                    cc /= pfacs[j];
+            }
+            gcc += cc;
+        }
+        else
+        { // even
+            int cc = c;
+            for (int j = 0; j < k; j++)
+            {
+                if (mask & (1 << j))
+                    cc /= pfacs[j];
+            }
+            gcc -= cc;
+        }
+    }
+    return gcc;
+}

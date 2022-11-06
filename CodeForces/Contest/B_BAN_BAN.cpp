@@ -55,18 +55,40 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline ll power(ll a, ll n){a %= mod; int res = 1; while(n){if (n & 1) res = (res * a) % mod; a = (a * a) % mod;n >>= 1;} return res;}
 inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
-template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '; cout<<endl;}
+inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
 
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    string str;
+    forn(i,n){
+        str+="BAN";
+    }
+    if(n==1){
+        cout<<1<<endl;
+        cout<<1<<' '<<2<<endl;
+        return;
+    }
+    //cout<<str<<endl;
+    n = (n*3);
+    int count=0;
+    int l=0,r=n-1;
+    vector<pii> ans;
+    while(r>l){
+            swap(str[l],str[r]);
+            count++;
+            ans.pb({l+1,r+1});
+            while(l<r and str[l]!='B') l++;
+            while(r>l and str[r]!='N') r--;
+    }
+    //cout<<str<<endl;
+    cout<<count<<endl;
+    for(auto p : ans){
+        cout<<p.ff<<' '<<p.ss<<endl;
+    }
 }
-
 signed main(){
     FastIO;
     //freopen("input.txt", "r", stdin);

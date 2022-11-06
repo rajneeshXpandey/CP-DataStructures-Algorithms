@@ -55,18 +55,68 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline ll power(ll a, ll n){a %= mod; int res = 1; while(n){if (n & 1) res = (res * a) % mod; a = (a * a) % mod;n >>= 1;} return res;}
 inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
-template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '; cout<<endl;}
+inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
+
 
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
+    string a,b;
+    cin>>a>>b;
+    for (int i = 0; i < n; i++)
+    {
+        if (a[i] ^ b[i] ^ a[0] ^ b[0])
+        {
+            cout << "NO\n";
+            return;
+        }
+    }
 
+    cout << "YES\n";
+
+    vector<array<int, 2>> ans;
+    for (int i = 0; i < n; i++)
+    {
+        if (a[i] == '1')
+        {
+            ans.push_back({i, i + 1});
+        }
+    }
+    if (a[0] ^ b[0] ^ (ans.size() & 1))
+    {
+        ans.push_back({0, 1});
+        ans.push_back({1, n});
+        ans.push_back({0, n});
+    }
+
+    cout << ans.size() << "\n";
+    for (auto[l, r] : ans)
+    {
+        cout << l + 1 << " " << r << "\n";
+    }
 }
+/*
+  possible if xor of string is either 1 1 1 1 1  / 0 0 0 0 0 0
+  eg:  1 0 1 0 1 1
+       0 1 0 1 0 0
+   after every operation on str1 of 1(i,i) do op in str2;
+   str2 -> xor of str1 and str2 and str1->00000
+   now make 1st str[0] -> 1(by 0,0) after op
+    str1 -> 1000000...
+    str2 -> 100000..
 
+    take range (1,n-1) and change
+    str1 -> 111111..
+    str2 -> 000000..
+
+    take range (0,n-1) and change
+    str1 -> 000000..
+    str2 -> 000000..
+
+
+*/
 signed main(){
     FastIO;
     //freopen("input.txt", "r", stdin);

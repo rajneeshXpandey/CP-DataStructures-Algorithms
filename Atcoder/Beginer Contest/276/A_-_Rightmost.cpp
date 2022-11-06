@@ -55,16 +55,18 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline ll power(ll a, ll n){a %= mod; int res = 1; while(n){if (n & 1) res = (res * a) % mod; a = (a * a) % mod;n >>= 1;} return res;}
 inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
-template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '; cout<<endl;}
+inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    string str;
+    cin>>str;
+    int idx = -1;
+    forn(i,sz(str)){
+        if(str[i]=='a') idx=  i+1;
+    }
+    cout<<idx<<endl;
 }
 
 signed main(){
@@ -72,7 +74,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

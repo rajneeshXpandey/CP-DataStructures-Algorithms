@@ -55,24 +55,55 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline ll power(ll a, ll n){a %= mod; int res = 1; while(n){if (n & 1) res = (res * a) % mod; a = (a * a) % mod;n >>= 1;} return res;}
 inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
-template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '; cout<<endl;}
+template<typename T> inline void printDS(T v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
 
+/* https://atcoder.jp/contests/abc276/tasks/abc276_c */
 void solve(){
     int n;
     cin >> n;
     vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    forn(i, n){
+        cin >> a[i];
+    }
+    int idx=n-1;
+    set<int> st;
+    st.insert(a[n-1]);
+    rloop(i,n-2,0){
+        st.insert(a[i]);
+        if(a[i]>a[i+1]){
+            idx = i;
+            break;
+        }
+    }
+    //printDS(st);
+    auto justPrev = st.lower_bound(a[idx]);
+    justPrev--;
+    a[idx] = *justPrev;
+    //deb2(idx,a[idx]);
+    st.erase(justPrev);
+    //printDS(st);
+    idx++;
+    justPrev = (--st.end());
+    while(idx<n){
+        a[idx] = *justPrev;
+        justPrev--;
+        idx++;
+    }
+    printDS(a);
 }
-
+/*
+    9 8 6 5 10 3 1 2 4 7
+               |<------|
+               decreasing till here 3->just prev rest in decending order.
+*/
 signed main(){
     FastIO;
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

@@ -55,18 +55,35 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline ll power(ll a, ll n){a %= mod; int res = 1; while(n){if (n & 1) res = (res * a) % mod; a = (a * a) % mod;n >>= 1;} return res;}
 inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
-template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '; cout<<endl;}
+inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
 
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    vector<pii> a(n);
+    forn(i, n){
+        cin >> a[i].ff>>a[i].ss;
+        if(a[i].ff<a[i].ss){
+            swap(a[i].ff, a[i].ss);
+        }
+    }
+    sort(all(a));
+    //forn(i,n){
+    //    deb2(a[i].ff, a[i].ss);
+    //}
+    int perim=0;
+    forn(i,n){
+        perim+=(2*a[i].ss);
+    }
+    perim += a[0].ff+a[n-1].ff;
+    loop(i,0,n-2){
+        perim += a[i+1].ff-a[i].ff;
+    }
+    cout<<perim<<endl;
 }
-
+// 16+10 = 26
 signed main(){
     FastIO;
     //freopen("input.txt", "r", stdin);
