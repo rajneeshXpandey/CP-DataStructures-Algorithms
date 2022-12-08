@@ -60,12 +60,61 @@ template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '
 
 // ********************************* Code Begins ********************************** //
 
-void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
 
+vector<int> bfs(vector<set<int>> &adj,int s,int t,int n)
+{
+    vector<int> distance(n,0);
+    vector<bool> visited(n,0);
+    queue<int> q;
+    q.push(s);
+    visited[s] = 1;
+    distance[s] = 0;
+    while (!q.empty())
+    {
+            int curr = q.front();
+            q.pop();
+            for (auto nb : adj[curr])
+            {
+                if(!visited[nb])
+                {
+                    visited[nb] = 1;
+                    distance[nb] = distance[curr] + 1;
+                    q.push(nb);
+                }
+            }
+    }
+    return distance;
+}
+void solve(){
+    int n,m,s,t;
+    cin >> n>>m>>s>>t;
+    vector<set<int>> adj(n);
+    vector<vector<int>> parent(n);
+    forn(i,m){
+        int u,v;
+        cin >> u>>v;
+        u--,v--;
+        adj[u].insert(v);
+        adj[v].insert(u);
+    }
+    s--,t--;
+
+    vector<int> disS = bfs(adj,s,t,n);
+    vector<int> disT = bfs(adj,t,s,n);
+    int ans=0;
+    forn(i,n){
+        loop(j,i+1,n-1){
+               if(adj[i].find(j)==adj[i].end() and adj[j].find(i)==adj[j].end()){
+
+                   int minn = min({disS[j] + disT[i] + 1,
+                                   disS[i] + disT[j] + 1});
+                   if (minn>=disS[t]){
+                       ans++;
+                    }
+               }
+        }
+    }
+    cout<<ans<<endl;
 }
 
 signed main(){
@@ -73,7 +122,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

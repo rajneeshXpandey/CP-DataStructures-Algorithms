@@ -1,0 +1,1 @@
+{"name":"Local: Palindrome by Splitting","url":"d:\\Codes-Projects\\Programs\\Palindrome by Splitting.cpp","tests":[{"id":1669216284974,"input":"3\n4\n3 7 6 4\n5\n1 4 5 4 1\n5\n1 2 3 4 5","output":"2\n0\n4"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\Codes-Projects\\Programs\\Palindrome by Splitting.cpp","group":"local","local":true}

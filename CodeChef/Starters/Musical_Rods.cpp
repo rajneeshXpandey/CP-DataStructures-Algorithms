@@ -63,9 +63,51 @@ template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
+    vector<int> a(n),b(n);
     forn(i, n) cin >> a[i];
+    forn(i, n) cin >> b[i];
 
+    /*
+     let the sequence : 
+                            len=l                          val=P 
+                       |<--------------->|               |<------>|
+                        a1, a2, a3, a4, a5, a[i], a[i+1].......a[n]
+                        b1, b2, b3, b4, b5, b[i], b[i+1].......b[n]
+
+                        let max_val of xi*bi => P + l*b[i]+(l+a[i])*b[i+1] + S;
+
+                if we swap a[i] and a[i+1] -> 
+                        a1, a2, a3, a4, a5, a[i+1], a[i],.......a[n]
+                        b1, b2, b3, b4, b5, b[i+1], b[i],.......b[n]     
+
+                then the new_max_value = P + l*b[i+1] + (l+a[i+1])*b[i] + S             
+
+                let we swap and value increases :
+                    so,
+                    => new_max_val > max_val
+                    => P + l*b[i+1] + (l+a[i+1])*b[i] + S > P + l*b[i]+(l+a[i])*b[i+1] + S
+                    => l*b[i+1] + (l+a[i+1])*b[i] > l*b[i]+(l+a[i])*b[i+1]
+                    => (l+a[i+1])*b[i] > (l+a[i])*b[i+1]
+                    => a[i+1]*b[i] > a[i]*b[i+1]
+                    => a[i+1]/a[i] > b[i+1]/b[i]
+                    => a[i+1]/b[i+1] > a[i]/b[i]
+
+                    so if we swap a[i+1]/b[i+1] > a[i]/b[i] then we will get max value.
+
+                    so sort w.r.t a[i]/b[i] in decreasing order.
+    */
+    vector<pii> v(n);
+    forn(i, n) v[i] = {a[i], b[i]};
+    sort(all(v), [](pii &a, pii &b){
+        return (a.ff * 1.0 / a.ss) > (b.ff * 1.0 / b.ss);
+    });
+    int len=0;
+    int ans=0;
+    forn(i, n){
+        ans += (len) * v[i].ss;
+        len += v[i].ff;
+    }
+    cout << ans << endl;
 }
 
 signed main(){

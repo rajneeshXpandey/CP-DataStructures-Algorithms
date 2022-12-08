@@ -59,19 +59,61 @@ inline void assign1ton(vector<int> &v) { iota(v.begin(), v.end(), 1); }
 template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
-
+int prodOfarray(vector<int> &a,int &n){
+    int prod = 1LL;
+    forn(i, n)
+    {
+        prod = (prod*a[i])%mod1;
+    }
+    return (prod%mod1);
+}
 void solve(){
     int n;
     cin >> n;
     vector<int> a(n);
     forn(i, n) cin >> a[i];
-
+    sort(all(a));
+    vector<int> copy_a(a);
+    int l=0,r=n-1;
+    while(l<=r and a[l]==1){
+        if((a[r]%2)==0){
+            a[r]+=1LL;
+            l++;
+            r--;
+        }
+        else
+            r--;
+    }
+    l=0,r=l;
+    while(r<n and (copy_a[r]%2)) r++;
+    while(l<n and r<n and copy_a[l]==1){
+        if((copy_a[r]%2)==0){
+            copy_a[r]+=1LL;
+            l++;
+            r++;
+        }
+        else
+            r++;
+    }
+    //int ans = prodOfarray(a,n);
+    int ans = prodOfarray(copy_a,n);
+    cout<<ans<<endl;
 }
 
 signed main(){
     FastIO;
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
+    //for (int a = 1; a <= 1000; a++)
+    //{
+    //    for (int b = a + 1; b <= 1000; b++)
+    //    {
+    //        //deb4(a, b, (a * b), (a ^ b));
+    //        if ((a*b)<(a^b)){
+    //            deb4(a,b,(a*b),(a^b));
+    //        }
+    //    }
+    //}
     int total_testcases = 1;
     cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){

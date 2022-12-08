@@ -55,19 +55,98 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline ll power(ll a, ll n){a %= mod; int res = 1; while(n){if (n & 1) res = (res * a) % mod; a = (a * a) % mod;n >>= 1;} return res;}
 inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
-inline void assign1ton(vector<int> &v) { iota(v.begin(), v.end(), 1); }
 template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
+    int n,h;
+    cin >> n >> h;
     vector<int> a(n);
     forn(i, n) cin >> a[i];
-
+    sort(all(a));
+    int _h=h,p=0,g=2,b=1,ans1=0,ans2=0,ans3=0;
+    while(p<n){
+        int _p = lower_bound(a.begin()+p,a.end(),h)-a.begin();
+        while(_p==p){
+            if(g){
+                g--;
+                h*=2;
+            } 
+            else if(b){
+                b--;
+                h*=3;
+            }
+            else{
+                goto line1;
+            }
+            _p=lower_bound(a.begin()+p,a.end(),h)-a.begin();
+        }
+        _p--;
+        loop(i,p,_p){
+            h += (a[i]/2);
+            ans1++;
+        }
+        p = _p+1;
+    }
+    line1:
+    h=_h,p=0,g=2,b=1;
+    while(p<n){
+        int _p = lower_bound(a.begin()+p,a.end(),h)-a.begin();
+        while(_p==p){
+            if(g==2){
+                g--;
+                h*=2;
+            } 
+            else if(b){
+                b--;
+                h*=3;
+            }
+            else if(g==1){
+                g--;
+                h *= 2;
+            }
+            else{
+                goto line2;
+            }
+            _p=lower_bound(a.begin()+p,a.end(),h)-a.begin();
+        }
+        _p--;
+        loop(i,p,_p){
+            h += (a[i]/2);
+            ans2++;
+        }
+        p = _p+1;
+    }
+    line2:
+    h=_h,p=0,g=2,b=1;
+    while(p<n){
+        int _p = lower_bound(a.begin()+p,a.end(),h)-a.begin();
+        while(_p==p){
+            if(b){
+                b--;
+                h*=3;
+            }
+            else if(g){
+                g--;
+                h*=2;
+            } 
+            else{
+                goto line3;
+            }
+            _p=lower_bound(a.begin()+p,a.end(),h)-a.begin();
+        }
+        _p--;
+        loop(i,p,_p){
+            h += (a[i]/2);
+            ans3++;
+        }
+        p = _p+1;
+    }
+    line3:
+    ans1 = max({ans1,ans2,ans3});
+    cout<<ans1<<endl;
 }
-
 signed main(){
     FastIO;
     //freopen("input.txt", "r", stdin);

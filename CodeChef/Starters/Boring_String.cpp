@@ -63,9 +63,43 @@ template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    string s;
+    cin>>s;
+    map<char,vector<pii>> char_idx;
+    forn(i,n){
+        if(sz(char_idx[s[i]])>0){
+            auto start = char_idx[s[i]].back().ff;
+            auto end = char_idx[s[i]].back().ss;
+            if(end+1==i){
+                char_idx[s[i]].pop_back();
+                char_idx[s[i]].pb({start,i});
+            }
+            else{
+                char_idx[s[i]].pb({i,i});
+            }
+        }
+        else
+         char_idx[s[i]].pb({i,i});
+    }
+    int ans=0;
+    for (auto p : char_idx)
+    {
+        //cout<<p.ff<<"->";
+        map<int,int> max_len;
+        for(auto v  : p.ss){
+            //deb2(v.ff,v.ss);
+            max_len[v.ss-v.ff+1]++;
+        }
+        for (auto x : max_len)
+        {
+            if (x.ss > 1)
+                ans=max(ans,x.ff);
+            else
+                ans = max(ans,x.ff-1);
+        }
+    }
+    //deb("====");
+    cout<<ans<<endl;
 }
 
 signed main(){

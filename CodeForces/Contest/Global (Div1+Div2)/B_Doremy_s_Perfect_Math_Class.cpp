@@ -64,8 +64,9 @@ void solve(){
     int n;
     cin >> n;
     vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    int _gcd = 0;
+    forn(i, n) cin >> a[i], _gcd=gcd(_gcd, a[i]);
+    cout << (a[n-1]/_gcd) << endl;
 }
 
 signed main(){

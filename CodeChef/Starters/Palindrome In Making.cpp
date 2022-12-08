@@ -53,10 +53,9 @@ template<typename T, typename T1> T amin(T &a, T1 b) {if (b < a)a = b; return a;
 mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
-inline ll power(ll a, ll n){a %= mod; int res = 1; while(n){if (n & 1) res = (res * a) % mod; a = (a * a) % mod;n >>= 1;} return res;}
+inline ll power(ll a, ll n){ ll res = 1; while (n > 0){ if (n % 2) res *= a; a *= a,n /= 2;} return res;}
 inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
-inline void assign1ton(vector<int> &v) { iota(v.begin(), v.end(), 1); }
-template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '; cout<<endl;}
+inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
 
@@ -65,7 +64,39 @@ void solve(){
     cin >> n;
     vector<int> a(n);
     forn(i, n) cin >> a[i];
+    int l=0,r=n-1;
+    while(l<r){
+        if(a[l]>a[r]){
+            a[l] = a[l]-a[r];
+            a[r] = 0;
+        }
+        else {
+            a[r] = a[r]-a[l];
+            a[l] = 0;
+        }   
+        l++;
+        r--;
+    }
+    if((n&1)) a[n/2] = 0;
+    int ans = a[0];
+    int i = 1;
+    while (i < n)
+    {
+        ans += max(0LL, (a[i] - a[i - 1]));
+        i++;
+    }
+    cout << ans << endl;
+    /*
+        Let's start from 1st element. To make the first element equal to the last element, we will need diff[0] operations.
 
+        For 2nd element
+
+        if diff[1]≤diff[0], then we can extend the operations from the last element till this element as well.
+        if diff[1]>diff[0] then we can have to use diff[1] - diff[0] extra operations to accommodate this element.
+        The last two operations can be combined to say that for each element i (between 1 to n-1), we need max(0, diff[i] - diff[i-1]) operations.
+
+        Looping from 1 to n-1 and calculating this sum will get you the correct answer.
+    */
 }
 
 signed main(){

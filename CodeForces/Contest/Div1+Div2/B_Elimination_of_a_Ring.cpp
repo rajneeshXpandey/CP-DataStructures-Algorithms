@@ -55,7 +55,6 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline ll power(ll a, ll n){a %= mod; int res = 1; while(n){if (n & 1) res = (res * a) % mod; a = (a * a) % mod;n >>= 1;} return res;}
 inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
-inline void assign1ton(vector<int> &v) { iota(v.begin(), v.end(), 1); }
 template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
@@ -65,6 +64,27 @@ void solve(){
     cin >> n;
     vector<int> a(n);
     forn(i, n) cin >> a[i];
+    if(n==1 or n==2){
+        cout<<n<<endl;
+        return;
+    }
+    int ans = n;
+    bool nope=0;
+    loop(i,0,n-4){
+        if(a[i]==a[i+2] and a[i+1]==a[i+3]){
+            
+        }
+        else{
+            nope=1; 
+            break;
+        }
+        i++;
+    }
+    if(nope or n&1){
+        cout<<n<<endl;
+        return;
+    }
+    cout<<n-n/2+1<<endl;
 
 }
 

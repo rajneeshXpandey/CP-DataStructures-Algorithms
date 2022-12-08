@@ -55,17 +55,109 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline ll power(ll a, ll n){a %= mod; int res = 1; while(n){if (n & 1) res = (res * a) % mod; a = (a * a) % mod;n >>= 1;} return res;}
 inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
-inline void assign1ton(vector<int> &v) { iota(v.begin(), v.end(), 1); }
 template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
 
-void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
+class dsu
+{
+public:
+    vector<int> parent;
+    vector<int> size, rank, points;
+    unordered_map<int,vector<int>> cache; // par,{x:n,xi}
 
+    explicit dsu(int n)
+    {
+        parent.resize(n);
+        size.resize(n);
+        rank.resize(n);
+        points.resize(n);
+        for (int x = 0; x < n; x++)
+        {
+            parent[x] = x;
+            size[x] = 1;
+            rank[x] = 0;
+            points[x] = 0;
+            cache[x].pb(x);
+        }
+    }
+
+    int find(int x)
+    {
+        return (x == parent[x]) ? (x) : (parent[x] = find(parent[x]));
+    }
+
+    void unite(int a, int b)
+    {
+        a = find(a);
+        b = find(b);
+        if (a == b)
+            return;
+        if (rank[a] < rank[b])
+            swap(a, b);
+        size[b] += size[a];
+        size[a] = 0;
+
+        for(auto &x : cache[b]){
+            cache[a].pb(x);
+            if(x!=b)
+             points[x] += points[b];
+            else 
+                points[x] -= points[a];
+        }
+        cache.erase(b);
+        parent[b] = a;
+        if (rank[a] == rank[b])
+            rank[a]++;
+    }
+    void add(int x,int y,int v){
+        if (x == parent[x])
+        {
+            //if(x!=y)
+                points[x]+=v;
+            return;
+        }
+        add(parent[x],y,v);
+    }
+    int getPoints(int x,int y){
+        if (x == parent[x])
+        {
+            //deb2(x,y);
+            //deb2(points[x],points[y]);
+            if(x==y){
+                return points[x];
+            }
+            return (points[x]+points[y]);
+        }
+        return getPoints(parent[x],y);
+    }
+};
+
+void solve(){
+    int n,m;
+    cin >> n >> m;
+    dsu d(n+1);
+    string type;
+    int x,y,v;
+    while(m--){
+        //printDS(d.points);
+        cin>>type;
+        if(type=="add"){
+            cin>>x>>v;
+            d.add(x,x,v);
+        }
+        else if(type=="join"){
+            cin>>x>>y;
+            d.unite(x,y);
+        }
+        else{
+            cin>>x;
+            cout<<d.getPoints(x,x)<<endl;
+        }
+    }
+    //forn(i,sz(d.parent)){
+    //    deb(d.parent[i]);
+    //}
 }
 
 signed main(){
@@ -73,7 +165,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

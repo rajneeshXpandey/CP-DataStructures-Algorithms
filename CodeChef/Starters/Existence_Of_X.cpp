@@ -16,7 +16,7 @@ using namespace std;
 #define all(x) (x).begin(), (x).end()
 #define rall(x) (x).rbegin(), (x).rend()
 #define endl "\n"
-#define int long long
+//#define int long long
 #define ll long long
 #define sz(v) (ll)(v.size())
 #define pb push_back
@@ -61,11 +61,85 @@ template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '
 // ********************************* Code Begins ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
+    int A,B,C;
+    cin >> A >> B >> C;
+    //loop(x,0,100){
+    //    if((A^x)+(B^x)==(C^x)){
+    //        cout<<x<<endl;
+    //        return;
+    //    }
+    //}
+    /*
+       A^x + B^x = C^x
+        2   , 3 ,   13
+       0010  0011   1101
 
+    * just perform bitwise opreration on each bit and check if it is possible or not.
+    start performing bitwise xor on the eq
+       1: 0^x + 1^x = 1^x -> for x=0
+       2: 1^x + 1^x = 0^x -> for x=1 ....if (no x can equate this 1) return NO
+    also take care of carry
+
+    for 2,5,7 -> 0
+        2,3,13 -> NO
+        7,0,7  -> 0
+        2, 7, 6 -> 3
+        1,6,6 -> 1
+    */
+    int bita[28],bitb[28],bitc[28],bitx[29];
+    memset(bita,0,sizeof(bita));
+    memset(bitb,0,sizeof(bitb));
+    memset(bitc,0,sizeof(bitc));
+    memset(bitx,0,sizeof(bitx));
+    forn(i,28){
+        bita[i] = ((A>>i)&1);
+        bitb[i] = ((B>>i)&1);
+        bitc[i] = ((C>>i)&1);
+    }
+    int carry=0;
+    int prevcarry=0;
+    auto check = [&](int x,int i){
+        prevcarry = carry;
+        int val = (carry + (bita[i]^x) + (bitb[i]^x));
+        //deb4(i,x,val,carry);
+        if(val>=2)
+            carry=1;
+        else carry = 0;
+        val=(val%2);
+        if(val == (bitc[i]^x))
+            return true;
+        return false;
+    };
+    forn(i,28){
+        // eq => bita[i]^x + bitb[i]^x = bitc[i]^x
+        int x=0;
+        if(check(x,i)){
+            bitx[i] = x;
+        }
+        else{
+            x=1;
+            carry = prevcarry;
+            if(check(x,i)){
+                bitx[i] = x;
+            }
+            else{
+                no;
+                return;
+            }
+        }
+    }
+    int X=0;
+    for(int i=27;i>=0;i--){
+        //cout<<bitx[i];
+        X = X + (bitx[i] * (1<<i));
+    }
+    //cout<<endl;
+    //deb(X);
+    if((A^X)+(B^X)==(C^X)){
+        yes;
+        return;
+    }
+    no;
 }
 
 signed main(){

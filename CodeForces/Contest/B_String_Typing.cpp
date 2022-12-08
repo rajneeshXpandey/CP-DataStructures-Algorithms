@@ -63,9 +63,32 @@ template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    string str;
+    cin >> str;
+    int operations = 1;
+    int cnt=0;
+    int performidx;
+    for(int i = 1; i < n;i++){
+        if(str.substr(i,i)==str.substr(0,i)){
+            //operations++;
+            performidx=i;
+        }
+        else {
+            //i++;
+            //operations++;
+        }
+    }
+    for(int i = 1; i < n;){
+        if(i==performidx and str.substr(i,i)==str.substr(0,i)){
+            operations++;
+            i*=2;
+        }
+        else {
+            i++;
+            operations++;
+        }
+    }
+    cout << operations << endl;
 }
 
 signed main(){
@@ -73,7 +96,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

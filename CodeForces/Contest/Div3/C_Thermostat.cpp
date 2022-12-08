@@ -55,17 +55,50 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline ll power(ll a, ll n){a %= mod; int res = 1; while(n){if (n & 1) res = (res * a) % mod; a = (a * a) % mod;n >>= 1;} return res;}
 inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
-inline void assign1ton(vector<int> &v) { iota(v.begin(), v.end(), 1); }
 template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
+    int l,r,x,a,b;
+    cin >> l >> r >> x >> a >>b;
+    if (a == b)
+    {
+        cout << 0 << endl;
+        return;
+    }
 
+    if (abs(a - b) >= x)
+    {
+        cout << 1 << endl;
+        return;
+    }
+
+    if (a - l >= x && b - l >= x)
+    {
+        cout << 2 << endl;
+        return;
+    }
+
+    if (r - a >= x && r - b >= x)
+    {
+        cout << 2 << endl;
+        return;
+    }
+
+    if (a - l >= x && r - b >= x)
+    {
+        cout << 3 << endl;
+        return;
+    }
+
+    if (b - l >= x && r - a >= x)
+    {
+        cout << 3 << endl;
+        return;
+    }
+
+    cout << -1 << endl;
 }
 
 signed main(){

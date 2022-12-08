@@ -17,26 +17,22 @@ class dsu
             }
         }
 
-        int find_set(int x)
+        int find(int x)
         {
-            if (x == parent[x])
-                return x;
-            return parent[x] = find_set(parent[x]);
+            return (x == parent[x]) ? (x) : (parent[x] = find(parent[x]));
         }
 
-        void union_sets(int a, int b)
+        void unite(int a, int b)
         {
-            a = find_set(a);
-            b = find_set(b);
-            if (a != b)
-            {
-                if (rank[a] < rank[b])
-                    swap(a, b);
-                size[b] += size[a];
-                size[a] = 0;
-                parent[b] = a;
-                if (rank[a] == rank[b])
-                    rank[a]++;
-            }
+            a = find(a);
+            b = find(b);
+            if (a == b) return;
+            if (rank[a] < rank[b])
+                swap(a, b);
+            size[b] += size[a];
+            size[a] = 0;
+            parent[b] = a;
+            if (rank[a] == rank[b])
+                rank[a]++;
         }
 };

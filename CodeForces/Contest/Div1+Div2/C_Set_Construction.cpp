@@ -55,7 +55,6 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline ll power(ll a, ll n){a %= mod; int res = 1; while(n){if (n & 1) res = (res * a) % mod; a = (a * a) % mod;n >>= 1;} return res;}
 inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
-inline void assign1ton(vector<int> &v) { iota(v.begin(), v.end(), 1); }
 template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
@@ -63,9 +62,30 @@ template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    vector<vector<bool>> b(n,vector<bool>(n));
+    forn(i,n){
+        forn(j,n){ 
+            char c;
+            cin >> c;
+            if(c=='1'){
+                b[i][j]=1;
+            } 
+            else b[i][j]=0;
+        }
+    }
+    vector<set<int>> ans(n);
+    forn(i,n){
+        forn(j,n){ 
+            ans[j].insert(j+1);
+           if(b[i][j]){ 
+                ans[j].insert(i+1);
+            }
+        }
+    }
+    forn(i,n){
+        cout<<sz(ans[i])<<' ';
+        printDS(ans[i]);
+    }
 }
 
 signed main(){

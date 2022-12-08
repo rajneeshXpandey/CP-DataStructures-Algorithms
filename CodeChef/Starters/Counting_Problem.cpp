@@ -65,9 +65,29 @@ void solve(){
     cin >> n;
     vector<int> a(n);
     forn(i, n) cin >> a[i];
+    int odd=0,even=0;
+    forn(i, n){
+        if(a[i]%2==0) even++;
+        else odd++;
+    }
+    if(odd and !(odd&1)){
+        yes;
+    }
+    else no;
 
 }
+/*
 
+ odd time odd + even/odd time even = odd
+ odd/even time even + even time odd = even
+
+
+ odd -> odd time => even+odd
+        even time => even+even / odd+odd
+ 
+
+ 2 2 
+*/
 signed main(){
     FastIO;
     //freopen("input.txt", "r", stdin);

@@ -33,19 +33,19 @@ for(int i=0;i<N;i++){
 
 void bfsOnGrid(vector<vector<int>> &grid,vector<vector<bool>> &visited,vector<vector<int>> &distance,int srcX, int srcY){
 
-    pair<int,int> queue;
-    q.push({srcX, srcY});
+    queue<pair<int,int>> queue;
+    queue.push({srcX, srcY});
     distance[srcX][srcY] = 0;
     visited[srcX][srcY] = 1;
 
-    while (!q.empty()){
-        int x = q.front().first, y = q.front().second;
-        q.pop();
+    while (!queue.empty()){
+        int x = queue.front().first, y = queue.front().second;
+        queue.pop();
         for (int i = 0; i < 4; i++){
             if (isValid(grid, visited, x+dx[i], y+dy[i])){
                 dist[x+dx[i]][y+dy[i]] = dist[x][y]+1;
                 vis[x+dx[i]][y+dy[i]] = 1;
-                q.push({x+dx[i], y+dy[i]});
+                queue.push({x+dx[i], y+dy[i]});
             }
         }    
     }

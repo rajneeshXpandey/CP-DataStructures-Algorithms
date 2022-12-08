@@ -55,17 +55,42 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline ll power(ll a, ll n){a %= mod; int res = 1; while(n){if (n & 1) res = (res * a) % mod; a = (a * a) % mod;n >>= 1;} return res;}
 inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
-inline void assign1ton(vector<int> &v) { iota(v.begin(), v.end(), 1); }
 template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
+    int n,c,d;
+    cin >> n >> c >>d;
     vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    int sum = 0;
+    forn(i, n) cin >> a[i],sum+=a[i];
+    sort(rall(a));
+    if(a[0]*d < c){
+        cout<<"Impossible"<<endl;
+        return;
+    }
+    int l=0,r=d+1;
+    int k=l;
+    while(l<=r){
+        int mid=(l+r)/2;
+        int sum1=0,sum2=0;
+        loop(i,0,min(mid,n-1)){
+            sum1+=a[i];
+        }
+        if(d%(mid+1))
+        for (int i = 0; i < min(d%(mid+1),n); i++)
+            sum2+=a[i];
+        if((sum1*(d/(mid+1))+sum2)>=c){
+            k=mid;
+            l=mid+1;
+        }
+        else{
+            r=mid-1;
+        }
+    }
+    if(k>d) cout<<"Infinity"<<endl;
+    else cout<<k<<endl;
 }
 
 signed main(){

@@ -55,17 +55,69 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline ll power(ll a, ll n){a %= mod; int res = 1; while(n){if (n & 1) res = (res * a) % mod; a = (a * a) % mod;n >>= 1;} return res;}
 inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
-inline void assign1ton(vector<int> &v) { iota(v.begin(), v.end(), 1); }
 template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
 
+void bfs_level(vector<vector<pii>> &adj, vector<bool> &visited,vector<int> &distance, int root, int n,int b)
+{
+    queue<int> q;
+    q.push(root);
+    visited[root] = 1;
+    distance[root] = 0;
+    while (!q.empty())
+    {
+        int sz = q.size();
+        while (sz--)
+        {
+            int curr = q.front();
+            q.pop();
+            for (auto nb : adj[curr])
+            {
+                if (!visited[nb.ff] and nb.ff!=b)
+                {
+                    visited[nb.ff] = 1;
+                    distance[nb.ff] = (distance[curr] ^ nb.ss);
+                    q.push(nb.ff);
+                }
+            }
+        }
+    }
+}
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
+    int n,a,b;
+    cin >> n >> a>> b;
+    a--,b--;
+    vector<vector<pii>> adj(n);
+    forn(i,n-1){
+        int u,v,w;
+        cin >> u >> v >> w;
+        u--,v--;
+        adj[u].pb({v,w});
+        adj[v].pb({u,w});
+    }
+    vector<bool> visited(n,0);
+    vector<int> distancea(n,-1);
+    vector<int> distanceb(n,-1);
+    set<int> s,t;
+    bfs_level(adj,visited,distancea,a,n,b);
+    visited.clear();
+    visited.assign(n,0);
+    bfs_level(adj,visited,distanceb,b,n,b);
 
+    distanceb[b]=-1;
+    sort(all(distanceb));
+
+    forn(i, n)
+    {
+        int x = distancea[i];
+        if (x != -1 and binary_search(all(distanceb), x))
+        {
+            yes;
+            return;
+        }
+    }
+    no;
 }
 
 signed main(){

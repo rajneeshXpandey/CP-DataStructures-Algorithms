@@ -55,17 +55,84 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline ll power(ll a, ll n){a %= mod; int res = 1; while(n){if (n & 1) res = (res * a) % mod; a = (a * a) % mod;n >>= 1;} return res;}
 inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
-inline void assign1ton(vector<int> &v) { iota(v.begin(), v.end(), 1); }
-template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '; cout<<endl;}
+template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<endl;}
 
 // ********************************* Code Begins ********************************** //
 
-void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
+class dsu
+{
+public:
+    vector<int> parent;
+    vector<int> size, rank;
 
+    explicit dsu(int n)
+    {
+        parent.resize(n);
+        size.resize(n);
+        rank.resize(n);
+        for (int x = 0; x < n; x++)
+        {
+            parent[x] = x;
+            size[x] = 1;
+            rank[x] = 0;
+        }
+    }
+
+    int find(int x)
+    {
+        return (x == parent[x]) ? (x) : (parent[x] = find(parent[x]));
+    }
+
+    void unite(int a, int b)
+    {
+        a = find(a);
+        b = find(b);
+        if (a == b)
+            return;
+        if (rank[a] < rank[b])
+            swap(a, b);
+        size[b] += size[a];
+        size[a] = 0;
+        parent[b] = a;
+        if (rank[a] == rank[b])
+            rank[a]++;
+    }
+};
+
+void solve(){
+    int n,m,k;
+    cin >> n >> m >> k;
+    dsu d(n+1);
+    int u,v;
+    string type;
+    forn(i,m){
+        cin >> u >> v;
+    }
+    vector<tuple<string,int,int>> query(k);
+
+    forn(i,k){
+        cin>>type;
+        cin>>u>>v;
+        query[i] = {type,u,v};
+    }
+    vector<string> ans;
+    for(int i=k-1;i>=0;i--){
+        auto [type,u,v] = query[i];
+        //deb3(type,u,v);
+        if(type == "ask"){
+            if(d.find(u) == d.find(v)){
+                ans.pb("YES");
+            }
+            else{
+                ans.pb("NO");
+            }
+        }
+        else{
+            d.unite(u,v);
+        }
+    }
+    reverse(all(ans));
+    printDS(ans);
 }
 
 signed main(){
@@ -73,7 +140,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

@@ -55,7 +55,6 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline ll power(ll a, ll n){a %= mod; int res = 1; while(n){if (n & 1) res = (res * a) % mod; a = (a * a) % mod;n >>= 1;} return res;}
 inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
-inline void assign1ton(vector<int> &v) { iota(v.begin(), v.end(), 1); }
 template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
@@ -63,9 +62,36 @@ template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '
 void solve(){
     int n;
     cin >> n;
+    vector<int> b(n/2);
+    forn(i, n/2) cin >> b[i];
+    set<int> sorted_b;
+    for(auto x : b) sorted_b.insert(x);
+    if(sz(sorted_b) != n/2){
+        cout << -1 << endl;
+        return;
+    }
+    set<int> notpresent;
+    loop(i,1,n){
+        if(sorted_b.find(i) == sorted_b.end()){
+            notpresent.insert(i);
+        }
+    }
     vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    rloop(i,n-1,0){
+        if(i&1)
+            a[i] = b[i/2];
+        else{
+            auto x = notpresent.lower_bound(b[i/2]); // just smaller than b[i]
+            if(x==notpresent.begin()) {
+                cout << -1 << endl;
+                return;
+            }
+            x--;
+            a[i] = *x;
+            notpresent.erase(x);
+        }    
+    }
+    printDS(a);
 }
 
 signed main(){

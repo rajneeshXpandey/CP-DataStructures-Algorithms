@@ -55,7 +55,6 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline ll power(ll a, ll n){a %= mod; int res = 1; while(n){if (n & 1) res = (res * a) % mod; a = (a * a) % mod;n >>= 1;} return res;}
 inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
-inline void assign1ton(vector<int> &v) { iota(v.begin(), v.end(), 1); }
 template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
@@ -65,7 +64,35 @@ void solve(){
     cin >> n;
     vector<int> a(n);
     forn(i, n) cin >> a[i];
-
+    int l=0,r=0;
+    vector<int> reduced;
+    while(r<n){
+        if(a[r]==a[l]){
+            while(r<n && a[r]==a[l]) r++;
+            reduced.pb(a[l]);
+            l=r;
+        }
+        else
+            l++,r++;
+    }
+    if(sz(reduced)==1){
+        yes;
+        return;
+    }
+    int cnt=0;
+    loop(i,1,sz(reduced)-2){
+        if(reduced[i]<reduced[i-1] && reduced[i]<reduced[i+1]) cnt++;
+    }
+    if(reduced[0]<reduced[1]) cnt++;
+    int t=sz(reduced);
+    if(reduced[t-2]>reduced[t-1]) cnt++;
+    if(cnt==1){
+        yes;
+        return;
+    }
+    //deb(cnt);
+    //printDS(reduced);
+    no;
 }
 
 signed main(){

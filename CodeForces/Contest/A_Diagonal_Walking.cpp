@@ -63,9 +63,19 @@ template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    string str;
+    cin>>str;
+    int l=0;
+    int i =0;
+    for(;i<n-1;){
+        if((str[i]=='R' and str[i+1]=='U') or (str[i]=='U' and str[i+1]=='R')){
+            i+=2;
+        }
+        else i++;
+        l++;
+    }
+    if(i==n-1) l++;
+    cout<<l<<endl;
 }
 
 signed main(){
@@ -73,7 +83,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

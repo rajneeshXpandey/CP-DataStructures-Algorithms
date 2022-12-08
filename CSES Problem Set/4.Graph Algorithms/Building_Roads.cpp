@@ -60,12 +60,41 @@ template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '
 
 // ********************************* Code Begins ********************************** //
 
-void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
+void CountConnectedComponents(vector<vector<int>> &adj, vector<bool> &visited, int root,int n){
 
+    visited[root] = true;
+    for (auto node : adj[root]){
+        if(!visited[node]){
+            CountConnectedComponents(adj, visited, node, n);
+        }
+    }
+}
+
+void solve(){
+    int n,m;
+    cin >> n >> m;
+    vector<vector<int>> adj(n);
+    vector<bool> visited(n, false);
+    forn(i,m){
+        int u,v;
+        cin >> u >> v;
+        u--,v--;
+        adj[u].pb(v);
+        adj[v].pb(u);
+    }
+    int connected_components = 0;
+    vector<int> vertices;
+    for(int i=0;i<n;i++){
+        if(!visited[i]){
+            CountConnectedComponents(adj, visited, i, n); // simple dfs on graph
+            vertices.pb(i);
+            connected_components++;
+        }
+    } 
+    cout << connected_components-1 << endl;
+    for(int i=1;i<(ll)vertices.size();i++){
+        cout << vertices[i-1]+1 << " " << vertices[i]+1 << endl;
+    }
 }
 
 signed main(){
@@ -73,7 +102,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

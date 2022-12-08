@@ -65,7 +65,14 @@ void solve(){
     cin >> n;
     vector<int> a(n);
     forn(i, n) cin >> a[i];
-
+    sort(all(a));
+    int ans=0;
+    loop(i,1,n){
+        if(a[i]!=a[i-1])
+            ans = max(ans, i*(n-i));
+    }
+    ans = max(ans, n/2);
+    cout << ans << endl;
 }
 
 signed main(){

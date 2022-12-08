@@ -60,12 +60,59 @@ template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '
 
 // ********************************* Code Begins ********************************** //
 
-void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
+void bfs_level(vector<vector<int>> &adj, vector<bool> &visited, vector<int> &distance,vector<int> &par,int root, int n){
+    queue<int> q;
+    q.push(root);
+    visited[root] = 1;
+    distance[root] = 0;
+    par[root] = -1;
+    while (!q.empty()){
+        int sz = q.size();
+        while (sz--){
+            int curr = q.front();
+            q.pop();
+            for (auto nb : adj[curr]){
+                if (!visited[nb]){
+                    q.push(nb);
+                    visited[nb] = 1;
+                    distance[nb] = distance[curr]+1;
+                    par[nb] = curr;
+                }
+            }
+        }
+    }
+}
 
+void solve(){
+    int n, m;
+    cin >> n >> m;
+    vector<vector<int>> adj(n);
+    forn(i, m){
+        int u, v;
+        cin >> u >> v;
+        u--, v--;
+        adj[u].pb(v);
+        adj[v].pb(u);
+    }
+    vector<bool> visited(n, 0);
+    vector<int> distance(n, 0);
+    vector<int> par(n, -1);
+    bfs_level(adj,visited,distance,par,0,n);
+    if(!visited[n-1]) {
+        cout << "IMPOSSIBLE" << endl;
+        return;
+    }
+    int target=n-1;
+    //printDS(distance);
+    cout<<distance[target]+1<<endl;
+    vector<int> path;
+    while(par[target]!=-1){
+        path.pb(target+1);
+        target=par[target];
+    }
+    path.pb(1);
+    reverse(all(path));
+    for(auto val:path) cout<<val<<' ';
 }
 
 signed main(){
@@ -73,7 +120,6 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

@@ -53,19 +53,78 @@ template<typename T, typename T1> T amin(T &a, T1 b) {if (b < a)a = b; return a;
 mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
-inline ll power(ll a, ll n){a %= mod; int res = 1; while(n){if (n & 1) res = (res * a) % mod; a = (a * a) % mod;n >>= 1;} return res;}
+inline ll power(ll a, ll n){ ll res = 1; while (n > 0){ if (n % 2) res *= a; a *= a,n /= 2;} return res;}
 inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
-inline void assign1ton(vector<int> &v) { iota(v.begin(), v.end(), 1); }
-template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '; cout<<endl;}
+inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    string str;
+    cin>>str;
+    int n = str.size();
+    int cnt10=0,cnt01=0;
+    forn(i,n-1){
+        if(str[i]=='0' && str[i+1]=='1') cnt01++;
+        if(str[i]=='1' && str[i+1]=='0') cnt10++;
+    }
+    int ans = 0;
+    // changing ith bit
+    loop(i,1,n-2){
+        if(str[i-1]=='0' and str[i]=='0' && str[i+1]=='0') {      // 000
+            if(cnt01+1==cnt10+1) ans++;
+        }
+        else if(str[i-1]=='0' and str[i]=='0' && str[i+1]=='1') { // 001
+            if(cnt01==cnt10) ans++;
+        }
+        else if(str[i-1]=='0' and str[i]=='1' && str[i+1]=='0') { // 010
+            if(cnt01-1==cnt10-1) ans++;
+        }
+        else if(str[i-1]=='0' and str[i]=='1' && str[i+1]=='1') { // 011
+            if(cnt01==cnt10) ans++;
+        }
+        else if(str[i-1]=='1' and str[i]=='0' && str[i+1]=='0') { // 100
+            if(cnt01==cnt10) ans++;
+        }
+        else if(str[i-1]=='1' and str[i]=='0' && str[i+1]=='1') { // 101
+            if(cnt01-1==cnt10-1) ans++;
+        }    
+        else if(str[i-1]=='1' and str[i]=='1' && str[i+1]=='0') { // 110
+            if(cnt01==cnt10) ans++;
+        }
+        else if(str[i-1]=='1' and str[i]=='1' && str[i+1]=='1') { // 111
+            if(cnt01+1==cnt10+1) ans++;
+        }
+    }
+    // for change in idx=0
+    int l=0,r=1;
+    if(str[l]=='0' and str[r]=='0') {      // 00
+        if(cnt01==cnt10+1) ans++;
+    }
+    else if(str[l]=='0' and str[r]=='1') { // 01
+        if(cnt01-1==cnt10) ans++;
+    }
+    else if(str[l]=='1' and str[r]=='0') { // 10
+        if(cnt01==cnt10-1) ans++;
+    }
+    else if(str[l]=='1' and str[r]=='1') { // 11
+        if(cnt01+1==cnt10) ans++;
+    }
+    // for change in idx=n-1
+    l=n-2,r=n-1;
+    if(str[l]=='0' and str[r]=='0') {      // 00
+        if(cnt01+1==cnt10) ans++;
+    }
+    else if(str[l]=='0' and str[r]=='1') { // 01
+        if(cnt01-1==cnt10) ans++;
+    }
+    else if(str[l]=='1' and str[r]=='0') { // 10
+        if(cnt01==cnt10-1) ans++;
+    }
+    else if(str[l]=='1' and str[r]=='1') { // 11
+        if(cnt01==cnt10+1) ans++;
+    }
+    cout<<ans<<endl;
 }
 
 signed main(){

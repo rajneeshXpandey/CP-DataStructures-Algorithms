@@ -52,7 +52,6 @@ struct Edge
 };
 
 vector<Edge> MST(vector<vector<Edge>> &adj,vector<Edge> &edges,int n){
-        int n;
         int cost = 0;
         dsu d(n);
         vector<Edge> result;
@@ -64,4 +63,5 @@ vector<Edge> MST(vector<vector<Edge>> &adj,vector<Edge> &edges,int n){
                 d.union_sets(e.u, e.v);
             }
         }
+        return result;
 } 

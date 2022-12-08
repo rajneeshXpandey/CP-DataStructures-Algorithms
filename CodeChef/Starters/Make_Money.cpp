@@ -61,11 +61,29 @@ template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '
 // ********************************* Code Begins ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
+    int n,x,c;
+    cin >> n >>x >>c;
     vector<int> a(n);
     forn(i, n) cin >> a[i];
-
+    sort(all(a));
+    vector<int> prex(n+1,0);
+    loop(i,1,n){
+        prex[i] = a[i-1]+prex[i-1];
+    }
+    int last=n-1;
+    while(a[last]==x){
+        last--;
+    }
+    last++;
+    //deb(last);
+    //printDS(a);
+    // make starting k elements = x and maximize the ans
+    int ans=0;
+    for(int k=0;k<=last;k++){
+        ans = max(ans,((x*k)+(prex[n]-prex[last])+(prex[last]-prex[k]))-(k*c));
+        //deb2(k,ans);
+    }
+    cout<<ans<<endl;
 }
 
 signed main(){

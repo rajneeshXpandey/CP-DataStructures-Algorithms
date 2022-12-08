@@ -65,7 +65,11 @@ void solve(){
     cin >> n;
     vector<int> a(n);
     forn(i, n) cin >> a[i];
-
+    //set<int> st;
+    //forn(i, n) st.insert(a[i]);
+    //int uniq=sz(st);
+    //deb(n-1-uniq);
+    cout<<1<<' '<<n<<endl;
 }
 
 signed main(){

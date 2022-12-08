@@ -55,17 +55,45 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline ll power(ll a, ll n){a %= mod; int res = 1; while(n){if (n & 1) res = (res * a) % mod; a = (a * a) % mod;n >>= 1;} return res;}
 inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
-inline void assign1ton(vector<int> &v) { iota(v.begin(), v.end(), 1); }
 template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
 
+int zerocnt(int n){
+    int cnt=0;
+    while(n>0 and n%10==0){
+        n/=10;
+        cnt++;
+    }
+    return cnt;
+}
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    int n,m;
+    cin >> n >> m;
+    vector<int> ans;
+    for(int i=0;i<=13;i++){
+        for(int j=0;j<=30;j++){
+            int x = (power(5,i)*power(2,j));
+            if (x <= m){
+                ans.pb(n*(m/x)*x);
+            }
+        }
+    }
+    int z=0,oo=1;
+    forn(i,sz(ans)){
+        int zcnt = zerocnt(ans[i]);
+        if(zcnt==z){
+            oo = max(oo,ans[i]);
+        }
+        else if (zcnt > z){
+            oo = ans[i];
+            z = zcnt;
+        }
+    }
+    if(oo%10==0){
+        cout<<oo<<endl;
+    }
+    else cout<<(n*m)<<endl;
 }
 
 signed main(){

@@ -61,11 +61,14 @@ template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '
 // ********************************* Code Begins ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    int n,a,b,x,y;
+    cin >> n >> a>> b >> x >> y;
+    int ans = min({(abs(a - x) + abs(b - y)), 
+                    (min(a, b) + min(x, y)),
+                     (min(n-a+1, n-b+1) + min(x, y)),
+                      (min(n-a+1, n-b+1) + min(n-x+1, n-y+1)), 
+                      (min(a,b) + min(n-x+1, n-y+1))});
+    cout << ans << endl;
 }
 
 signed main(){

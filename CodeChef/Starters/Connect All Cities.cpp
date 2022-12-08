@@ -53,19 +53,115 @@ template<typename T, typename T1> T amin(T &a, T1 b) {if (b < a)a = b; return a;
 mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
-inline ll power(ll a, ll n){a %= mod; int res = 1; while(n){if (n & 1) res = (res * a) % mod; a = (a * a) % mod;n >>= 1;} return res;}
+inline ll power(ll a, ll n){ ll res = 1; while (n > 0){ if (n % 2) res *= a; a *= a,n /= 2;} return res;}
 inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
-inline void assign1ton(vector<int> &v) { iota(v.begin(), v.end(), 1); }
-template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '; cout<<endl;}
+inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
+
+// Minimum Spanning Tree using DSU
+
+class dsu
+{
+public:
+    vector<int> parent;
+    vector<int> size, rank;
+
+    explicit dsu(int n)
+    {
+        parent.resize(n);
+        size.resize(n);
+        rank.resize(n);
+        for (int x = 0; x < n; x++)
+        {
+            parent[x] = x;
+            size[x] = 1;
+            rank[x] = 0;
+        }
+    }
+
+    int find_set(int x)
+    {
+        if (x == parent[x])
+            return x;
+        return parent[x] = find_set(parent[x]);
+    }
+
+    void union_sets(int a, int b)
+    {
+        a = find_set(a);
+        b = find_set(b);
+        if (a != b)
+        {
+            if (rank[a] < rank[b])
+                swap(a, b);
+            size[b] += size[a];
+            size[a] = 0;
+            parent[b] = a;
+            if (rank[a] == rank[b])
+                rank[a]++;
+        }
+    }
+};
+
+struct Edge
+{
+    int u, v, weight;
+    bool operator<(Edge const &other)
+    {
+        return (weight < other.weight);
+    }
+};
+
+vector<Edge> MST(vector<Edge> &edges, int n,int &cost)
+{
+    dsu d(n+1);
+    vector<Edge> result;
+    sort(edges.begin(), edges.end());
+    for (Edge e : edges)
+    {
+        if (d.find_set(e.u) != d.find_set(e.v))
+        {
+            cost += e.weight;
+            result.push_back(e);
+            d.union_sets(e.u, e.v);
+        }
+    }
+    return result;
+}
 
 void solve(){
     int n;
     cin >> n;
     vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    forn(i, n){ 
+        cin >> a[i];
+    }
+    //sort(all(a));
+    vector<vector<int>> bitrep(31);
+    loop(i,0,n-1){
+        for(int x=0;x<31;x++){
+            if((a[i]&(1LL<<x))){
+                bitrep[x].pb(i);
+            }
+        }
+    }
+    vector<Edge> edges;
+    forn(i,31){
+            for(int j=1;j<bitrep[i].size();j++){
+                edges.pb({bitrep[i][j], bitrep[i][j-1], (1LL<<i)});
+        }
+    }
+    int cost=0;
+    vector<Edge> _mst = MST(edges,n,cost);
+    if(_mst.size()!=n-1){
+        cout<<"-1"<<endl;
+        return;
+    }
+    //for(auto x:_mst){
+    //    cout<<x.u+1<<" "<<x.v+1<<" "<<x.weight<<endl;
+    //}
+    cout<<cost<<endl;
 }
 
 signed main(){

@@ -55,17 +55,60 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline ll power(ll a, ll n){a %= mod; int res = 1; while(n){if (n & 1) res = (res * a) % mod; a = (a * a) % mod;n >>= 1;} return res;}
 inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
-inline void assign1ton(vector<int> &v) { iota(v.begin(), v.end(), 1); }
 template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
 
+int inversion(vector<int> &a,int n){
+    vector<int> suffx(n,0);
+    suffx[n-1] = !(a[n-1]);
+    rloop(i,n-2,0){
+        if(a[i]==0)
+            suffx[i] += suffx[i+1]+1;
+        else suffx[i] += suffx[i+1];
+    }
+    //printDS(suffx);
+    int inv=0;
+    forn(i,n){
+        if(a[i]==1)
+            inv += suffx[i];
+    }
+    return inv;
+}
 void solve(){
     int n;
     cin >> n;
     vector<int> a(n);
     forn(i, n) cin >> a[i];
-
+    int idx1=-1,idx0=-1;
+    int inv = inversion(a,n);
+    rloop(i,n-1,0){
+        if(a[i]==1){
+            idx1=i;
+            break;
+        }
+    }
+    if(idx1==-1){
+        cout<<max(inv,n-1LL)<<endl;
+        return;
+    }
+    a[idx1]=0;
+    inv = max(inv,inversion(a,n));
+    a[idx1]=1;
+    loop(i,0,n-1){
+        if(a[i]==0){
+            idx0=i;
+            break;
+        }
+    }
+    if(idx0==-1){
+        cout<<max(inv,n-1LL)<<endl;
+        return;
+    }
+    a[idx0]=1;
+    inv = max(inv,inversion(a,n));
+    a[idx0]=0;
+    cout<<inv<<endl;
 }
 
 signed main(){

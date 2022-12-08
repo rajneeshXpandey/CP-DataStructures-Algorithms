@@ -55,17 +55,56 @@ mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline ll power(ll a, ll n){a %= mod; int res = 1; while(n){if (n & 1) res = (res * a) % mod; a = (a * a) % mod;n >>= 1;} return res;}
 inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
-inline void assign1ton(vector<int> &v) { iota(v.begin(), v.end(), 1); }
 template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Code Begins ********************************** //
-
+bool foundN(int n,int tot){
+    int ssum = ((n+1)*n)/2;
+    return (tot==ssum);
+}
+bool isSqrt(int k){
+    int s1 = sqrt(k);
+    //double s2 = (double)sqrt(k);
+    //deb2(s1,s2);
+    return (s1*s1==k);
+}
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    int m,s;
+    cin >> m >>s;
+    vector<int> a(m);
+    int sum=0;
+    forn(i, m) cin >> a[i] , sum+=a[i];
+    int tot = sum+s;
+    //deb(tot);
+    if (!isSqrt((8LL * tot) + 1LL))
+    {
+        no;
+        return;
+    }
+    int sqr = sqrt(((8LL * tot) + 1LL))-1LL;
+    if((sqr)%2LL){
+        no;
+        return;
+    }
+    int n = sqr/2LL;
+    if(n==m){
+        no;
+        return;
+    }
+    set<int> st;
+    forn(i,m) st.insert(a[i]);
+    loop(i,1,n){
+        if(st.find(i)==st.end()){
+            st.insert(i);
+        }
+    }
+    int csum=0;
+    for(auto x : st){
+        csum+=x;
+    }
+    if(csum==(n*(n+1)/2))
+        yes;
+    else no;    
 }
 
 signed main(){
