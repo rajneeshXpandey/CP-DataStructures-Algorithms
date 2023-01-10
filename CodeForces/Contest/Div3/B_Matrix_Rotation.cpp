@@ -60,12 +60,39 @@ template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '
 
 // ********************************* Here we go!! ********************************** //
 
+bool check(vector<int> &x){
+        if(x[0]>=x[1]) return 0;
+        if(x[2]>=x[3]) return 0;
+        if(x[0]>=x[2]) return 0;
+        if(x[1]>=x[3]) return 0;
+        return 1;
+}
+void clockwiserotate(vector<int> &x)
+{
+    int temp = x[2];
+    x[2] = x[3];
+    x[3] = x[1];
+    x[1] = x[0];
+    x[0] = temp;
+}
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    vector<int> x(4);
+    forn(i,4) cin>>x[i];
+    
+    forn(i,4){
+        if(check(x)){
+            yes;
+            return;
+        }
+        clockwiserotate(x);
+        //printDS(x);
+    }
+    if (check(x))
+    {
+        yes;
+        return;
+    }
+    no;
 }
 
 signed main(){

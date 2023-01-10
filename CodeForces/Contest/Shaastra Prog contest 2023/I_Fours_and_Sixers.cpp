@@ -61,11 +61,27 @@ template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '
 // ********************************* Here we go!! ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    int x,y;
+    cin >> x >> y;
+    /*
+        x = a^b
+        x^b = a
+        y = a|b
+        let a -> subset of y and b-> (y&a)
+    */
+    int a=inf,b=inf;
+    for (a = y;; a = (a - 1) & y)
+    {
+        b = (x^a);
+        if((a|b)==y){
+            break;
+        }
+        if (a == 0) break;
+    }
+    if((a^b)==x and (a|b)==y){
+        cout<<a<<' '<<b<<endl;
+    }
+    else neg;
 }
 
 signed main(){

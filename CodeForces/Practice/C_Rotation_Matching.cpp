@@ -63,9 +63,30 @@ template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
+    vector<int> a(n),b(n);
     forn(i, n) cin >> a[i];
-
+    forn(i, n) cin >> b[i];
+    vector<pii> data(n+1LL,{-1,-1});
+    forn(i,n){
+        data[a[i]].ff = i;
+        data[b[i]].ss = i;
+    };
+    loop(i,1,n){
+        //deb3(i,data[i].ff,data[i].ss);
+        data[i].ff = (data[i].ff-data[i].ss);
+        if(data[i].ff < 0){
+            data[i].ff = n + data[i].ff;
+        }
+    }
+    map<int,int> diff_freq;
+    int ans=0;
+    loop(i,1,n){
+        diff_freq[data[i].ff]++;
+    }
+    for(auto p:diff_freq){
+        ans = max(ans,p.ss);
+    }
+    cout<<ans<<endl;
 }
 
 signed main(){
@@ -73,7 +94,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

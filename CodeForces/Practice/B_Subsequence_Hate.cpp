@@ -61,11 +61,53 @@ template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '
 // ********************************* Here we go!! ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
+    string s;
+    cin>>s;
+    /*
+        010 and 101 -> should not be there as subseq then good
 
+        good if ->
+            10000...0
+            00000...1
+            .
+            .
+            .
+            so basically,
+            11111..1000....0
+            00000..0111....1
+    */
+    int n=sz(s);
+    vector<int> prex1(n,0),suffx1(n,0);
+    forn(i,n){
+        if(i==0){
+            prex1[i] = (s[i] == '1') ? 1 : 0;
+            continue;
+        }
+        if(s[i]=='1'){
+            prex1[i] = prex1[i-1]+1;
+        }
+        else
+            prex1[i] = prex1[i-1];
+    }
+    rloop(i,n-1,0){
+        if (i == n-1){
+            suffx1[i] = (s [i] == '1')?1:0;
+            continue;
+        }
+        if (s[i] == '1'){
+            suffx1[i] = suffx1[i+1] + 1;
+        }
+        else 
+            suffx1[i] = suffx1[i+1];
+    }
+    int ans=n;
+    forn(i,n){
+        int onetillirest0 = (i-prex1[i]+1)+(((i+1LL)<n)?(suffx1[i+1]):(0));
+        int zerotillirest1 = (prex1[i])+(((i+1)<n)?(n-i-1-suffx1[i+1]):(0));
+        //deb3(ans, onetillirest0, zerotillirest1);
+        ans = min({ans, onetillirest0, zerotillirest1});
+    }
+    cout<<ans<<endl;
 }
 
 signed main(){

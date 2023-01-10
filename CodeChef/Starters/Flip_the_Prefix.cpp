@@ -61,11 +61,33 @@ template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '
 // ********************************* Here we go!! ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    int n,k;
+    cin >> n >>k;
+    string str;
+    cin>>str;
+    vector<int> change(n,0);
+    char prev=str[n-1];
+    int cnt=0;
+    rloop(i,n-2,0){
+        if (str[i] != prev){
+            cnt++;
+            change[i]=cnt;
+            prev = str[i];
+        }
+        else change[i]=cnt;
+    }
+    //printDS(change);
+    int ans=inf;
+    rloop(i,n-1,k-1){
+        if(str[i]=='1'){
+                ans=min(ans,change[i-k+1]-change[i]);
+        }
+        else{
+                ans=min(ans,change[i-k+1]-(((i+1)<n)?change[i+1]:0)+1LL);
+        }
+    }
+    //if(ans==inf) ans=1;
+    cout<<ans<<endl;
 }
 
 signed main(){

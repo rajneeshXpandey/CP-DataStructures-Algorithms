@@ -58,14 +58,36 @@ inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string
 inline void assign1ton(vector<int> &v) { iota(v.begin(), v.end(), 1); }
 template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '; cout<<endl;}
 
-// ********************************* Here we go!! ********************************** //
+// ********************************* Code Begins ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
+    int n,x;
+    cin >> n >> x;
     vector<int> a(n);
     forn(i, n) cin >> a[i];
-
+    map<int,vector<pii>> twosum;
+    forn(i,n){
+        loop(j,i+1,n-1){
+            twosum[a[i]+a[j]].pb(mp(i+1,j+1));
+        }
+    }
+    for(auto p : twosum){
+        int rem = (x - p.ff);
+        auto got = twosum.find(rem);
+        //deb3(p.ss.ff,p.ss.ss,rem);
+        if(got!=twosum.end()){
+            for(pii subp : p.ss){
+                for(pii g : (got->ss)){
+                    if (subp.ff != g.ff and subp.ss != g.ss and subp.ss != g.ff and subp.ff != g.ss)
+                    {
+                        cout << subp.ff<< ' ' << subp.ss<< ' ' << g.ff<< ' ' << g.ss;
+                        return;
+                    }
+                }
+            }
+        }
+    }
+    cout << "IMPOSSIBLE" << endl;
 }
 
 signed main(){
@@ -73,7 +95,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

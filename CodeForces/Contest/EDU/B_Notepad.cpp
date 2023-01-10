@@ -63,9 +63,25 @@ template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    string s;
+    cin>>s;
+    map<string,vector<int>> mp;
+    loop(i,0,n-2){
+        if(sz(mp[s.substr(i, 2)])>0){
+            if (mp[s.substr(i, 2)].back()==i-1){}
+            else mp[s.substr(i, 2)].pb(i);
+       }
+       else mp[s.substr(i, 2)].pb(i);
+    }
+    for(auto &p:mp){
+        //deb(p.ff);
+        //printDS(p.ss);
+        if(sz(p.ss)>=2){
+                    yes;
+                    return;
+        }
+    }
+    no;
 }
 
 signed main(){

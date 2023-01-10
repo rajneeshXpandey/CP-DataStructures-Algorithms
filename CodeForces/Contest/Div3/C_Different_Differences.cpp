@@ -61,11 +61,29 @@ template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '
 // ********************************* Here we go!! ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    int k,n;
+    cin>>k>>n;
+    vector<int> res;
+    int x=1,i=1;
+    while(x<=n and sz(res)<k){
+        res.pb(x);
+        x=x+i;
+        i++;
+    }
+    //printDS(res);
+    while (sz(res) > 0 and (sz(res) + n - res.back()) < k)
+    {
+        res.pop_back();
+    }
+    if(sz(res))
+        x = res.back();
+    else x = 0;    
+    i=1;
+    while(res.size()<k){
+        res.push_back(x+i);
+        i++;
+    }
+    printDS(res);
 }
 
 signed main(){

@@ -61,10 +61,17 @@ template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '
 // ********************************* Here we go!! ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
+    int n,m;
+    cin >> n >>m;
     vector<int> a(n);
     forn(i, n) cin >> a[i];
+    forn(i,n){
+        if(a[i]<=m){
+            yes;
+            return;
+        }
+    }
+    no;
 
 }
 

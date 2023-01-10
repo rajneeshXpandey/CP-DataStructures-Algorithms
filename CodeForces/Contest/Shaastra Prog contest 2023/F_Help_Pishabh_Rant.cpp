@@ -60,12 +60,44 @@ template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '
 
 // ********************************* Here we go!! ********************************** //
 
+void dfs(int u, int p, vector<vector<int>> &adj, vector<char> &team, vector<pii> &cnt){
+    if(team[u] == 'C') cnt[u].ff = 1;
+    else if(team[u] == 'L') cnt[u].ss = 1;
+    for(auto v : adj[u]){
+        if(v == p) continue;
+        dfs(v, u, adj, team, cnt);
+        cnt[u].ff += cnt[v].ff;
+        cnt[u].ss += cnt[v].ss;
+    }
+}
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    vector<vector<int>> adj(n);
+    forn(i, n-1){
+        int u, v;
+        cin >> u >> v;
+        u--, v--;
+        adj[u].pb(v);
+        adj[v].pb(u);
+    }
+    vector<char> team(n);
+    int c=0,l=0;
+    forn(i, n) {
+        cin >> team[i];
+        if(team[i]=='C') c++;
+        else if(team[i]=='L') l++;
+    }
+    vector<pii> cnt(n, {0, 0});
+    dfs(0, -1, adj, team, cnt);
+    int ans=0;
+    forn(i, n){
+        //cout << i+1<<' '<< cnt[i].ff << ' ' << cnt[i].ss << endl;
+        if((cnt[i].ff == c && cnt[i].ss == 0) || (cnt[i].ff == 0 && cnt[i].ss == l)){
+            ans++;
+        }
+    }
+    cout<<ans<<endl;
 }
 
 signed main(){
@@ -73,7 +105,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

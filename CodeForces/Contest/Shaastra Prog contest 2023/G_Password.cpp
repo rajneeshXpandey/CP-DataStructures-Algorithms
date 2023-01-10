@@ -56,16 +56,35 @@ inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline ll power(ll a, ll n){a %= mod; int res = 1; while(n){if (n & 1) res = (res * a) % mod; a = (a * a) % mod;n >>= 1;} return res;}
 inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
 inline void assign1ton(vector<int> &v) { iota(v.begin(), v.end(), 1); }
-template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '; cout<<endl;}
+template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val; cout<<endl;}
 
 // ********************************* Here we go!! ********************************** //
 
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    string s;
+    cin>>s;
+    list<char> ans;
+    ans.push_back(s[0]);
+    bool f=1;
+    for(int i=1;i<n;i+=2){
+        if(f){
+            ans.push_back(s[i]);
+            if(i+1<n)
+                ans.push_back(s[i+1]);
+            f=0;    
+        }
+        else{
+            ans.push_front(s[i]);
+            if(i+1<n)
+            ans.push_front(s[i+1]);
+            f=1;
+        }
+    }
+    if(((n-1)/2)&1)
+    reverse(all(ans));
+    printDS(ans);
 }
 
 signed main(){

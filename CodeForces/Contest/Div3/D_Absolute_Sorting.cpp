@@ -60,12 +60,42 @@ template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '
 
 // ********************************* Here we go!! ********************************** //
 
+bool isSorted(vector<int> &a,int x){
+    forn(i,sz(a)-1){
+        if(abs(a[i]-x)>abs(a[i+1]-x)) return 0;
+    }
+    return 1;
+}
+bool incr(vector<int> &a){
+    forn(i,sz(a)-1){
+        if(a[i]>a[i+1]) return 0;
+    }
+    return 1;
+}
+bool decr(vector<int> &a){
+    forn(i,sz(a)-1){
+        if(a[i]<a[i+1]) return 0;
+    }
+    return 1;
+}
+
 void solve(){
     int n;
     cin >> n;
     vector<int> a(n);
     forn(i, n) cin >> a[i];
-
+    int x=0;
+    loop(i,1,n-1){
+        if(a[i]<a[i-1]){
+            int newx = (a[i-1]+a[i]+1)/2;
+            x = max(x,newx);
+        }
+    }
+    if (isSorted(a,x)){
+        cout<<x<<endl;
+        return;
+    }
+    neg;
 }
 
 signed main(){

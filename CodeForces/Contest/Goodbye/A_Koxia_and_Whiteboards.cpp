@@ -61,10 +61,29 @@ template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '
 // ********************************* Here we go!! ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
+    int n,m;
+    cin >> n >> m;
+    vector<int> a(n),b(m);
     forn(i, n) cin >> a[i];
+    loop(i,0,m-1) cin >> b[i];
+    //sort(rall(a));
+    //sort(rall(b));
+    priority_queue<int, vector<int>, greater<int> > pq;
+    int maxsum=0;
+    forn(i,n){
+        pq.push(a[i]);
+    }
+    forn(i,m){
+        //auto toppq = pq.top();
+        pq.pop();
+        pq.push(b[i]);
+    }
+    while (!pq.empty())
+    {
+        maxsum += pq.top();
+        pq.pop();
+    }
+    cout<<maxsum<<endl;
 
 }
 

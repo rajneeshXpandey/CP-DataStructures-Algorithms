@@ -65,7 +65,17 @@ void solve(){
     cin >> n;
     vector<int> a(n);
     forn(i, n) cin >> a[i];
-
+    map<int,int> mp;
+    forn(i,n){
+        mp[a[i]]++;
+    }
+    for(auto p:mp){
+        if(p.ss&1){
+            no;
+            return;
+        }
+    }
+    yes;
 }
 
 signed main(){

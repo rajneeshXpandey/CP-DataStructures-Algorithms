@@ -28,8 +28,6 @@ using namespace std;
 #define binary_rep(n) bitset<32> (n); // binary representation of a number
 #define setbits(x) __builtin_popcountll(x)      // count set bits in binary rep
 #define zerobefone(x) __builtin_ctzll(x) // zeros before first setbit
-#define mod 1000000007   //1e9+7
-#define mod1 998244353
 #define inf 2000000000000000000 //2e18
 #define pi  3.141592653589793238
 #define yes cout << "YES" << endl
@@ -52,8 +50,8 @@ template<typename T, typename T1> T amin(T &a, T1 b) {if (b < a)a = b; return a;
 /* usage - generate random numbers, just do rng() */
 mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
-inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
-inline ll power(ll a, ll n){a %= mod; int res = 1; while(n){if (n & 1) res = (res * a) % mod; a = (a * a) % mod;n >>= 1;} return res;}
+inline ll gcd(ll a, ll b){return (b==0LL)?a:gcd(b,a%b);}
+//inline ll power(ll a, ll n){a %= mod; int res = 1; while(n){if (n & 1) res = (res * a) % mod; a = (a * a) % mod;n >>= 1;} return res;}
 inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
 inline void assign1ton(vector<int> &v) { iota(v.begin(), v.end(), 1); }
 template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '; cout<<endl;}
@@ -63,9 +61,35 @@ template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
+    vector<int> a(n),cnt(n);
+    for (int i = 0; i < n; ++i){
+        cin >> a[i];
+    }
 
+    // distinct
+    set<int> s(all(a));
+    if(s.size()!=n){
+        no;
+        return;
+    }
+    sort(all(a));
+    int poss = 1;
+    for (int mod = 2; mod <= n/2; ++mod)
+    {
+        forn(i,mod) cnt[i]=0;
+        for (int i = 0; i < n; ++i){
+            cnt[a[i] % mod]++;
+        }
+        int minfreq=inf;
+        forn(i, mod){
+            minfreq = min(minfreq,cnt[i]);
+        }
+        if(minfreq>=2){
+            poss=0;
+            break;
+        }
+    }
+    cout << ((poss) ? "YES" : "NO") << endl;
 }
 
 signed main(){

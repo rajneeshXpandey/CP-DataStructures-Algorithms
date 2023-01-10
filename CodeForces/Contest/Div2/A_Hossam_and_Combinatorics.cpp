@@ -58,14 +58,23 @@ inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string
 inline void assign1ton(vector<int> &v) { iota(v.begin(), v.end(), 1); }
 template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '; cout<<endl;}
 
-// ********************************* Here we go!! ********************************** //
+// ********************************* Code Begins ********************************** //
 
 void solve(){
     int n;
     cin >> n;
     vector<int> a(n);
     forn(i, n) cin >> a[i];
-
+    sort(all(a));
+    int maxdiff=a[n-1]-a[0];
+    int cnt=0;
+    forn(i,n){
+        int lowidx = lower_bound(a.begin()+i+1,a.end(),maxdiff+a[i])-a.begin();
+        int upidx = upper_bound(a.begin()+i+1,a.end(),maxdiff+a[i])-a.begin();
+        //deb2(upidx,lowidx);
+        cnt+=(upidx-lowidx);
+    }
+    cout<<2*cnt<<endl;
 }
 
 signed main(){

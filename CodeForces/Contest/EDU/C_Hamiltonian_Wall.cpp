@@ -60,12 +60,56 @@ template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '
 
 // ********************************* Here we go!! ********************************** //
 
+bool dfs(vector<vector<char>> &wall,int i,int j,int &n,int b,int &_B,int parx,int pary){
+    if(j>=n and b==_B){ 
+        //deb2(b,B);
+        return true;
+    }
+    if(j<n and wall[i][j]=='B'){
+        if(i==1){
+            if(i-1!=parx and j!=pary and wall[i-1][j]=='B'){
+                return dfs(wall,i-1,j, n, b + 1, _B,i,j);
+            }
+            else
+                return dfs(wall, i, j + 1, n, b+1, _B,i,j);
+        }
+        else if(i==0){
+            if (i+1!=parx and j!=pary and wall[i+1][j] == 'B'){
+                return dfs(wall,i+1,j, n, b + 1, _B,i,j);
+            }
+            else
+                return dfs(wall, i, j + 1, n,b+1,_B,i,j);
+        }
+        else return 0;
+    }
+    else 
+        return false;
+}
+
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    vector<vector<char>> wall(2LL,vector<char>(n,'$'));
+    forn(i, n){
+        cin>>wall[0][i];
+    }
+    forn(i, n){
+        cin>>wall[1][i];
+    }
+    int _B=0;
+    forn(i,n){
+        //deb2(wall[0][i],wall[1][i]);
+        if (wall[0][i]=='W' and wall[1][i]=='W'){
+            no;
+            return;
+        }
+        if(wall[0][i]=='B') _B++; 
+        if(wall[1][i]=='B') _B++;
+    }
+    if (dfs(wall, 0, 0, n, 0, _B,-1,-1) || dfs(wall, 1, 0, n, 0, _B,-1,-1)){
+        yes;
+    }
+    else no;
 }
 
 signed main(){

@@ -59,19 +59,32 @@ inline void assign1ton(vector<int> &v) { iota(v.begin(), v.end(), 1); }
 template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Here we go!! ********************************** //
-
+bool check(int n){
+    int cnt=0;
+    while(n>0){
+        if((n%10)!=0) cnt++;
+        n/=10;
+    }
+    return (cnt==1);
+}
+const int N = 1e6; 
+vector<int> datas(N,0);
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    cout<<datas[n]<<endl;
 }
 
 signed main(){
     FastIO;
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
+    loop(i,1,N-1){
+        if(check(i)){
+            datas[i] = 1+datas[i-1];
+        }
+        else datas[i]=datas[i-1];
+    }
     int total_testcases = 1;
     cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){

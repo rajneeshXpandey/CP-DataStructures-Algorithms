@@ -61,10 +61,11 @@ template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '
 // ********************************* Here we go!! ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
+    string s;
+    cin>>s;
+    int a = s[0]-'0';
+    int b = s[2]-'0';
+    cout<<a+b<<endl;
 
 }
 

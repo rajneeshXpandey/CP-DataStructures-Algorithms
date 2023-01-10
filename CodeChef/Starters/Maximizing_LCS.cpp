@@ -59,13 +59,43 @@ inline void assign1ton(vector<int> &v) { iota(v.begin(), v.end(), 1); }
 template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Here we go!! ********************************** //
+int longestCommonSubsequence(string text1, string text2)
+{
 
+    int m = text1.size();
+    int n = text2.size();
+    vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
+
+    for (int i = 1; i <= m; i++)
+    {
+        for (int j = 1; j <= n; j++)
+        {
+            if (text1[i - 1] == text2[j - 1])
+                dp[i][j] = dp[i - 1][j - 1] + 1;
+            else
+                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+        }
+    }
+
+    return dp[m][n];
+}
 void solve(){
     int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    cin>>n;
+    string s;
+    cin >> s;
+    //int a=n/2,b=n-a;
+    string as = s.substr(0,n);
+    string bs = s.substr(0,n);
+    reverse(all(bs));
+    //b=n/2, a=n-b;
+    //string as1 = s.substr(0,a);
+    //string bs1 = s.substr(a,b);
+    //reverse(all(bs1));
+    int lcs = longestCommonSubsequence(as,bs);
+    //int lcs = longestCommonSubsequence(as1,bs1);
+    //cout<<max(lcs,lcs1)<<endl;
+    cout<<lcs/2<<endl;
 }
 
 signed main(){

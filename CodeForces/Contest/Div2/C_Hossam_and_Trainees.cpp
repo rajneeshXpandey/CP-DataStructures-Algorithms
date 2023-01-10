@@ -58,20 +58,78 @@ inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string
 inline void assign1ton(vector<int> &v) { iota(v.begin(), v.end(), 1); }
 template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '; cout<<endl;}
 
-// ********************************* Here we go!! ********************************** //
+// ********************************* Code Begins ********************************** //
+const int N=32000;
+vector<bool> prime(N,1);
+vector<int> prs;
+
+void sieve() {
+    prime[0] = prime[1] = 0;
+    for (int i = 2; i * i < N; i++) {
+        if (prime[i]) {
+            for (int j = i * i; j < N; j += i) {
+                prime[j] = 0;
+            }
+        }
+    }
+}
 
 void solve(){
     int n;
     cin >> n;
     vector<int> a(n);
     forn(i, n) cin >> a[i];
-
+    //int _gcd=0;
+    //forn(i,n){
+    //    _gcd = gcd(_gcd,a[i]);
+    //}
+    //if(_gcd>1){
+    //    yes;
+    //    return;
+    //}
+    //sort(all(a));
+    map<int,int> mp;
+    forn(i,n){
+        for(auto fac : prs){
+            if(fac>a[i]) break;
+            bool cnt=0;
+            while((a[i]%fac)==0){
+                cnt=1;
+                a[i] /= fac;
+            }
+            if(cnt){
+                mp[fac]++;
+                if(mp[fac]>1){
+                    yes;
+                    return;
+                }
+            }
+        }
+        if(a[i]>1){
+            mp[a[i]]++;
+            if (mp[a[i]] > 1){
+                yes;
+                return;
+            }
+        } 
+    }
+    //for(auto p : mp){
+    //    deb2(p.ff,p.ss);
+    //}
+    no;
 }
 
 signed main(){
     FastIO;
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
+    sieve();
+    forn(i,sz(prime)){
+        if(prime[i]){
+            prs.pb(i);  
+        }
+    }
+    //printDS(prs);
     int total_testcases = 1;
     cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){

@@ -59,14 +59,42 @@ inline void assign1ton(vector<int> &v) { iota(v.begin(), v.end(), 1); }
 template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Here we go!! ********************************** //
-
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    int N, K;
+    cin >> N >> K;
+    set<int> s;
+    for (int i = 0; i < N; i++)
+    {
+        int a;
+        cin >> a;
+        s.insert(a);
+    }
+    // if more than K distinct numbers, print -1
+    if (s.size() > K)
+    {
+        neg;
+        return;
+    }
+    cout << N * K << endl;
+    for (int i = 0; i < N; i++)
+    {
+        // print the distinct numbers
+        for (int b : s)
+            cout << b << ' ';
+        // print the extra 1s
+        for (int j = 0; j < K - (int)s.size(); j++)
+            cout << 1 << ' ';
+    }
+    cout << endl;
 }
+/*
+             r
+ a ->  1 2 3 1 2 3
+       
+       l    
+ ans-> 3 2 2 3 2 2 1 
+
+*/
 
 signed main(){
     FastIO;

@@ -52,30 +52,65 @@ template<typename T, typename T1> T amin(T &a, T1 b) {if (b < a)a = b; return a;
 /* usage - generate random numbers, just do rng() */
 mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
-inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
+inline int gcd(int a, int b){return (b==0)?a:gcd(b,a%b);}
 inline ll power(ll a, ll n){a %= mod; int res = 1; while(n){if (n & 1) res = (res * a) % mod; a = (a * a) % mod;n >>= 1;} return res;}
 inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
 inline void assign1ton(vector<int> &v) { iota(v.begin(), v.end(), 1); }
 template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Here we go!! ********************************** //
+const int N = 1E7;
+vector<int> smallest_prime(N,0); // smallest_prime factor of smallest_prime[x]
+vector<int> primes;
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    int x,y;
+    cin>>x>>y;
+    int diff = y-x;
+    if(diff==1){
+        neg;
+        return;
+    }
+    /*
+        let gcd(x+p,y+p)>1 = k 
+            so, x+p=k*f1 and y+p=k*f2 (f1>f2)
+            take diff => y-x = diff = k*(f2-f1);
+            let traverse on prime factors of diff and the smallest prime fac divide diff, x+p and y+p
+            will be the greater gcd i.e we got k 
+    */
+    
+    int x1=inf;
+    while(diff>1){
+        int fac = smallest_prime[diff];
+        x1 = (x%fac==0)?x:min(x1,((x/fac)+1)*fac);
+        while(diff%fac==0) diff/=fac;
+    }
+    cout<<x1-x<<endl;
 }
 
 signed main(){
     FastIO;
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
-    int total_testcases = 1;
-    cin >> total_testcases;
-    for (int test_case = 1; test_case <= total_testcases; test_case++){
+    for (int i = 2; i < N; i++){
+        if (!smallest_prime[i]){
+            smallest_prime[i] = i;
+            primes.push_back(i);
+        }
+        for (auto p : primes)
+        {
+            if (i*p >= N)
+                break;
+            smallest_prime[i*p] = p;
+            if (i % p == 0)
+                break;
+        }
+    }
+    int test = 1;
+    cin >> test;
+    for (int test_case = 1; test_case <= test; test_case++)
+    {
         //cout<<"Case #"<< test_case <<": ";
         solve();
-    }        
+    }
 }

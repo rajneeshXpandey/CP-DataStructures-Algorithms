@@ -53,19 +53,37 @@ template<typename T, typename T1> T amin(T &a, T1 b) {if (b < a)a = b; return a;
 mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
-inline ll power(ll a, ll n){a %= mod; int res = 1; while(n){if (n & 1) res = (res * a) % mod; a = (a * a) % mod;n >>= 1;} return res;}
+inline ll power(ll a, ll n){ ll res = 1; while (n > 0){ if (n % 2) res *= a; a *= a,n /= 2;} return res;}
 inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
+inline void printArr(vector<int> v){for(auto val : v) cout<<val<<' '; cout<<endl;}
 inline void assign1ton(vector<int> &v) { iota(v.begin(), v.end(), 1); }
 template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '; cout<<endl;}
 
-// ********************************* Here we go!! ********************************** //
+// ********************************* Code Begins ********************************** //
 
 void solve(){
     int n;
     cin >> n;
-    vector<int> a(n);
-    forn(i, n) cin >> a[i];
-
+    string s;
+    cin>>s;
+    int odd=0,even=0;
+    loop(i,0,n-1){
+        if(s[i]=='1'){
+            int j=i+1;
+            while(j<n and s[j]=='0') j++;
+            if(j<n) {
+                if((j-i-1)&1)
+                    odd++;
+                else even++;
+            }
+        }
+    }
+    //deb2(even,odd);
+    if(even){
+        cout<<1<<endl;
+        return;
+    }
+    cout<<2<<endl;
 }
 
 signed main(){
