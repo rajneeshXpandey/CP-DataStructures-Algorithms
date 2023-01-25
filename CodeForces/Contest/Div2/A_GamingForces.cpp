@@ -1,5 +1,4 @@
 #pragma GCC optimize("unroll-loops,O3,Ofast")
-#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -19,12 +18,12 @@ using namespace std;
 #define endl "\n"
 #define int long long
 #define ll long long
-#define size(dataStructure) (ll)(dataStructure.size())
+#define sz(v) (ll)(v.size())
 #define pb push_back
 #define pii pair<int, int>
-#define make_unique(vect) sort(all(vect)); vect.resize(unique(all(vect)) - vect.begin()); //remove Duplicate
-#define generate_random(vect) generate(all(vect), rand); // fill vect with ramdom nums
-#define rotate_by_k(vect,k) rotate(vect.begin(), vect.begin() + k, vect.end()); // cyclically shift a vector by k.
+#define make_unique(vec) sort(all(vec)); vec.resize(unique(all(vec)) - vec.begin()); //remove Duplicate
+#define generate_random(vec) generate(all(vec), rand); // fill vec with ramdom nums
+#define rotate_by_k(vec,k) rotate(vec.begin(), vec.begin() + k, vec.end()); // cyclically shift a vector by k.
 #define vector_to_set(a) set<int> S(all(a)); // Create a set from a vector
 #define binary_rep(n) bitset<32> (n); // binary representation of a number
 #define setbits(x) __builtin_popcountll(x)      // count set bits in binary rep
@@ -57,16 +56,22 @@ inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline ll power(ll a, ll n){a %= mod; int res = 1; while(n){if (n & 1) res = (res * a) % mod; a = (a * a) % mod;n >>= 1;} return res;}
 inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
 inline void assign1ton(vector<int> &v) { iota(v.begin(), v.end(), 1); }
-template<typename T> inline void printDS(T dataStructure){for(auto val : dataStructure) cout<<val<<' '; cout<<endl;}
-template<typename T> inline void print(T anything){cout<<anything<<"\n";}
+template<typename T> inline void printDS(T ds){for(auto val : ds) cout<<val<<' '; cout<<endl;}
 
 // ********************************* Here we go!! ********************************** //
 
 void solve(){
     int n;
     cin >> n;
-    vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
+    vector<int> a(n);
+    forn(i, n) cin >> a[i];
+    sort(all(a));
+    int one=0;
+    while(one<n and a[one]==1) one++;
+    int ans = n-one;
+    if(one&1) ans++,one--;
+    ans += one/2;
+    cout<<ans<<endl;
 
 }
 
