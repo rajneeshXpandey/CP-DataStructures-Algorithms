@@ -5,7 +5,7 @@ int CountConnectedComponents(vector<vector<int>> &adj, vector<bool> &visited, in
     int connected_components = 0;
     for(int root=0;root<n;root++){
         if(!visited[root]){
-            CountConnectedComponents(adj, visited, root, n); // simple dfs on graph
+            ConnectedComponents(adj, visited, root, n); // simple dfs on graph
             connected_components++;
         }
     }
