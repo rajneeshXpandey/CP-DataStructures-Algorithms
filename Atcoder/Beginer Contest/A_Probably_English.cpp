@@ -79,9 +79,18 @@ double eps = 1e-12;
 void solve(){
     int n;
     cin >> n;
-    vector<int> arr(n);
+    string cache[5] = {"and", "not", "that", "the","you"};
+    vector<string> arr(n);
     forn(i, n) cin >> arr[i];
-
+    forn(i,n){
+        forn(j,5){
+            if(arr[i] == cache[j]){
+                Yes;
+                return;
+            }
+        }
+    }
+    No;
 }
 
 signed main(){
@@ -89,7 +98,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

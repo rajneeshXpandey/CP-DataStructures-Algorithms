@@ -77,11 +77,27 @@ double eps = 1e-12;
 // ********************************* start ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
+    int n,x,p;
+    cin >> n >> x >> p;
 
+    loop(k,1,2*n){
+        if(n*k-x < 0) break;
+        int sq = sqrt(1+(8*(n*k-x)));
+        ld sqd = sqrt((ld)1 + (ld)8*((ld)n*k-(ld)x));
+        //deb(sqd);
+        if(sqd == sq){
+            int f = sq-1;
+            //deb(f);
+            if(f>=2 and f%2 == 0){
+                f = f/2;
+                if(f<=p and f>=1){
+                    Yes;
+                    return;
+                }
+            }
+        }
+    }
+    No;
 }
 
 signed main(){

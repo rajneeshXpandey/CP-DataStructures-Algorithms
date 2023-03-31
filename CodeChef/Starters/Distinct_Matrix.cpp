@@ -79,9 +79,23 @@ double eps = 1e-12;
 void solve(){
     int n;
     cin >> n;
-    vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
-
+    if(n<=2){
+        neg;
+        return;
+    }
+    vector<vector<int>> v(n, vector<int>(n,0));
+    forn(i,n){
+            v[i][i]=1;
+    }
+    forn(i,n){
+        v[0][i]=1;
+    }
+    forn(i,n){
+        forn(j,n){
+            cout<<v[i][j];
+        }
+        cout<<endl;
+    }
 }
 
 signed main(){

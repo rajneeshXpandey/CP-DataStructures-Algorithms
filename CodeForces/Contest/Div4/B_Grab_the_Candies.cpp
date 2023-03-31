@@ -81,6 +81,20 @@ void solve(){
     cin >> n;
     vector<int> arr(n);
     forn(i, n) cin >> arr[i];
+    int a = 0, b = 0;
+    forn(i,n){
+        if(arr[i]%2==0){
+            a += arr[i];
+        }
+        else{
+            b += arr[i];
+        }
+    }
+    if(a>b){
+        YES;
+        return;
+    }
+    NO;
 
 }
 

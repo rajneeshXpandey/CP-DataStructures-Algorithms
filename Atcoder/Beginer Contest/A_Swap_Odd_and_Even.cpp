@@ -77,11 +77,13 @@ double eps = 1e-12;
 // ********************************* start ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
-
+    string s;
+    cin>>s;
+    int n = s.size();
+    loop(i,0,(n/2)-1){
+        swap(s[2*i],s[(2*i)+1]);
+    }
+    cout<<s<<endl;
 }
 
 signed main(){
@@ -89,7 +91,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

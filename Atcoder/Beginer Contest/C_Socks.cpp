@@ -81,7 +81,13 @@ void solve(){
     cin >> n;
     vector<int> arr(n);
     forn(i, n) cin >> arr[i];
-
+    map<int,int> mp;
+    forn(i, n) mp[arr[i]]++;
+    int ans = 0;
+    for(auto it : mp){
+            ans+=it.ss/2;
+    }
+    cout << ans << endl;
 }
 
 signed main(){
@@ -89,7 +95,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

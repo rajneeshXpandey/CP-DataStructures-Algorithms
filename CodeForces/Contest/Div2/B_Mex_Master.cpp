@@ -81,7 +81,20 @@ void solve(){
     cin >> n;
     vector<int> arr(n);
     forn(i, n) cin >> arr[i];
-
+    int N = max(3LL,*max_element(all(arr))+1LL);
+    vector<int> freq(N,0);
+    forn(i,n){
+        freq[arr[i]]++;
+    }
+    if(freq[0] <= n-freq[0]+1){
+        cout<<0<<endl;
+        return;
+    }
+    if((freq[0]+freq[1]==n) and freq[1]>0){
+        cout<<2<<endl;
+        return;
+    }
+    cout<<1<<endl;
 }
 
 signed main(){

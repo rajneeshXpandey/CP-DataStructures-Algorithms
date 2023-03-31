@@ -79,8 +79,21 @@ double eps = 1e-12;
 void solve(){
     int n;
     cin >> n;
-    vector<int> arr(n);
+    vector<int> arr(n),vis(n+1,0);
     forn(i, n) cin >> arr[i];
+    forn(i,n){
+        if(!vis[i+1]){
+            vis[arr[i]]=1;
+        }
+    }
+    set<int> st;
+    loop(i,1,n){
+        if(vis[i]==0){
+            st.insert(i);
+        }
+    }
+    cout<<st.size()<<endl;
+    printDS(st);
 
 }
 
@@ -89,7 +102,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

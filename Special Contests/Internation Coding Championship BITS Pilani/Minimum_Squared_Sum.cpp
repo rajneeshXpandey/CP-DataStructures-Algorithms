@@ -81,7 +81,33 @@ void solve(){
     cin >> n;
     vector<int> arr(n);
     forn(i, n) cin >> arr[i];
+    sort(all(arr));
+    vector<int> prex(n,0); 
+    prex[0]=arr[0];
+    loop(i,1,n-1){
+        prex[i]=prex[i-1]+arr[i];
+    }
 
+    // do it for all ith position 
+    if(n<=2){
+        cout<<0<<endl;
+        return;
+    }
+    int x=0,y=0;
+    int sum1=0,sum2=0;
+    loop(i,0,n-3){
+        sum1+=arr[i];
+    }
+    sum2 = arr[n-1]+arr[n-2];
+    x = fdiv(sum1,(n-2));
+    y = fdiv(sum2,2);
+    //deb2(x,y);
+    int ans=inf;
+    int ans1=0;
+    forn(i,n){
+        ans += min((arr[i] - x)*(arr[i] - x), (arr[i] - y)*(arr[i] - y));
+    }
+    cout<<ans<<endl;
 }
 
 signed main(){

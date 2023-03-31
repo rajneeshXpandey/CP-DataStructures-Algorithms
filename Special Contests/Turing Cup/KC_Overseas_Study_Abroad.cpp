@@ -79,9 +79,32 @@ double eps = 1e-12;
 void solve(){
     int n;
     cin >> n;
-    vector<int> arr(n);
+    vector<ld> arr(n);
     forn(i, n) cin >> arr[i];
-
+    vector<ld> suff(n, 0); // max prob sum from i to n-1 discarding i
+    ld minn = arr[n-1];
+    suff[n-1] = 0; 
+    ld sum = arr[n-1],elem = 1;
+    map<ld,int> freq;
+    freq[arr[n-1]]++;
+    rloop(i, n-2, 0){
+        amin(minn, arr[i]);
+        sum += arr[i];
+        freq[arr[i]]++;
+        elem++;
+        //suff[i] = (sum - (freq[minn])*minn)/(elem-(freq[minn]));
+        suff[i] = (sum - minn)/(elem-1);
+    }
+    //printDS(suff);
+    pii maxa = {-inf, -1}; // maxprob, k
+    loop(k,1,n-2){
+        if(suff[k] > maxa.ff){
+            maxa.ff = suff[k];
+            maxa.ss = k;
+        }
+    }
+    if(maxa.ss == -1) maxa.ss = n-2;
+    cout<<maxa.ss<<endl;
 }
 
 signed main(){

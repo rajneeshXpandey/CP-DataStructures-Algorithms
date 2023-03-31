@@ -77,11 +77,35 @@ double eps = 1e-12;
 // ********************************* start ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
+    int n,c,d;
+    cin >> n >> c >> d;
     vector<int> arr(n);
     forn(i, n) cin >> arr[i];
-
+    int ans = inf;
+    sort(all(arr));
+    int x=1,insert=0,remove=0;
+    vector<int> cost(n, 0);
+    for(int i=0; i<n; i++){
+        if(arr[i] == x){
+            x++;
+            cost[i] = c*(n-i-1)+remove+insert;
+        }
+        else if(arr[i] < x){
+            remove += c;
+            cost[i] = c*(n-i-1)+remove+insert;
+        }
+        else{
+            insert += d*(arr[i] - x);
+            x=arr[i]+1;
+            cost[i] = c*(n-i-1)+remove+insert;
+        }
+    }
+    loop(i,0,n-1){
+        amin(ans, cost[i]);
+    }
+    //printDS(cost);
+    amin(ans,c*n+d);
+    cout << ans << endl;
 }
 
 signed main(){

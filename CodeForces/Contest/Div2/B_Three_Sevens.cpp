@@ -76,12 +76,42 @@ double eps = 1e-12;
 
 // ********************************* start ********************************** //
 
+int Amax = 50001;
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
-
+    int m,n,x;
+    cin >> m;
+    vector<int> win(Amax,0);
+    vector<vector<int>> cache(m);
+    forn(i,m){
+        cin>>n;
+        vector<int> temp(n);
+        forn(j,n){
+            cin>>temp[j];
+        }
+        cache[i] = temp;
+    }
+    rloop(i,m-1,0){
+        forn(j,cache[i].size()){
+            x = cache[i][j];
+            if(win[x]==0){
+                win[x]=i+1;
+            }
+        }
+    }
+    //printDS(win);
+    vector<int> ans(m,0);
+    
+    forn(i,Amax){
+        if(win[i]>0 and ans[win[i]-1]==0)
+            ans[win[i]-1] = i;
+    }
+    forn(i,m){
+        if(ans[i]==0){
+            neg;
+            return;
+        }
+    }
+    printDS(ans);
 }
 
 signed main(){

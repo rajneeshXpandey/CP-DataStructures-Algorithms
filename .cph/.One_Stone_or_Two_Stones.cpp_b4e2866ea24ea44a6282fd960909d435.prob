@@ -1,0 +1,1 @@
+{"name":"Local: One_Stone_or_Two_Stones","url":"d:\\Codes-Projects\\Programs\\One_Stone_or_Two_Stones.cpp","tests":[{"id":1677684431244,"input":"3\n1 10\n2 2\n4 2","output":"CHEFINA\nCHEFINA\nCHEF"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\Codes-Projects\\Programs\\One_Stone_or_Two_Stones.cpp","group":"local","local":true}

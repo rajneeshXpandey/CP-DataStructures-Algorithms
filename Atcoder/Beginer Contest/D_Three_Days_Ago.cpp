@@ -75,13 +75,54 @@ template<typename T> inline void print(T anything){cout<<anything<<"\n";}
 double eps = 1e-12;
 
 // ********************************* start ********************************** //
+/*
+Let Ri,x  be the number of occurrences, modulo 2, of x in the first i characters 
+(0≤i≤∣S∣)
 
+When,
+S= 20230322:
+
+       R_{i,x} ( x=0,1,...,9 )
+i = 0  0000000000
+i = 1  0010000000
+i = 2  1010000000
+i = 3  1000000000
+i = 4  1001000000
+i = 5  0001000000
+i = 6  0000000000
+i = 7  0010000000
+i = 8  0000000000
+Then, we can prove that
+if Ri==Rj(i<j), the substring of
+S from (i+1)-th through j-th characters is happy;
+if Ri!=Rj(i<j), the substring of S from (i+1)-th through
+j-th characters is not happy.
+
+The proof is as follows:
+
+(first one) … for each digit, the parity at the i-th and j-th characters are the same, so every digit occurs even number of times.
+(second one) … there exists a diit such that the parity at the i-th and
+j-th characters are different, so the digit occurs odd number of times.
+*/
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
-
+        string s;
+        cin >> s;
+        string R = "0000000000";
+        map<string, int> mp;
+        mp[R]++;
+        int ans = 0;
+        for (char c : s)
+        {
+            int ind = c - '0';
+            if (R[ind] == '0')
+                R[ind] = '1';
+            else
+                R[ind] = '0';
+            //deb2(mp[R], R);
+            mp[R]++;
+            ans += (mp[R]-1);
+        }
+        cout << ans << "\n";
 }
 
 signed main(){
@@ -89,7 +130,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

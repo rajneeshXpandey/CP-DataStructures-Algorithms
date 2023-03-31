@@ -80,16 +80,27 @@ void solve(){
     int n;
     cin >> n;
     vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
-
+    map<int,int> mp;
+    forn(i, n) cin >> arr[i],mp[arr[i]]++;
+    int ans = mp.size(),cnt=0;
+    for(auto p : mp){
+        if(p.ss%2==0){
+            cnt++;
+        }
+    }
+    if(cnt%2==0){
+        cout<<ans<<endl;
+        return;
+    }
+    cout<<ans-1<<endl;
 }
-
+//  2 3 4 
 signed main(){
     FastIO;
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

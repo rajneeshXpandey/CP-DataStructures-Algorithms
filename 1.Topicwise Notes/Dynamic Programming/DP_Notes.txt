@@ -89,7 +89,7 @@ Printing solution in DP: =>
      transitions: DP(level, last_element_taken) :
                 max(DP(level+1, last_element_taken), DP(level+1, arr[level])+1)
                                                         |-> this case if(arr[level]>last_element_taken))
-      time complexity: O(N*max(arr))->can'nt feasible for large arr.
+      time complexity: O(N*max(arr))->can'nt feasible for large arr[i].
 
       so, just try to store index instead of element :time complexity O(N*N)
 
@@ -115,7 +115,6 @@ time complexity : O(N(for levels) * N(for transitions)) = O(N^2)
     time complexity : O(N*M)
 
     can keep done[][] array to check whether its value is save or not. 
-
 
 
 ?? 3) Form 3 :- Multisequence DP  :- given multiple seq and we have to match them
@@ -152,7 +151,7 @@ time complexity : O(N(for levels) * N(for transitions)) = O(N^2)
     time complexity : O(N*M*L)
 
 ?? 4) Form 4:  L-R DP / Interval DP
-*  mostly :  how we can perform given operation on the first and the last element of the subarr-array [L-R]. *
+*  mostly :  how we can perform given operation on the first and the last element of the subarr-array in [L-R]. *
 
     ** Rod Cutting Problem:
           l           r
@@ -165,10 +164,10 @@ time complexity : O(N(for levels) * N(for transitions)) = O(N^2)
     transitions : DP(l,r) = min(DP(l,r), DP(l,i)+DP(i+1,r)+(r-l))
                                                |-> for all i in [l+1,r-1]
 
-    time complexity : O((N*N){for states}*N{for transitions}) = O(N^3)})  
+    time complexity : O((N*N){for states}*N{for transitions}) = O(N^3)  
 
     ** L-R DP ideation :
-        how we can perform given operation on the first and the last element of the subarr-array [L-R].
+        how we can perform given operation on the first and the last element of the subarr-array in [L-R].
     
     !! can we do it in less than O(N^3) time complexity ?
 
@@ -176,7 +175,7 @@ time complexity : O(N(for levels) * N(for transitions)) = O(N^2)
 
     Subtraction Game:
 
-    [ x chips ] :- player can y (2^m m:{0,inf}) chips from x chips. and x-y will remain
+    [ x chips ] :- player can remove y (2^m m:{0,inf}) chips from x chips. and x-y will remain
 
     now if playey can't take any chips then he will loose.
 
@@ -213,14 +212,14 @@ time complexity : O(N(for levels) * N(for transitions)) = O(N^2)
 
         eg 1 5 6 9 4 2 3 5 8
             arr : [ 1, 5 , 6 , 9] now -> [ 1, 4 , 6 , 9] -> [ 1, 2 , 6 , 9] -> [ 1, 2 , 3 , 5] -> [ 1, 2, 3, 5, 8]
-            arr[i] -> best last element of LIS ending at i
+            arr[i] -> best last element of LIS ending at ith pos in LIS
 
         4) Printing Soln
              [1, 5, 7, 10, 9, 6, 8, 9, 2, 3]
            |->1, 5, 7, 10
                  |->6, 8, 9
               |->2, 3
-        --------------------------| see from here
+        ...left to bottom to right-------------------------| see from here
         so,  1 2 3 8 9 : LIS
 
         ** Getting LIS **
@@ -231,9 +230,9 @@ time complexity : O(N(for levels) * N(for transitions)) = O(N^2)
                 lis.push_back(arr[i]);
                 inserted_at[i] = lis.size();
             } else{
-                auto it = lower_bound(lis.begin(), lis.end(), arr[i]); 
-                *it = arr[i];
-                inserted_at[i] = it-lis.begin()+1;
+                int idx = lower_bound(lis.begin(), lis.end(), arr[i])-lis.begin(); 
+                lis[idx] = arr[i]; // replace the element with current element
+                inserted_at[i] = idx+1;
             } 
         } 
         cout<<lis.size()<<endl;
@@ -269,7 +268,7 @@ time complexity : O(N(for levels) * N(for transitions)) = O(N^2)
         state : DP(level,index_of_given str=x) = number of valid binary strings of length if we fill i to n-1
         transitions : DP(level,x) = 
                                     if(x==4) DP(level+1,x); 
-                                    else if(t[x])
+                                    else if(t[x]==s[level])
                                         DP(level+1,x+1)
                                      else
                                         DP(level+1,x)
@@ -293,9 +292,9 @@ time complexity : O(N(for levels) * N(for transitions)) = O(N^2)
 
         string : 0 1 0 0   () -> accepted state 
                 
-        _1_      _0_                          _0/1__
-        | |  0   | |   1        0          0   | |
-start: ([0])--->([1])--->([2]) ---> ([3]) ---> [4]
+        _1_      _0_                        _0/1__
+        | |  0   | |   1       0         0   | |
+start: ([0])--->([1])--->([2])--->([3]) ---> [4]
          |<_________________|<______|   
                 0               1 
 
@@ -326,15 +325,15 @@ start: ([0])--->([1])--->([2]) ---> ([3]) ---> [4]
         Rules : 
         1) player can pick any number of stones from any one pile.
         2) player can pick equal number of stones from both piles.
-        3) player who picks last stone wins. 
+        3) player who picks last stone wins.
 
    ** Solution:
-        state: DP(x,y) -> if player plaing the move wins or not if there are x stones in pile 1 and y stones in pile 2.
+        state: DP(x,y) -> if player playing the move wins or not if there are x stones in pile 1 and y stones in pile 2.
         transition : DP(x,y) => DP(x-k,y)   k=1...x
                              => DP(x,y-k)   k=1...y
                              => DP(x-k,y-k) k=1...min(x,y)
                 !!Logic 
-                  lets current state is losing. Now, if any of the transiton results in losing state then current state will be winning. 
+                  lets current state. Now, if any of the transiton results in losing state then current state will be winning. 
                 i.e we can push opponent in the losing state.              
         time complexity : O(A*B*(A+B)) A+B : for trans
 
@@ -362,7 +361,7 @@ start: ([0])--->([1])--->([2]) ---> ([3]) ---> [4]
           [ - - - - # - ] ---------> then 2nd
           [ - - - - - - ] ---------> first 1st  
         to calculate (*) -> we need to calculate (#) first so the best way to iterate 
-        because the states depends on level+1 and sum-x vals
+        because the states depends on level+1 and (sum-x) vals.
 
         !! if base case has to be saved in memory then they should be assign space
      ** insert code
@@ -392,7 +391,7 @@ start: ([0])--->([1])--->([2]) ---> ([3]) ---> [4]
           [ - - \ - - ] 
           [ - - - \ - ] 
           [ - - - - \ ]  
-        Iterate diagonally with l incr of len = 1,2,3.....and if l = len then r = len-l+1; 
+        Iterate diagonally with l incr of len = 1,2,3.....and if l = len then r = len-l+1;
 
      ?? Ploygon Triangulation 
         Given a convex polygon with n vertices, find the minimum cost to triangulate it.
@@ -480,11 +479,11 @@ start: ([0])--->([1])--->([2]) ---> ([3]) ---> [4]
             - Knuth optimization: 
                    LR DP -> Optimization of rod cutting problem that was N^3 -> N^2
             - Divide and Conquer Optimization
-            - Convex Hull Optimization (**) -> can be learn)
+            - Convex Hull Optimization (**) -> can be learn
             - Alien Trick
-            - Monotonocity Based Optimization (**) -> can be learn)
+            - Monotonocity Based Optimization (**) -> can be learn
             - 1D 1D DP Optimization
-            - sorting based optimization (**) -> can be learn)
+            - sorting based optimization (**) -> can be learn
     
     ! 1) State space optimization :
     ? Given set of nums divide them into two sets such that sumA % sumB = 0
@@ -495,6 +494,7 @@ start: ([0])--->([1])--->([2]) ---> ([3]) ---> [4]
     .
     .
     .
+    ! 3) Monotonocity Based Optimization
     ? Problem:
       there are n cities and roads between them.
 
@@ -508,14 +508,14 @@ start: ([0])--->([1])--->([2]) ---> ([3]) ---> [4]
      * Solution
         state : Dp(level) -> min cost to travel from city 1 to city level
         transition : Dp(level) => min{ 
-                                       Dp(level-j) + Fi + Fj) , j -> [1,k],
+                                       Dp(level-j) + Fi + Fj , j -> [1,k],
                                        Dp(level-1) + Bi 
                                      }
         time complexity : O(N*K)
 
         ! Optimize the transition
         
-        in Dp(level-j) + Fi + F[level-j]) , j -> [1,k],
+        in Dp(level-j) + Fi + F[level-j] , j -> [1,k],
           if we get min in O(1) approx then we can optimize the time complexity
         i.e we only need array of DP[k]+Fk for k-len segment
 
@@ -556,7 +556,7 @@ start: ([0])--->([1])--->([2]) ---> ([3]) ---> [4]
             dp [level] = dp [level-1]+b[level-1];
 
             / maintining dq
-            dq.insert(dp[level-1]+a [level-1]); 
+            dq.insert(dp[level-1]+a[level-1]); 
             if(level-k-1>=1) dq.remove(dp[level-k-1]+a[level-k-1]);
 
             dp[level] = min(dp[level], dq.getmin()+a[level]);

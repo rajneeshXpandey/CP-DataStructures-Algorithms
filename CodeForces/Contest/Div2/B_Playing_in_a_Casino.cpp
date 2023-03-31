@@ -76,12 +76,37 @@ double eps = 1e-12;
 
 // ********************************* start ********************************** //
 
-void solve(){
-    int n;
-    cin >> n;
-    vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
+ll sumPairs(vector<int> &arr)
+{
+    ll sum = 0;
+    int n=arr.size();
+    rloop(i,n-1,0)
+        sum += ((i*arr[i])-((n-1-i)*arr[i]));
+    return sum;
+}
 
+void solve(){
+    int n,m;
+    cin >> n >> m;
+    vector<vector<int>> arr(n,vector<int>(m));
+    vector<vector<int>> trans(m);
+    forn(i, n){
+        forn(j, m){
+            cin >> arr[i][j];
+        }
+    }
+    forn(j,m){
+        forn(i,n){
+            trans[j].pb(arr[i][j]);
+        }
+        sort(all(trans[j]));
+    }
+    ll ans = 0;
+    forn(i,m){
+        //printDS(v);
+        ans += sumPairs(trans[i]);
+    }
+    cout << ans << endl;
 }
 
 signed main(){

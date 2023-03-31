@@ -77,11 +77,25 @@ double eps = 1e-12;
 // ********************************* start ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
-
+    int a,b,n;
+    cin >> a>>b>>n;
+    // (b-a)/(n-1) == d
+    if(n==1){
+        if((b+a)%2==0){
+            YES;
+        }
+        else{
+            NO;
+        }
+        return;
+    }
+    if((b-a)%(n+1)==0){
+        //int d = (b-a)/(n-1);
+        YES;
+        return;
+    }
+    NO;
+    /*  */
 }
 
 signed main(){

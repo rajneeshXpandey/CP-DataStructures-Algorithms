@@ -77,11 +77,30 @@ double eps = 1e-12;
 // ********************************* start ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
-
+    int A,B,C;
+    cin>>A>>B>>C;
+    if(A<B and B<C){
+        cout<<0<<endl;
+        return;
+    }
+    if((A^A)<(B^A) and (B^A)<(A^C)){
+        cout<<A<<endl;
+        return;
+    }
+    neg;
+    //loop(a,1,100){
+    //     loop(b,1,100){
+    //        loop(c,1,100){
+    //                if(a>b and b>c and a>c){
+    //                    int x = (a^b)^c;
+    //                    deb2(x,a,);
+    //                    deb3(a,b,c);
+    //                    deb3((a^x),(b^x),(c^x));
+    //                    deb3((a^a),(b^a),(c^a));
+    //                }
+    //        }
+    //     }
+    //}
 }
 
 signed main(){

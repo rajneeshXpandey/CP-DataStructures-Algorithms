@@ -75,17 +75,61 @@ template<typename T> inline void print(T anything){cout<<anything<<"\n";}
 double eps = 1e-12;
 
 // ********************************* start ********************************** //
+const int N = 1e5 + 1;
+vector<int> fac(N);
+int m = 1e9 + 7;
+
+void pre() // call this func to precalculate
+{
+    fac[0] = 1;
+    for (int i = 1; i < N; i++)
+        fac[i] = (fac[i - 1] * i) % m; // (a*b)%m = ((a%m)*(b%m))%m
+}
+
+int modexpo(int a, int n)
+{
+    int res = 1;
+    while (n > 0)
+    {
+        if (n % 2)
+            res = (res * a) % m;
+        a = (a * a) % m;
+        n /= 2;
+    }
+    return res;
+}
+
+int modinv(int a)
+{
+    return modexpo(a, m - 2);
+}
+
+int nCr(int n, int r)
+{
+    int numerator = fac[n],
+        denominator = (fac[n - r] * fac[r]) % m;
+    denominator = modinv(denominator); // now denominator is the mod mult inverse
+    int ncr = (numerator * denominator) % m;
+    return ncr;
+}
 
 void solve(){
-    int n;
-    cin >> n;
+    int n,k;
+    cin >> n >> k;
     vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
-
+    int len=n;
+    forn(i, n) {cin >> arr[i];if(arr[i]==0) len--;}
+    int ans=0;
+    loop(x,0,min(k,len)){
+        ans += nCr(len,x);
+        ans%=m;
+    }
+    cout<<ans<<endl;
 }
 
 signed main(){
     FastIO;
+    pre();
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;

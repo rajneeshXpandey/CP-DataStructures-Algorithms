@@ -79,9 +79,21 @@ double eps = 1e-12;
 void solve(){
     int n;
     cin >> n;
-    vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
-
+    vector<int> a(n),b(n);
+    forn(i, n) cin >> a[i] >> b[i];
+    int ans = 1;
+    int _lcm=1,_gcd=0;
+    loop(i,0,n-1){
+        _lcm = (b[i]*_lcm) / gcd(b[i], _lcm);
+        _gcd = gcd(a[i]*b[i], _gcd);
+        //deb2(_gcd,_lcm);
+        if(_gcd%_lcm){
+            ans++;
+            _lcm = b[i];
+            _gcd = a[i]*b[i];
+        }
+    }
+    cout << ans << endl;
 }
 
 signed main(){

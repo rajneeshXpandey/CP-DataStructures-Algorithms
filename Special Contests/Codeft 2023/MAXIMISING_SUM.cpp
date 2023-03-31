@@ -77,11 +77,20 @@ double eps = 1e-12;
 // ********************************* start ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
+    int n = 4;
     vector<int> arr(n);
     forn(i, n) cin >> arr[i];
-
+    int dp[n+1][2];
+    memset(dp, 0, sizeof(dp));
+    loop(i,1,n){
+        dp[i][0] = max(dp[i-1][1],dp[i-1][0]);
+        dp[i][1] = dp[i-1][0] + arr[i-1];
+    }
+    // print DP
+    //loop(i,0,n){
+    //    cout << dp[i][0] << " " << dp[i][1] << endl;
+    //}
+    cout << max(dp[n][0], dp[n][1]) << endl;
 }
 
 signed main(){

@@ -15,7 +15,7 @@ void Dijkastra(vector<vector<pii>> &adj,vector<int> &distance,vector<bool> &flag
 
         min_heap.pop();
 
-        flag[currNode] = 1; // work of this node will be completed
+        flag[currNode] = 1; // relaxation from this node will be completed
 
         if (currDis_from_source > distance[currNode])
             continue;

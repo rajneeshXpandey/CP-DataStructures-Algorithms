@@ -1,0 +1,1 @@
+{"name":"Local: Distinct Opposite Sums","url":"d:\\Codes-Projects\\Programs\\Distinct Opposite Sums.cpp","tests":[{"id":1677681144469,"input":"3\n2\n6\n4","output":"2 1\n1 3 2 4 5 6\n2 1 3 4"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\Codes-Projects\\Programs\\Distinct Opposite Sums.cpp","group":"local","local":true}

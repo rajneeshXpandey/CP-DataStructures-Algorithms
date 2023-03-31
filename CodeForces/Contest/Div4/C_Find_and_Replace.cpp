@@ -79,9 +79,35 @@ double eps = 1e-12;
 void solve(){
     int n;
     cin >> n;
-    vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
-
+    string s;
+    cin >> s;
+    char ze = s[0];
+    char on = s[1];
+    string res = "";
+    vector<int> f(26,-1);
+    forn(i, n){
+        if(i%2==0){
+            f[s[i]-'a'] = 0;
+        }
+        else f[s[i]-'a'] = 1;
+    }
+    forn(i, n){
+        if(f[s[i]-'a'] == 1){
+           res += '1';
+        }
+        else if (f[s[i] - 'a'] == 0)
+        {
+           res += '0';
+        }
+    }
+    for(int i=0;i<n-1;i+=2){
+        if(res[i]=='0' and res[i+1]=='1'){}
+        else{
+            NO;
+            return;
+        }
+    }
+    YES;
 }
 
 signed main(){

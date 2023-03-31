@@ -77,11 +77,25 @@ double eps = 1e-12;
 // ********************************* start ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
-
+    int n,m;
+    cin >> n >> m;
+    vector<vector<int>> arr(n,vector<int>(m));
+    forn(i, n){
+        forn(j, m){
+            cin>>arr[i][j];
+        }
+    }
+    forn(i, n){
+        forn(j, m){
+            if(arr[i][j] == 0){
+                cout<<'.';
+            }
+            else{
+                cout<<char('A'+arr[i][j]-1);
+            }
+        }
+        cout<<endl;
+    }
 }
 
 signed main(){
@@ -89,7 +103,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

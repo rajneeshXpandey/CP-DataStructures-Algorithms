@@ -79,9 +79,58 @@ double eps = 1e-12;
 void solve(){
     int n;
     cin >> n;
-    vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
+    vector<int> arr(2*n);
+    forn(i, 2*n) cin >> arr[i];
+    /*
+        case 1 : all elements are same
+            so, n*a = a^n
+                n=1 , q = [x,x], x :- I
+                n=2 , q = [2,2,2,2]
+                any n -> q = [0,,....0,0]
+        case 2 : two elements are different
 
+            a,b,c,c...c -> 2n elements
+
+            eq1 : a*c^(n-1) = b+c*(n-1)
+            eq2 : b*c^(n-1) = a+c*(n-1)
+
+            (a-b)*(c^(n-1)+1)=0
+            as a!=b so, c^(n-1)+1 = 0
+            possible sol : (n-1)%2!=0 and c = -1
+
+            also,
+                 a+b = n-1
+                 a*b = -n
+            final seq
+            x, n-1-x, -1, -1,.....-1 -> 2n elements
+
+            now as we have to minmize the diff of seq
+
+            x = max(all(arr[i]))
+    */
+    if(n==1){
+        cout<<abs(arr[0]-arr[1])<<endl;
+        return;
+    }
+    int ans = 0,diffwithneg = 0;
+    sort(all(arr));
+    forn(i, 2*n){
+        ans += abs(arr[i]);
+        diffwithneg += abs(arr[i]+1);
+    }
+    if(n==2){
+        int tans = 0;
+        forn(i, 2*n){
+            tans += abs(arr[i]-2);
+        }
+        ans = min(ans, tans);
+    }
+    if((n-1)%2){
+        forn(i, 2*n){
+            ans = min(ans, diffwithneg+(abs(arr[i]-(n))-abs(arr[i]+1)));
+        }
+    }
+    cout<<ans<<endl;
 }
 
 signed main(){

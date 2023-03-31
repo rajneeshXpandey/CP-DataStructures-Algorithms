@@ -79,9 +79,18 @@ double eps = 1e-12;
 void solve(){
     int n;
     cin >> n;
-    vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
-
+    string s;
+    cin>>s;
+    int ans=inf;
+    for(int ch = 0;ch<26;ch++){
+        int tans=0,c=ch;
+        forn(i,n){
+            tans += (c+'a'!=s[i])?1:0;
+            c = (c+1)%26;
+        }
+        ans =min(ans,tans);
+    }
+    cout<<ans<<endl;
 }
 
 signed main(){

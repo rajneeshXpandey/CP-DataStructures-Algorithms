@@ -76,12 +76,46 @@ double eps = 1e-12;
 
 // ********************************* start ********************************** //
 
+int days(int h,int a,int b){
+    if(h <= a) return 1;
+	else{
+		return fdiv((h-a-1),(a-b))+2; // using lower value of h
+		//return cdiv((h-a),(a-b))+1; // using high value of h
+	}
+}
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
+    int q;
+    cin >> q;
+    int type,a,b,n,cminH,cmaxH;
+    int minH = 0, maxH = inf;
+    while(q--){
+            cin >> type >> a >> b; // querytype and steps
+            if(type==1){
+                cin >> n; // number of days spent to climb
+                // ((a-b)*(n-1)+a)>=h and ((a-b)*(n-2) + a)< h // given
+                // so h :-  [((a-b)*(n-2) + a)+1, ((a-b)*(n-1) + a)]
 
+                // curr range of heights :- [cminH, cmaxH]
+                if(n==1) cminH=1,cmaxH=a; 
+                else{
+                    cminH = a+(a-b)*(n-2)+1;
+                    cmaxH = a+(a-b)*(n-1);
+                }
+                if (cminH > maxH || cmaxH < minH)
+                    cout << 0 << " ";
+                else{
+                    cout << 1 << " ";
+                    amax(minH, cminH);
+                    amin(maxH, cmaxH);
+                }
+            }
+            else{
+                if(days(minH,a,b) == days(maxH,a,b)) 
+                    cout << days(maxH,a,b) << " ";
+                else cout << -1 << " ";
+            }
+    }
+    cout << endl;
 }
 
 signed main(){

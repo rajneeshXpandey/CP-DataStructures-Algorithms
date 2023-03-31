@@ -77,11 +77,23 @@ double eps = 1e-12;
 // ********************************* start ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
+    int n,k,d,w;
+    cin >> n >> k >> d >> w;
     vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
-
+    forn(i, n) cin >> arr[i]; // pat_time = arr[i]....arr[i]+w 
+    // validity of one dose = ti....ti+d
+    int need=0; 
+    for(int i=0;i<n;){
+        need++;
+        int r=i;
+        while(r<n and arr[r]-arr[i]<=w+d and r-i<k){
+            //deb3(i, min(n - 1, i + k - 1), arr[min(n - 1, i + k - 1)] - arr[i]);
+            r++;
+        }
+        i=r;
+    }
+    need = max(need,cdiv(n,k));
+    cout << need << endl;
 }
 
 signed main(){

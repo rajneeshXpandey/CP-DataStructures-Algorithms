@@ -79,9 +79,22 @@ double eps = 1e-12;
 void solve(){
     int n;
     cin >> n;
-    vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
-
+    vector<int> a(n),b(n);
+    forn(i, n) cin >> a[i];
+    forn(i, n) cin >> b[i];
+    forn(i, n) 
+        if(a[i] > b[i]){
+            swap(a[i], b[i]);
+        }
+    //printDS(a);
+    //printDS(b);
+    int maxa = *max_element(all(a));
+    int maxb = *max_element(all(b));
+    if(maxa==a[n-1] and maxb==b[n-1]){
+        Yes;
+        return;
+    }
+    No;
 }
 
 signed main(){

@@ -81,7 +81,13 @@ void solve(){
     cin >> n;
     vector<int> arr(n);
     forn(i, n) cin >> arr[i];
-
+    forn(i,n){
+        if(arr[i]<=i+1){
+            YES;
+            return;
+        }
+    }
+    NO;
 }
 
 signed main(){

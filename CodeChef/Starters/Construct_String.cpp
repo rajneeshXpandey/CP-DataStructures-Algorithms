@@ -79,9 +79,27 @@ double eps = 1e-12;
 void solve(){
     int n;
     cin >> n;
-    vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
-
+    string s;
+    cin >> s;
+    string ans="";
+    forn(i,n){
+        if((i<n-1 and s[i]!=s[i+1]) or i==n-1){
+            ans+=s[i];
+            continue;
+        }
+        char ch = s[i];
+        int cnt=1;
+        while(i<n-1 and s[i]==s[i+1]){
+            i++;
+            cnt++;
+        }
+        //deb2(ch,cnt);
+        if((cnt)%2){
+            ans+=ch;
+        }
+        else ans+=ch,ans+=ch;
+    }
+    cout<<ans<<endl;
 }
 
 signed main(){

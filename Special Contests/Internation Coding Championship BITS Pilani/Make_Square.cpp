@@ -77,11 +77,17 @@ double eps = 1e-12;
 // ********************************* start ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
+    int n=4;
     vector<int> arr(n);
     forn(i, n) cin >> arr[i];
-
+    sort(all(arr));
+    int ans=inf;
+    int tans=0;
+    forn(j,n){
+        tans += abs(arr[j]-arr[0]);
+    }
+    ans = min(ans,tans);
+    cout<<ans<<endl;
 }
 
 signed main(){

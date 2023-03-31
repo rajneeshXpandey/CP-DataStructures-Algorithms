@@ -76,12 +76,61 @@ double eps = 1e-12;
 
 // ********************************* start ********************************** //
 
+int dx[4]={0,0,1,-1};
+int dy[4]={1,-1,0,0};
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
-
+    int n,m;
+    cin >> n >> m;
+    vector<vector<char>> grid(n,vector<char>(m));
+    forn(i, n){
+        forn(j,m){
+            cin>>grid[i][j];
+        }
+    }
+    int x,y,op=0;
+    bool change=1;
+    while(change){
+        bool done=0;
+        loop(i,0,n-1){
+            loop(j,0,m-1){
+                        if(grid[i][j]=='U'){
+                            if(i>1 and grid[i-1][j]=='D'){
+                                grid[i][j]='D';
+                                grid[i-1][j]='U';
+                                op++;
+                                done=1;
+                            }
+                        }
+                        if(grid[i][j]=='R'){
+                            if(j<m-1 and grid[i][j+1]=='L'){
+                                grid[i][j]='L';
+                                grid[i][j+1]='R';
+                                op++;
+                                done=1;
+                            }
+                        }
+                        if(grid[i][j]=='D'){
+                            if(i<n-1 and grid[i+1][j]=='U'){
+                                grid[i][j]='U';
+                                grid[i+1][j]='D';
+                                op++;
+                                done=1;
+                            }
+                        }
+                        if(grid[i][j]=='L'){
+                            if(j>1 and grid[i][j-1]=='R'){
+                                grid[i][j]='R';
+                                grid[i][j-1]='L';
+                                op++;
+                                done=1;
+                            }
+                        }
+                    }
+            }
+        if(!done)
+            change=0;
+    }
+    cout<<op<<endl;
 }
 
 signed main(){
@@ -89,7 +138,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

@@ -77,11 +77,44 @@ double eps = 1e-12;
 // ********************************* start ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
-
+    int n,m;
+    cin >> n >> m;
+    vector<int> a(n),b(m);
+    forn(i, n) cin >> a[i];
+    forn(i, m) cin >> b[i];
+    int l=0,r=0;
+    vector<int> ans1,ans2;
+    int idx=1;
+    while(l<n && r<m){
+        if(a[l] == b[r]){
+            ans1.pb(idx);
+            idx++;
+            l++;
+            r++;
+        }
+        else if(a[l] < b[r]){
+            ans1.pb(idx);
+            idx++;
+            l++;
+        }
+        else{
+            ans2.pb(idx);
+            idx++;
+            r++;
+        }
+    }
+    while(l<n){
+        ans1.pb(idx);
+        idx++;
+        l++;
+    }
+    while(r<m){
+        ans2.pb(idx);
+        idx++;
+        r++;
+    }
+    printDS(ans1);
+    printDS(ans2);
 }
 
 signed main(){
@@ -89,7 +122,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

@@ -80,8 +80,12 @@ void solve(){
     int n;
     cin >> n;
     vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
-
+    int sum=0;
+    forn(i, n) cin >> arr[i],sum+=arr[i];
+    if(sum%2==0){
+        YES;
+    }
+    else NO;
 }
 
 signed main(){

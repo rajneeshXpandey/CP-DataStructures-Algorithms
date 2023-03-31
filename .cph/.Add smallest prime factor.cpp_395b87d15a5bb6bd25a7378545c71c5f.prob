@@ -1,0 +1,1 @@
+{"name":"Local: Add smallest prime factor","url":"d:\\Codes-Projects\\Programs\\Add smallest prime factor.cpp","tests":[{"id":1677681285255,"input":"4\n2 23\n9 20\n5 100\n6 89","output":"11\n5\n46\n42"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\Codes-Projects\\Programs\\Add smallest prime factor.cpp","group":"local","local":true}

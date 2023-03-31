@@ -77,11 +77,14 @@ double eps = 1e-12;
 // ********************************* start ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
-
+    int a,b,c,d;
+    cin >> a>>b>>c>>d;
+    if(d<b || (d-c+a-b)<0){
+        neg;
+        return;
+    }
+    int ans  = (d-b)+(d-b+a-c);
+    cout<<ans<<endl;
 }
 
 signed main(){

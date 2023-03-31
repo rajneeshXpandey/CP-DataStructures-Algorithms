@@ -77,11 +77,24 @@ double eps = 1e-12;
 // ********************************* start ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
-
+    int n, R, B, h;
+    cin >> n >> B >> R >> h;
+    string s;
+    cin >> s;
+    vector<int> dp(n,0); // nochange, change
+    if(s[0] == '0'){
+        dp[0] = min(B,R+h);
+    }
+    else{
+        dp[0] = min(R,B+h);
+    }
+    for(int i=1; i<n; i++){
+        if(s[i] == '0')
+            dp[i] = min(dp[i-1]+B,dp[i-1]+R+h);
+        else
+            dp[i] = min(dp[i-1]+R,dp[i-1]+B+h);
+    }
+    cout << dp[n-1] << endl;
 }
 
 signed main(){

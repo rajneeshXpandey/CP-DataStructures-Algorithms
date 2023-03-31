@@ -77,11 +77,45 @@ double eps = 1e-12;
 // ********************************* start ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
-
+    int L, r1, r2;
+    cin >> L >> r1 >> r2;
+    unordered_map<int,array<vector<array<int,2>>,2>> ranges; // i = (row1, row2), row1 = (start1, end1), row2 = (start2, end2)
+    int l, ouccr;
+    int idx = 1;
+    forn(i, r1){
+        cin >> l >> ouccr;
+        ranges[l][0].pb({idx, idx+ouccr-1});
+        idx += ouccr;
+    }
+    idx = 1;
+    forn(i, r2){
+        cin >> l >> ouccr;
+        ranges[l][1].pb({idx, idx+ouccr-1});
+        idx += ouccr;
+    }
+    int ans = 0;
+    for(auto it: ranges){
+        int col = it.ff;
+        if(it.ss[0].size()==0 || it.ss[1].size()==0){
+            continue;
+        }
+        // find intersection between row1 and row2
+        int i = 0, j = 0;
+        while(i<it.ss[0].size() && j<it.ss[1].size()){
+            int start = max(it.ss[0][i][0], it.ss[1][j][0]);
+            int end = min(it.ss[0][i][1], it.ss[1][j][1]);
+            if(start<=end){
+                ans += (end-start+1);
+            }
+            if(it.ss[0][i][1]<it.ss[1][j][1]){
+                i++;
+            }
+            else{
+                j++;
+            }
+        }
+    }
+    cout << ans << endl;
 }
 
 signed main(){
@@ -89,7 +123,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

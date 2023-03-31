@@ -81,7 +81,15 @@ void solve(){
     cin >> n;
     vector<int> arr(n);
     forn(i, n) cin >> arr[i];
-
+    forn(i, n){
+        if(arr[i] == 0) {cout << 1 << " "; continue;}
+        int pos = log2(arr[i])+1LL;
+        int num = (1LL<<pos)-1LL;
+        //cout << num << " ";
+        int x = (arr[i]^num);
+        cout << x << " ";
+    }
+    cout << endl;
 }
 
 signed main(){
@@ -89,7 +97,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

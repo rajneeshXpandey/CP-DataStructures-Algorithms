@@ -57,84 +57,51 @@ inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
 inline ll power(ll a, ll n){a %= mod; int res = 1; while(n){if (n & 1) res = (res * a) % mod; a = (a * a) % mod;n >>= 1;} return res;}
 inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
 inline void assign1ton(vector<int> &v) { iota(v.begin(), v.end(), 1); }
-template<typename T> inline void printDS(T dataStructure){for(auto val : dataStructure) cout<<val+1<<' '; cout<<endl;}
+template<typename T> inline void printDS(T dataStructure){for(auto val : dataStructure) cout<<val<<' '; cout<<endl;}
 template<typename T> inline void print(T anything){cout<<anything<<"\n";}
 
 // ********************************* Here we go!! ********************************** //
 
-// Kosaraju's Algorithm for Strongly Connected Component
+bool game(int X, int Y, int turn){
 
-void dfs1(vector<vector<int>> &adj, vector<bool> &visited, vector<int> &order, int node)
-{
-    visited[node] = true;
-    for (auto child : adj[node])
-        if (!visited[child])
-            dfs1(adj, visited, order, child);
-    order.push_back(node);
-}
+    if(X<0 or Y<0) return (turn);
+    if(X==Y) return ((X&1LL)?turn:(turn^1LL));
 
-void dfs2(vector<vector<int>> &adj_rev, vector<bool> &visited, vector<int> &component, int node)
-{
-    visited[node] = true;
-    component.push_back(node);
-    for (auto child : adj_rev[node])
-        if (!visited[child])
-            dfs2(adj_rev, visited, component, child);
+    if(turn==0 and X==0) return 1;
+    if(turn==1 and Y==0) return 0;
+
+    if(turn==0){
+        if(game(X-1,Y-1, turn ^ 1LL)==0 || game(X-2,Y,turn^1LL)==0) 
+            return 0;
+        return 1;
+    }
+    if(game(X-1, Y-1, turn^1LL)==1 || game(X,Y-2,turn^1LL)==1) 
+        return 1;
+    return 0;
 }
 
 void solve(){
-    int n,m;
-    // ... read n ...
-    cin >> n >> m;
-    vector<vector<int>> adj(n), adj_rev(n);
-    vector<bool> visited,used;
-    vector<int> order, component;
-    int a, b;
-    forn(i,m)
-    {
-        // ... read next directed edge (a,b) ...
-        cin >> a >> b;
-        a--, b--;
-        adj[a].push_back(b);
-        adj_rev[b].push_back(a);
+    int X,Y;
+    cin >> X >> Y; // pile 1 and pile 2
+    //cout << "X = " << X << " Y = " << Y << endl;
+    //if(game(X,Y,0)==0) cout << "CHEF" << endl;
+    //else cout << "CHEFINA" << endl;
+    if(X==Y){
+        if(X%2==1) cout << "CHEF" << endl;
+        else cout << "CHEFINA" << endl;
     }
-    visited.assign(n, false);
-    vector<set<int>> adj_scc;
-    vector<int> ans(n, -1);
-    reverse(all(order));
-    for (int i = 0; i < n; i++)
-        if(!visited[i]){
-            dfs1(adj,visited,order,i);
-            //reverse(all(order));
-            //printDS(order);
-            ////return;
-            //used.assign(n, true);
-            //for(auto node : order)
-            //    used[node] = false;
-            //for(auto node : order)
-            //{
-            //    if(!used[node]){
-            //        dfs2(adj_rev, used, component, node);
-            //        printDS(component);
-            //        //int res=size(adj_scc);
-            //        //for(auto nodes : component){
-            //        //    ans[nodes] = res-1;
-            //        //}
-            //        component.clear();
-            //    }
-            //}
-            //order.clear();
-            //adj.clear();
+    else if(X<Y) {
+        if((Y-X)==1LL and X%2==1LL)
+            cout<<"CHEF"<<endl;
+        else
+            cout << "CHEFINA" << endl;
     }
-    visited.assign(n, false);
-    for (auto v : order)
-        if (!visited[v])
-        {
-                dfs2(adj_rev, used, component, v);
-                printDS(component);
-                component.clear();
-        }
-    //printDS(ans);
+    else if(X>Y){
+        if((X-Y)==1LL and X%2==1LL)
+            cout << "CHEFINA" << endl;
+        else
+            cout<<"CHEF"<<endl;
+    }
 }
 
 signed main(){
@@ -142,7 +109,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    //cin >> total_testcases;
+    cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

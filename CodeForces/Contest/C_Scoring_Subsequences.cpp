@@ -7,6 +7,10 @@ using namespace std;
 #define loop(i, a, b)  for(int i = a; i <= b; i++)
 #define rloop(i, a, b) for(int i = a; i >= b; i--)
 #define forn(i, n) loop(i, 0, n-1)
+#define deb(x) cout << #x << "=" << x << endl
+#define deb2(x, y) cout << #x << "=" << x << "," << #y << "=" << y << endl
+#define deb3(x, y, z) cout << #x << "=" << x << "," << #y << "=" << y << "," << #z << "=" << z << endl
+#define deb4(x, y, z, zz) cout << #x << "=" << x << "," << #y << "=" << y << "," << #z << "=" << z << "," << #zz << "=" << zz << endl
 #define ff first
 #define ss second
 #define mp make_pair
@@ -15,7 +19,7 @@ using namespace std;
 #define endl "\n"
 #define int long long
 #define ll long long
-#define ld long double
+#define size(dataStructure) (ll)(dataStructure.size())
 #define pb push_back
 #define pii pair<int, int>
 #define make_unique(vect) sort(all(vect)); vect.resize(unique(all(vect)) - vect.begin()); //remove Duplicate
@@ -25,14 +29,16 @@ using namespace std;
 #define binary_rep(n) bitset<32> (n); // binary representation of a number
 #define setbits(x) __builtin_popcountll(x)      // count set bits in binary rep
 #define zerobefone(x) __builtin_ctzll(x) // zeros before first setbit
-#define YES cout << "YES" << endl
-#define NO cout << "NO" << endl
-#define Yes cout << "Yes" << endl
-#define No cout << "No" << endl
+#define mod 1000000007   //1e9+7
+#define mod1 998244353
+#define inf 2000000000000000000 //2e18
+#define pi  3.141592653589793238
+#define yes cout << "YES" << endl
+#define no cout << "NO" << endl
 #define neg cout << "-1" << endl
 #define precise(x, y) fixed << setprecision(y) << x // cout<<precise(value,uptodecimalpt)<<endl;
 
-#define tuplei tuple<int, int, int>;
+typedef tuple<int, int, int> tuplei;
 
 //assign and update min and max values.
 template<typename T, typename T1> T amax(T &a, T1 b) {if (b > a)a = b; return a;}
@@ -47,41 +53,27 @@ template<typename T, typename T1> T amin(T &a, T1 b) {if (b < a)a = b; return a;
 /* usage - generate random numbers, just do rng() */
 mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
-// useful functions
-inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);} // gcd
-inline ll power(ll a, ll n, ll mod){a %= mod; int res = 1; while(n){if (n & 1) res = (res * a) % mod; a = (a * a) % mod;n >>= 1;} return res;} // power in mod
-inline ll cdiv(ll a, ll b) { return a/b+((a^b)>0&&a%b); } // divide a by b rounded up
-inline ll fdiv(ll a, ll b) { return a/b-((a^b)<0&&a%b); } // divide a by b rounded down
+inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);}
+inline ll power(ll a, ll n){a %= mod; int res = 1; while(n){if (n & 1) res = (res * a) % mod; a = (a * a) % mod;n >>= 1;} return res;}
 inline void binary(ll n) { std::string binaryMask = std::bitset<64>(n).to_string(); cout<<binaryMask<<endl;}
 inline void assign1ton(vector<int> &v) { iota(v.begin(), v.end(), 1); }
-
-// Debugging
-#define deb(x) cout << #x << "=" << x << endl
-#define deb2(x, y) cout << #x << "=" << x << "," << #y << "=" << y << endl
-#define deb3(x, y, z) cout << #x << "=" << x << "," << #y << "=" << y << "," << #z << "=" << z << endl
-#define deb4(x, y, z, zz) cout << #x << "=" << x << "," << #y << "=" << y << "," << #z << "=" << z << "," << #zz << "=" << zz << endl
 template<typename T> inline void printDS(T dataStructure){for(auto val : dataStructure) cout<<val<<' '; cout<<endl;}
 template<typename T> inline void print(T anything){cout<<anything<<"\n";}
 
-//Data structures
-#define max_heap priority_queue<int> //maxpq
-#define min_heap priority_queue<int, vector<int>, greater<int>> //minpq
-
-// numeric values
-//#define mod 1000000007   //1e9+7
-//#define mod 998244353
-#define inf 2000000000000000000 //2e18
-#define pi  3.141592653589793238
-double eps = 1e-12;
-
-// ********************************* start ********************************** //
-
+// ********************************* Here we go!! ********************************** //
+// https://codeforces.com/problemset/problem/1794/C
 void solve(){
     int n;
     cin >> n;
     vector<int> arr(n);
     forn(i, n) cin >> arr[i];
-
+    int l=0, r=0;
+    while(r<n){
+        cout<<r-l+1<<" ";
+        if(arr[l]<=r-l+1) l++;
+        r++;
+    }
+    cout<<endl;
 }
 
 signed main(){

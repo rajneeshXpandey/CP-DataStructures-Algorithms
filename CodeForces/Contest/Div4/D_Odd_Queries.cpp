@@ -77,11 +77,26 @@ double eps = 1e-12;
 // ********************************* start ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
+    int n,q;
+    cin >> n >> q;
     vector<int> arr(n);
     forn(i, n) cin >> arr[i];
-
+    int sum[n+1];
+    memset(sum, 0, sizeof(sum));
+    for (int i = 1; i <= n; i++) sum[i] = sum[i-1] + arr[i-1];
+    while (q--){
+        int l,r,k;
+        cin >> l >> r >> k;
+        int ssum = sum[n] - sum[r];
+        int psum = sum[l-1] - sum[0];
+        int ans = ssum + psum + (r-l+1)*k;
+        if(ans%2==0){
+            NO;
+        }
+        else {
+            YES;
+        }
+    }
 }
 
 signed main(){

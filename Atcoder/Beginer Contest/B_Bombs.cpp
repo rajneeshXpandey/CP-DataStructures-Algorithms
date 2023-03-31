@@ -77,10 +77,42 @@ double eps = 1e-12;
 // ********************************* start ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
+    int n,m;
+    cin >> n >> m;
+    vector<vector<char>> grid(n,vector<char>(m));
+    forn(i, n){
+        forn(j, m){
+            cin >> grid[i][j];
+        }
+    }
+    forn(i, n){
+        forn(j, m){
+            if(grid[i][j]-'0'>=1 and grid[i][j]-'0'<=9){
+                int k = grid[i][j]-'0';
+                forn(x, n)
+                {
+                    forn(y, m)
+                    {
+                        if(abs(i-x)+abs(j-y)<=k){
+                            if(grid[x][y]=='#')
+                                grid[x][y] = '.';
+                        }
+                    }
+                }
+            }
+        }
+    }
+    forn(i, n){
+        forn(j, m){
+             if (grid[i][j] - '0' >= 1 and grid[i][j] - '0' <= 9)
+             {
+                cout<<'.';
+             }
+             else
+                cout<<grid[i][j];
+        }
+        cout<<endl;
+    }
 
 }
 
@@ -89,7 +121,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

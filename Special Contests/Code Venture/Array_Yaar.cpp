@@ -68,7 +68,7 @@ template<typename T> inline void print(T anything){cout<<anything<<"\n";}
 #define min_heap priority_queue<int, vector<int>, greater<int>> //minpq
 
 // numeric values
-//#define mod 1000000007   //1e9+7
+#define mod 1000000007   //1e9+7
 //#define mod 998244353
 #define inf 2000000000000000000 //2e18
 #define pi  3.141592653589793238
@@ -76,12 +76,27 @@ double eps = 1e-12;
 
 // ********************************* start ********************************** //
 
+bool isPerfectSquare(int x)
+{
+    // Find floating point value of
+    // square root of x.
+    if (x >= 0)
+    {
+        long long sr = sqrt(x);
+        return (sr * sr == x);
+    }
+    // else return false if n<0
+    return false;
+}
+
 void solve(){
     int n;
     cin >> n;
-    vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
-
+    int p = (((n+1)*(n+2)/2))%mod;
+    int q = 1LL;
+    cout <<(p+q)%mod<< endl;
+    loop(i,2,n+1) cout << i << " ";
+    cout<<endl;
 }
 
 signed main(){

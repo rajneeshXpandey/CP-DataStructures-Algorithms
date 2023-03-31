@@ -69,19 +69,35 @@ template<typename T> inline void print(T anything){cout<<anything<<"\n";}
 
 // numeric values
 //#define mod 1000000007   //1e9+7
-//#define mod 998244353
+#define mod 998244353
 #define inf 2000000000000000000 //2e18
 #define pi  3.141592653589793238
 double eps = 1e-12;
 
 // ********************************* start ********************************** //
-
+int coefficient(int n, int m, vector<int> &a)
+{
+    int dp[m + 1];
+    memset(dp, 0, sizeof(dp));
+    dp[0] = 1;
+    for (int i = 1; i <= n; i++)
+    {
+        for (int j = min(m, i); j >= 1; j--)
+        {
+            dp[j] = (dp[j] + (a[i - 1] * dp[j - 1])%mod);
+            dp[j] %= mod;
+        }
+    }
+    return dp[m];
+}
 void solve(){
-    int n;
-    cin >> n;
+    int n,k;
+    cin >> n >> k;
     vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
-
+    forn(i, n) cin >> arr[i]; 
+    // coefficient of x^k in ((1+a[1]*x)*(1+a[2]*x)...+(1+a[n]*x)
+    int ans = coefficient(n, k, arr);
+    cout << ans << endl;
 }
 
 signed main(){
@@ -89,7 +105,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

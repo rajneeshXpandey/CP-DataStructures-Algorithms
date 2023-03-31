@@ -13,7 +13,7 @@ using namespace std;
 #define all(x) (x).begin(), (x).end()
 #define rall(x) (x).rbegin(), (x).rend()
 #define endl "\n"
-#define int long long
+//#define int long
 #define ll long long
 #define ld long double
 #define pb push_back
@@ -76,12 +76,37 @@ double eps = 1e-12;
 
 // ********************************* start ********************************** //
 
-void solve(){
-    int n;
-    cin >> n;
-    vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
+ll getans(vector<vector<int>> &grid, set<int> &st,int x,int y,int h,int w){
+    if(x==h-1 and y==w-1){
+        return 1;
+    }
+    //printDS(st);
+    ll ans=0;
+    if(x+1<h and st.find(grid[x+1][y]) == st.end()){
+        st.insert(grid[x+1][y]);
+        ans += getans(grid,st,x+1,y,h,w);
+        st.erase(grid[x+1][y]);
+    }
+    if(y+1<w and st.find(grid[x][y+1]) == st.end()){
+        st.insert(grid[x][y+1]);
+        ans += getans(grid,st,x,y+1,h,w);
+        st.erase(grid[x][y+1]);
+    }
+    return ans;
+}
 
+void solve(){
+    int h,w;
+    cin >> h>>w;
+    vector<vector<int>> grid(h,vector<int>(w));
+    forn(i, h){
+        forn(j,w) 
+            cin>>grid[i][j];
+    }
+    set<int> st;
+    st.insert(grid[0][0]);
+    ll ans = getans(grid,st,0,0,h,w);
+    cout<<ans<<endl;
 }
 
 signed main(){
@@ -89,7 +114,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

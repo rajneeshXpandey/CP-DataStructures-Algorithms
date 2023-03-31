@@ -77,11 +77,133 @@ double eps = 1e-12;
 // ********************************* start ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
-
+    int n , m, x1, y1, x2, y2;
+    string dir;
+    cin >> n >> m >> x1 >> y1 >> x2 >> y2;
+    cin >> dir;
+    string org = dir;
+    int numberofdirchange=0;
+    set<pii> pts;
+    int x=x1, y=y1;
+    int cnt=0;
+    while(cnt<=4){
+        //deb3(x,y,numberofdirchange);
+        pts.insert({x,y});
+        if(x==x2 and y==y2){
+            break;
+        }
+        if(x==x1 and y==y1) cnt++;
+        if(dir=="DL"){
+            if(x==n and y==1){
+                dir="UR";
+                x--;
+                y++;
+                numberofdirchange++;
+            }
+            else{
+                if(x==n){
+                    dir="UL";
+                    x--;
+                    y--;
+                    numberofdirchange++;
+                }
+                else if(y==1){
+                    dir="DR";
+                    x++;
+                    y++;
+                    numberofdirchange++;
+                }
+                else{
+                    x++;
+                    y--;
+                }
+            }
+        }
+        else if(dir=="DR"){
+            if(x==n and y==m){
+                dir="UL";
+                x--;
+                y--;
+                numberofdirchange++;
+            }
+            else{
+                if(x==n){
+                    dir="UR";
+                    x--;
+                    y++;
+                    numberofdirchange++;
+                }
+                else if(y==m){
+                    dir="DL";
+                    x++;
+                    y--;
+                    numberofdirchange++;
+                }
+                else{
+                    x++;
+                    y++;
+                }
+            }
+        }
+        else if(dir=="UL"){
+            if(x==1 and y==1){
+                dir="DR";
+                x++;
+                y++;
+                numberofdirchange++;
+            }
+            else{
+                if(x==1){
+                    dir="DL";
+                    x++;
+                    y--;
+                    numberofdirchange++;
+                }
+                else if(y==1){
+                    dir="UR";
+                    x--;
+                    y++;
+                    numberofdirchange++;
+                }
+                else{
+                    x--;
+                    y--;
+                }
+            }
+        }
+        else if(dir=="UR"){
+            if(x==1 and y==m){
+                dir="DL";
+                x++;
+                y--;
+                numberofdirchange++;
+            }
+            else{
+                if(x==1){
+                    dir="DR";
+                    x++;
+                    y++;
+                    numberofdirchange++;
+                }
+                else if(y==m){
+                    dir="UL";
+                    x--;
+                    y--;
+                    numberofdirchange++;
+                }
+                else{
+                    x--;
+                    y++;
+                }
+            }
+        } 
+    }
+    if(pts.find({x2,y2})!=pts.end()){
+        cout<<numberofdirchange<<endl;
+    }
+    else{
+        cout<<"-1"<<endl;
+    }
 }
 
 signed main(){

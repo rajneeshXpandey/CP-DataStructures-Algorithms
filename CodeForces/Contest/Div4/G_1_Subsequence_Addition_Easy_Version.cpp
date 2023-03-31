@@ -81,7 +81,25 @@ void solve(){
     cin >> n;
     vector<int> arr(n);
     forn(i, n) cin >> arr[i];
-
+    if(n==1){
+        if(arr[0]==1) YES;
+        else NO;
+        return;
+    }
+    sort(all(arr));
+    if(arr[0]!=1 || arr[1]!=1){
+        NO;
+        return;
+    }
+    int sum = arr[0];
+    loop(i,1,n-1){
+        if(arr[i]>sum){
+            NO;
+            return;
+        }
+        sum+=arr[i];
+    }
+    YES;
 }
 
 signed main(){

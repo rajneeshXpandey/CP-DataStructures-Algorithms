@@ -12,7 +12,7 @@ using namespace std;
 #define mp make_pair
 #define all(x) (x).begin(), (x).end()
 #define rall(x) (x).rbegin(), (x).rend()
-#define endl "\n"
+//#define endl "\n"
 #define int long long
 #define ll long long
 #define ld long double
@@ -81,7 +81,35 @@ void solve(){
     cin >> n;
     vector<int> arr(n);
     forn(i, n) cin >> arr[i];
-
+    int low = 1, high = n, ans = low;
+    int sum[n+1];
+    sum[0] = 0;
+    loop(i, 1, n) sum[i] = sum[i-1] + arr[i-1];
+    while (low <= high)
+    {
+        int mid = (low + high) / 2;
+        int k = mid-low+1;
+        cout << "? ";
+        cout << k << ' ';
+        loop(i, low, mid){
+            cout<<i<<' ';
+        }
+        cout << endl;
+        cout << flush;
+        int response;
+        cin >> response;
+        int sums = sum[mid] - sum[low-1];
+        if(response == sums)
+        {
+            low = mid+1;
+        }
+        else{
+            ans = mid;
+            high = mid-1;
+        }
+    }
+    cout << "! " << ans << endl;
+    cout << flush;
 }
 
 signed main(){

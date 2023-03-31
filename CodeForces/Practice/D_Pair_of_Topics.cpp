@@ -2,7 +2,11 @@
 #pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
 
 #include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+
 using namespace std;
+using namespace __gnu_pbds;
 
 #define loop(i, a, b)  for(int i = a; i <= b; i++)
 #define rloop(i, a, b) for(int i = a; i >= b; i--)
@@ -76,12 +80,31 @@ double eps = 1e-12;
 
 // ********************************* start ********************************** //
 
+typedef tree<int, null_type, less_equal<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
+
+
 void solve(){
     int n;
     cin >> n;
-    vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
-
+    vector<int> a(n),b(n);
+    forn(i, n) cin >> a[i];
+    forn(i, n) cin >> b[i];
+    vector<int> a_b(n),b_a(n);
+    forn(i,n){
+        a_b[i] = (a[i] - b[i]);
+        b_a[i] = (b[i] - a[i]);
+    }
+    //printDS(a_b);
+    //printDS(b_a);
+    ordered_set mst;
+    mst.insert(b_a[n-1]);
+    int ans = 0;
+    rloop(i,n-2,0){
+        int len = mst.order_of_key(a_b[i]);
+        ans += len;
+        mst.insert(b_a[i]);
+    }
+    cout<<ans<<endl;
 }
 
 signed main(){
@@ -89,7 +112,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

@@ -75,17 +75,45 @@ template<typename T> inline void print(T anything){cout<<anything<<"\n";}
 double eps = 1e-12;
 
 // ********************************* start ********************************** //
-
+const int N = 1e6+1;
+vector<int> dp(N,0);
+unordered_map<int, vector<int>> cache;
+void pre(){
+    int x,maxdig=-1,minDig=10;
+    loop(i, 1, N){
+        x = i;
+        maxdig=-1,minDig=10;
+        while(x>0){
+            maxdig = max(maxdig, x%10);
+            minDig = min(minDig, x%10);
+            x/=10;
+        }
+        dp[i] = (maxdig-minDig);
+        cache[dp[i]].pb(i);
+    }
+    //loop(i, 1, N){
+    //    dp[i] += dp[i-1];
+    //}
+}
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
-
+    int l,r;
+    cin >> l>>r;
+    //loop(i, l, r){
+    //    cout<<dp[i]<<" ";
+    //}
+    //cout<<endl;
+    rloop(i,9,0){
+        auto idx = lower_bound(all(cache[i]), l)-cache[i].begin();
+        if(idx<cache[i].size() && cache[i][idx]<=r){
+            cout<<cache[i][idx]<<endl;
+            return;
+        } 
+    }
 }
 
 signed main(){
     FastIO;
+    pre();
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
