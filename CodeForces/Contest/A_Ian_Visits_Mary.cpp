@@ -12,7 +12,7 @@ using namespace std;
 #define mp make_pair
 #define all(x) (x).begin(), (x).end()
 #define rall(x) (x).rbegin(), (x).rend()
-//#define endl "\n"
+#define endl "\n"
 #define int long long
 #define ll long long
 #define ld long double
@@ -75,35 +75,19 @@ template<typename T> inline void print(T anything){cout<<anything<<"\n";}
 double eps = 1e-12;
 
 // ********************************* start ********************************** //
-int ask(int x, int y){
-    cout << "? " << x << ' ' << y << endl;
-    cout << flush;
-    int dis;
-    cin >> dis;
-    return dis;
-}
-void printans(int x, int y){
-    cout << "! " << x << ' ' << y << endl;
-    cout << flush;
-}
 
-// https://codeforces.com/contest/1797/problem/C 
 void solve(){
-    int n,m;
-    cin >> n >> m;
-    /*
-    We can first ask (1,1) and get the result k. Obviously, the king must be on the following two segments:
-        from (1,k+1) to (k+1,k+1).
-        from (k+1,1) to (k+1,k+1).
-    
-    Then, we can ask (1,k+1) and (k+1,1) and get the results p,q. 
-    
-    There are three cases:
-
-        If p=q=k, the king is at (k+1,k+1).
-        If p<k, the king is at (p+1,k+1).
-        If q<k, the king is at (k+1,q+1).
-    */
+    int a,b;
+    cin >> a>>b;
+    if(a!=1 and b!=1){
+        cout<<2<<endl;
+        cout<<a-1<<' '<<1<<endl;
+        cout<<a<<' '<<b<<endl;
+    }
+    else{
+        cout<<1<<endl;
+        cout<<a<<' '<<b<<endl;
+    }
 }
 
 signed main(){
