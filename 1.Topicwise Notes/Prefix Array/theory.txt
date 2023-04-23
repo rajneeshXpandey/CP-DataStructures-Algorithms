@@ -1,3 +1,7 @@
+For more : 
+        https://usaco.guide/silver/prefix-sums?lang=cpp 
+
+
 For prefix sum of alternating sum
 
 for (int i = 1; i <= n; ++i)
@@ -8,4 +12,26 @@ for (int i = 1; i <= n; ++i)
         prex[i] += current_value;;
     else
         prex[i] -= current_value;;
+}
+
+?? 2-D prefix sum
+
+int prex2D[MAX_SIDE + 1][MAX_SIDE + 1];
+int arr[MAX_SIDE + 1][MAX_SIDE + 1];
+
+! build the prefix sum array
+for (int i = 1; i <= N; i++) {
+    for (int j = 1; j <= N; j++) {
+        prex2D[i][j] = arr[i][j] + prex2D[i - 1][j] +
+                            prex2D[i][j - 1] - prex2D[i - 1][j - 1];
+    }
+}
+
+for (int q = 0; q < Q; q++) {
+    int from_row, to_row, from_col, to_col;
+    cin >> from_row >> from_col >> to_row >> to_col;
+    cout << prex2D[to_row][to_col] - prex2D[from_row - 1][to_col] -
+                prex2D[to_row][from_col - 1] +
+                prex2D[from_row - 1][from_col - 1]
+            << '\n';
 }
