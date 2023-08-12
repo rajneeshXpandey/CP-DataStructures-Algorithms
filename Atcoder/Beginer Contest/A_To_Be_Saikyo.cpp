@@ -81,7 +81,13 @@ void solve(){
     cin >> n;
     vector<int> arr(n);
     forn(i, n) cin >> arr[i];
-
+    int maxx = -1;
+    loop(i,1,n-1){
+        amax(maxx,arr[i]);    
+    }
+    int ans = maxx-arr[0]+1;
+    if(ans<0) ans=0;
+    cout << ans << endl;
 }
 
 signed main(){
@@ -89,7 +95,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

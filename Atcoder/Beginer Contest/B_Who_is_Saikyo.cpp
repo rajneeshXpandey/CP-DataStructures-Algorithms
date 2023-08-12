@@ -76,11 +76,39 @@ double eps = 1e-12;
 
 // ********************************* start ********************************** //
 
+int dfs(vector<vector<int>> &arr, vector<int> &vis, int node, int par){
+    vis[node]=1;
+    int numnode=1;
+    for(auto nb:arr[node]){
+        if(vis[nb]==0)
+            numnode+=dfs(arr, vis, nb, node);
+    }
+    return numnode;
+}
+
 void solve(){
-    int n;
-    cin >> n;
-    vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
+    int n,m,u,v;
+    cin >> n >> m;
+    vector<vector<int>> arr(n);
+    forn(i, m){
+        cin>>u>>v;
+        u--,v--;
+        arr[u].push_back(v);
+    }
+    int cc=0,ans=-1;
+    vector<int> vis(n,0);
+    forn(i,n){
+        int numnode = dfs(arr, vis, i, -1);
+        vis.clear();
+        vis.assign(n,0);
+        //deb(numnode);
+        if(numnode==n){
+            ans=i;
+            cc++;
+        }
+    }
+    if(cc==0 or cc>1) cout<<-1<<endl;
+    else cout<<ans+1<<endl;
 
 }
 
@@ -89,7 +117,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();
