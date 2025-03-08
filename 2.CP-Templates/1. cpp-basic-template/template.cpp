@@ -2,6 +2,7 @@
 //#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
 
 #include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
 
 #define loop(i, a, b)  for(int i = a; i <= b; i++)
@@ -42,10 +43,6 @@ template<typename T, typename T1> T amin(T &a, T1 b) {if (b < a)a = b; return a;
     ios_base::sync_with_stdio(0); \
     cin.tie(0);                   \
     cout.tie(0)
-
-// mt19937_64 rng(61378913);
-/* usage - generate random numbers, just do rng() */
-mt19937_64 rng(std::chrono::steady_clock::now().time_since_epoch().count());
 
 // useful functions
 inline ll gcd(ll a, ll b){return (b==0)?a:gcd(b,a%b);} // gcd
