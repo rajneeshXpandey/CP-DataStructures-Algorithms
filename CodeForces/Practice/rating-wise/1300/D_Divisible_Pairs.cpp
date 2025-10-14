@@ -76,13 +76,32 @@ double eps = 1e-12;
 // ********************************* start ********************************** //
 
 void solve(){
-    int n;
-    cin >> n;
+    int n, x, y;
+    cin >> n >> x >> y;
     vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
-
+    map<pair<int,int>,int> pairs_count;
+    int ans=0;
+    forn(i,n){
+        cin >> arr[i];
+        ans += pairs_count[{(x-arr[i]%x)%x,arr[i]%y}];
+        pairs_count[{arr[i]%x,arr[i]%y}]+=1;
+    }
+    cout<<ans<<endl;
 }
+/**
+    ai+aj = k.x
+    ai-aj = l.y
 
+    ai%x = (-aj)%x = (x-aj%x)%x
+    ai%y = aj%y
+
+-----------------------------------
+    !! NOTE :-
+    If you know
+        ai+aj = k.x
+        ai-aj = l.y
+    => then you can conclude (ai^2)%(x.y) = (aj^2)%(x.y) (Sufficient) but the converse is not true
+ */
 signed main(){
     FastIO;
     //freopen("input.txt", "r", stdin);
