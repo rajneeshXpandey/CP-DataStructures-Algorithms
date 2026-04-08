@@ -6,26 +6,31 @@ public:
     stack<int> flag;
     int comp = 0;
 
-    explicit dsu(int a) {
+    explicit dsu(int a)
+    {
         parent.resize(a);
         size.resize(a);
         comp = a;
-        for (int i = 0; i < a; i++) {
+        for (int i = 0; i < a; i++)
+        {
             parent[i] = i;
             size[i] = 1;
         }
     }
 
-    int par(int i) {
+    int par(int i)
+    {
         if (i == parent[i])
             return i;
-        return parent[i] = par(parent[i]);
+        return par(parent[i]);
     }
 
-    void unite(int a, int b) {
+    void unite(int a, int b)
+    {
         a = par(a);
         b = par(b);
-        if (a != b) {
+        if (a != b)
+        {
             comp--;
             stk.push({a, b, size[a], parent[a]});
             parent[a] = b;
@@ -34,11 +39,13 @@ public:
         }
     }
 
-    void save() {
+    void save()
+    {
         flag.push(stk.size());
     }
 
-    void roll_back() {
+    void roll_back()
+    {
         int a = get<0>(stk.top());
         int b = get<1>(stk.top());
         int sz = get<2>(stk.top());
@@ -50,7 +57,8 @@ public:
         size[b] -= size[a];
     }
 
-    void roll() {
+    void roll()
+    {
         int last = flag.top();
         flag.pop();
         while (stk.size() > last)

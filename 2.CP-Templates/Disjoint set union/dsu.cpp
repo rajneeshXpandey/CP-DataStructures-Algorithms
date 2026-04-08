@@ -1,38 +1,44 @@
-class dsu
-{
-    public:
-        vector<int> parent;
-        vector<int> size, rank;
+class dsu {
+public:
+    vector<int> parent;
+    vector<int> size;
+    vector<int> rank;
 
-        explicit dsu(int n)
+    explicit dsu(int a)
+    {
+        parent.resize(a);
+        size.resize(a);
+        rank.resize(a);
+        for (int i = 0; i < a; i++)
         {
-            parent.resize(n);
-            size.resize(n);
-            rank.resize(n);
-            for (int x = 0; x < n; x++)
-            {
-                parent[x] = x;
-                size[x] = 1;
-                rank[x] = 0;
-            }
+            parent[i] = i;
+            size[i] = 1;
+            rank[i] = 0;
         }
+    }
 
-        int find(int x)
-        {
-            return (x == parent[x]) ? (x) : (parent[x] = find(parent[x]));
-        }
+    int find(int i)
+    {
+        if (i == parent[i])
+            return i;
+        return parent[i] = find(parent[i]);
+    }
 
-        void unite(int a, int b)
+    bool unite(int a, int b)
+    {
+        a = find(a);
+        b = find(b);
+        if (a != b)
         {
-            a = find(a);
-            b = find(b);
-            if (a == b) return;
-            if (rank[a] < rank[b])
+            if (rank[a] > rank[b])
                 swap(a, b);
+            parent[a] = b;
             size[b] += size[a];
             size[a] = 0;
-            parent[b] = a;
             if (rank[a] == rank[b])
-                rank[a]++;
+                rank[b]++;
+            return true;
         }
+        return false;
+    }
 };
