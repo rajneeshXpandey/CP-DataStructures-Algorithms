@@ -2,8 +2,6 @@
 #pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
 
 #include <bits/stdc++.h>
-#include <iostream>
-#include <map>
 
 using namespace std;
 
@@ -75,62 +73,16 @@ double eps = 1e-12;
 
 // ********************************* start ********************************** //
 
-void solve()
-{
-    int n;
-    cin >> n;
-    vector<int> arr(n);
-    map<int,int> mp;
-    forn(i, n){
-        cin >> arr[i];
-        mp[arr[i]] = i;
-    }
-    int ans=0;
-    int mpsize = mp.size();
+void solve(){
+    string s;
+    cin >> s;
+    int ans=0, n = s.size();
     for(int i=0;i<n;i++){
-        mpsize = mp.size();
-        //deb(i);
-        for(auto p: mp){
-            if(p.first>=i){
-                if(i%2==0){
-                    if(i==0){
-                        mp.erase(p.first);
-                        //deb(p.first);
-                        break;
-                    }else{
-                        if ((p.first > i) && (i > 1) && (p.first % (p.first - i)) != (i))
-                        {
-                            continue;
-                        }
-                        if (p.first == i || (p.first % 2 && p.first != i + 1))
-                        {
-                            mp.erase(p.first);
-                            //deb(p.first);
-                            break;
-                        }
-                    }
-                }else{
-                    if ((p.first > i) && (i > 1) && (p.first % (p.first - i)) != (i))
-                    {
-                        continue;
-                    }
-                    if(p.first!=i+1){
-                        mp.erase(p.first);
-                        //deb(p.first);
-                        break;
-                    }
-                }
-            }
+        if(s[i]=='C'){
+            ans += min(i,(n-i-1))+1;
         }
-        if (mp.size() < mpsize){
-            ans = i+1;
-        }
-        else break;
-        //deb3(mp.size(), mpsize, ans);
     }
-    ans = min(ans,n);
     cout<<ans<<endl;
-    //cout<<"--"<<endl;
 }
 
 signed main(){
@@ -138,7 +90,7 @@ signed main(){
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
+    //cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++){
         //cout<<"Case #"<< test_case <<": ";
         solve();

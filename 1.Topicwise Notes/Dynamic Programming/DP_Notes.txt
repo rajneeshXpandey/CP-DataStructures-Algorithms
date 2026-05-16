@@ -141,7 +141,7 @@ time complexity : O(N(for levels) * N(for transitions)) = O(N^2)
     ! for multiple seq:
     ** things remains same
     state : DP(i,j,k) = LCS from seq1[i,N-1] and seq2[j,M-1] and seq3[k,L-1]
-    transitions : DP(i,j) = 
+    transitions : DP(i,j,k) = 
                             max(DP(i+1,j,k), DP(i,j+1,k), DP(i,j,k+1))
                             if(seq1[i]==seq2[j] && seq2[j]==seq3[k]) then DP(i,j,k) = max(DP(i,j,k), DP(i+1,j+1,k+1)+1)
               ith -> _ _ x _ _ _
@@ -154,7 +154,7 @@ time complexity : O(N(for levels) * N(for transitions)) = O(N^2)
 *  mostly :  how we can perform given operation on the first and the last element of the subarr-array in [L-R]. *
 
     ** Rod Cutting Problem:
-          l           r
+          l  i        r
     |-----|--|--------|---------| , we have to cut rod in pieces such that we get min cost.
     cost :- length of current rod. 
                   4     2     => cost = 6 and we have |------| and |----| left
@@ -217,6 +217,7 @@ time complexity : O(N(for levels) * N(for transitions)) = O(N^2)
         4) Printing Soln
              [1, 5, 7, 10, 9, 6, 8, 9, 2, 3]
            |->1, 5, 7, 10
+                    |->9
                  |->6, 8, 9
               |->2, 3
         ...left to bottom to right-------------------------| see from here
@@ -239,6 +240,7 @@ time complexity : O(N(for levels) * N(for transitions)) = O(N^2)
         !!
         ** Printing LIS **
         for above eg. inserted_at[] = {1_ , 2_ , 3 , 4 , 4 , 3_ , 4_ , 5_ , 2 , 3} 
+                                                            <------------------------ traverse back
           this is the size of current lis when the ith element is inserted.
 
         _ : these len of lis while insertion are important bcz they build the lis finally. 
@@ -246,7 +248,7 @@ time complexity : O(N(for levels) * N(for transitions)) = O(N^2)
         !! Code for Printing LIS in O(N)
             int curlen  = lis.size();
             vector<int> final_lis;
-            for(int i=n-1;i>=0;i—){
+            for(int i=n-1;i>=0;i--){
                 if(inserted_at[i]==curlen){
                     final_lis.push_back(arr[i]);
                     curlen--;
