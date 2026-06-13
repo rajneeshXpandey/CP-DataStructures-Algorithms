@@ -72,12 +72,76 @@ double eps = 1e-12;
 
 // ********************************* start ********************************** //
 
+void dfs(int v, int p, vector<vector<int>> &adj, vector<vector<int>> &up, vector<int> &lev)
+{
+    up[v][0] = p;
+    if (p >= 0)
+        lev[v] = lev[p] + 1;
+    for (int i = 1; i <= 19; ++i)
+        up[v][i] = (up[v][i - 1] >= 0) ? up[up[v][i - 1]][i - 1] : -1;
+    for (int u : adj[v])
+    {
+        if (u != p)
+            dfs(u, v, adj, up, lev);
+    }
+}
+int lift_node(int node, int jump_required, vector<vector<int>> &up)
+{
+    for (int i = 19; i >= 0; i--)
+    {
+        if (node <= -1 || jump_required <= 0)
+        {
+            break;
+        }
+        if (jump_required >= (1 << i))
+        {
+            jump_required = jump_required - (1 << i);
+            node = up[node][i];
+        }
+    }
+    return node;
+}
+int lca(int u, int v, vector<vector<int>> &up, vector<int> &lev)
+{
+    if (lev[u] < lev[v])
+        swap(u, v);
+
+    u = lift_node(u, lev[u] - lev[v], up);
+    if (u == v)
+        return u;
+
+    for (int i = 19; i >= 0; i--)
+    {
+        if (up[u][i] != up[v][i])
+        {
+            u = up[u][i];
+            v = up[v][i];
+        }
+    }
+    return lift_node(u, 1, up);
+}
+
 void solve()
 {
-    int n;
-    cin >> n;
-    vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
+    int n, q, v, u;
+    cin >> n >> q;
+    vector<vector<int>> adj(n), up(n, vector<int>(20, -1));
+    vector<int> lev(n, 0);
+    for (int i = 1; i < n; i++)
+    {
+        cin >> v;
+        v--;
+        adj[i].pb(v);
+        adj[v].pb(i);
+    }
+    dfs(0, -1, adj, up, lev);
+    forn(i, q)
+    {
+        cin >> u >> v;
+        u--;
+        v--;
+        cout << lca(u, v, up, lev)+1 << endl;
+    }
 }
 
 signed main()
@@ -86,7 +150,6 @@ signed main()
     // freopen("input.txt", "r", stdin);
     // freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++)
     {
         // cout<<"Case #"<< test_case <<": ";

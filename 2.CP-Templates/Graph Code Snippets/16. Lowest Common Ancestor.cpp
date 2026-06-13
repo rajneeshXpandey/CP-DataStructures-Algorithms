@@ -1,68 +1,5 @@
 // Lowest Common Ancestor using Binary Lifting
-
-void dfs(vector<vector<int>> &adj,vector<int> &level,vector<int> &parent,int root,int par)
-{
-    dp[root][0] = parent;
-    // cout<<root<<" ";
-    level[root] = 1 + ((par==-1)?0:level[par]);
-    parent[root] = par;
-    for (auto child : adj[root])
-    {
-        if (child != par)
-            dfs(adj,child,root);
-    }
-}
-
-void initialize(vector<vector<int>> &adj, int n, int maxN)
-{
-    dfs(adj,level,parent,0,-1);
-    for (int j = 1;j<maxN; j++)
-    {
-        for (int i = 0;i<n; i++)
-        {
-            // if prev 2^(j-1) parent exist
-            if (dp[i][j - 1] != -1){
-                int par = dp[i][j - 1];
-                dp[i][j] = dp[par][j - 1];
-            }
-        }
-    }
-}
-
-int LCA(int u, int v, vector<int> adj[], int n, int maxN)
-{
-    if (level[u] < level[v])
-        swap(u, v);
-
-    int diff_level = (level[u] - level[v]);
-
-    while (diff_level)
-    {
-        int i = log2(diff_level);
-        u = dp[u][i];
-        diff_level -= (1 << i);
-    }
-    if (u == v)
-        return u;
-    // to make it search in logN time
-    for (int i = maxN; i >= 0; i--)
-    {
-        if ((dp[u][i] != -1) and (dp[u][i] != dp[v][i])) // must exist and have diff par
-        {
-            u = dp[u][i];
-            v = dp[v][i];
-        }
-    }
-    return parent[u];
-}
-
-// function calling
-int maxN = log2(n);
-initialize();
-LCA();
-
-
-/* More Details */
+// https://cp-algorithms.com/graph/lca_binary_lifting.html
 
 /*
                                  LCA : (using binary lifting)
@@ -89,46 +26,75 @@ LCA();
                 2)level up the deeper node.
                 3) from the max  ith jump start going nearer to the immediate children of lca
 */
-// take 'n' and adj as input
-int n;
-int LN = log2(n);
-vector<vector<int>> dp(n, vector<int>(LN));
-vector<int> lvl(n, 0);
 
-void dfs(int u, int p)
+void dfs(int v, int p, vector<vector<int>> &adj, vector<vector<int>> &up, vector<int> &lev)
 {
-    lvl[u] = lvl[p] + 1;
-    dp[u][0] = p;
-    for (int i = 1; i < LN; ++i)
-        dp[u][i] = dp[dp[u][i - 1]][i - 1];
-    for (int i = 0; i < adj[u].size(); ++i)
+    up[v][0] = p;
+    if (p >= 0)
+        lev[v] = lev[p] + 1;
+    for (int i = 1; i <= 19; ++i)
+        up[v][i] = (up[v][i - 1] >= 0) ? up[up[v][i - 1]][i - 1] : -1;
+    for (int u : adj[v])
     {
-        int v = adj[u][i];
-        if (v == p)
-            continue;
-        dfs(v, u);
+        if (u != p)
+            dfs(u, v, adj, up, lev);
     }
 }
-
-int lca(int u, int v)
+int lift_node(int node, int jump_required, vector<vector<int>> &up)
 {
-    if (lvl[u] < lvl[v])
-        swap(u, v);
-    int diff = lvl[u] - lvl[v];
-    for (int i = 0; i < LN; ++i)
+    for (int i = 19; i >= 0; i--)
     {
-        if ((1 << i) & diff)
-            u = dp[u][i];
-    }
-    if (u == v)
-        return u;
-    for (int i = LN - 1; i >= 0; --i)
-    {
-        if (dp[u][i] != dp[v][i])
+        if (node <= -1 || jump_required <= 0)
         {
-            u = dp[u][i];
-            v = dp[v][i];
+            break;
+        }
+        if (jump_required >= (1 << i))
+        {
+            jump_required = jump_required - (1 << i);
+            node = up[node][i];
         }
     }
-    return dp[u][0];
+    return node;
+}
+int lca(int u, int v, vector<vector<int>> &up, vector<int> &lev)
+{
+    if (lev[u] < lev[v])
+        swap(u, v);
+
+    u = lift_node(u, lev[u] - lev[v], up);
+    if (u == v)
+        return u;
+
+    for (int i = 19; i >= 0; i--)
+    {
+        if (up[u][i] != up[v][i])
+        {
+            u = up[u][i];
+            v = up[v][i];
+        }
+    }
+    return lift_node(u, 1, up);
+}
+
+void solve()
+{
+    int n, q, v, u;
+    cin >> n >> q;
+    vector<vector<int>> adj(n), up(n, vector<int>(20, -1));
+    vector<int> lev(n, 0);
+    for (int i = 1; i < n; i++)
+    {
+        cin >> v;
+        v--;
+        adj[i].pb(v);
+        adj[v].pb(i);
+    }
+    dfs(0, -1, adj, up, lev);
+    forn(i, q)
+    {
+        cin >> u >> v;
+        u--;
+        v--;
+        cout << lca(u, v, up, lev) + 1 << endl;
+    }
 }

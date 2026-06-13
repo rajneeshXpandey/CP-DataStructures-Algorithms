@@ -72,12 +72,54 @@ double eps = 1e-12;
 
 // ********************************* start ********************************** //
 
+void dfs(int v, int p, vector<vector<int>> &adj, vector<vector<int>> &up, int l)
+{
+    up[v][0] = p;
+    for (int i = 1; i <= l; ++i)
+        up[v][i] = (up[v][i - 1] >= 0) ? up[up[v][i - 1]][i - 1] : -1;
+    for (int u : adj[v])
+    {
+        if (u != p)
+            dfs(u, v, adj, up, l);
+    }
+}
+
+int ans_query(int node, int jump_required, vector<vector<int>> &up)
+{
+    if (node == -1) 
+        return node;
+    if(jump_required == 0)
+        return node+1;
+    for (int i = 19; i >= 0; i--)
+    {
+        if (jump_required >= (1 << i))
+        {
+            return ans_query(up[node][i], jump_required - (1 << i), up);
+        }
+    }
+}
+
 void solve()
 {
-    int n;
-    cin >> n;
-    vector<int> arr(n);
-    forn(i, n) cin >> arr[i];
+    int n, q, v, x, k;
+    cin >> n >> q;
+    int l = ceil(log2(n));
+    vector<vector<int>> adj(n);
+    vector<vector<int>> up(n, vector<int>(l + 1, -1));
+    for (int i = 1; i < n; i++)
+    {
+        cin >> v;
+        v--;
+        adj[i].pb(v);
+        adj[v].pb(i);
+    }
+    dfs(0, -1, adj, up, l);
+    forn(i, q)
+    {
+        cin >> x >> k;
+        x--;
+        cout<<ans_query(x, k, up)<<endl;
+    }
 }
 
 signed main()
@@ -86,7 +128,6 @@ signed main()
     // freopen("input.txt", "r", stdin);
     // freopen("output.txt", "w", stdout);
     int total_testcases = 1;
-    cin >> total_testcases;
     for (int test_case = 1; test_case <= total_testcases; test_case++)
     {
         // cout<<"Case #"<< test_case <<": ";
